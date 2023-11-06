@@ -1,6 +1,6 @@
-## Fullstack starter boilerplate
+## Sustainable Development Goals (SDGs)
 
-A boilerplate starter for fullstack applications using NestJS, NextJS and Turborepo.
+A platform where innovators can connect and upload their projects in relation to sustainable development goals, which are then submitted for review, exploration and experimentation.
 
 ### Requirements
 
@@ -9,9 +9,13 @@ A boilerplate starter for fullstack applications using NestJS, NextJS and Turbor
 - [Turborepo](https://turbo.build/repo/docs/installing) >= 1
 - [NestJS](https://docs.nestjs.com/#installation) >= 10
 
+### Class diagram
+
+![Class diagrams](images/class-diagram.png)
+
 ### Clone 
 ```bash
-$ gh repo clone musanziw/fullstack-starter
+$ gh repo clone musanziw/sdg
 ```
 
 ### Installation
