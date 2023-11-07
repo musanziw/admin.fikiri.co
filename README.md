@@ -11,7 +11,7 @@ A platform where innovators can connect and upload their projects in relation to
 
 ### Class diagram
 
-![Class diagrams](images/class-diagram.png)
+![Class diagrams](images/class-diagrams.jpg)
 
 ### Clone 
 ```bash
