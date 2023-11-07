@@ -1,6 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
 
 export class CreateRoleDto {
-  @IsNotEmpty({ message: 'Role name is required' })
+  @IsNotEmpty({ message: 'Le rôle ne peut pas être vide' })
   name: string;
 }

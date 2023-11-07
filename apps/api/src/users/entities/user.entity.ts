@@ -1,43 +1,49 @@
 import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinTable,
+    ManyToMany,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
 } from 'typeorm';
-import { Role } from '../../roles/entities/role.entity';
+import {Role} from '../../roles/entities/role.entity';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column()
-  name: string;
+    @Column()
+    name: string;
 
-  @Column({ unique: true })
-  email: string;
+    @Column()
+    phone: string;
 
-  @Column()
-  password: string;
+    @Column()
+    address: string;
 
-  @Column({ default: true })
-  is_active: boolean;
+    @Column({unique: true})
+    email: string;
 
-  @Column({ nullable: true })
-  reset_token: string;
+    @Column()
+    password: string;
 
-  @CreateDateColumn()
-  created_at: Date;
+    @Column({default: true})
+    is_active: boolean;
 
-  @UpdateDateColumn()
-  updated_at: Date;
+    @Column({nullable: true})
+    reset_token: string;
 
-  @ManyToMany(() => Role, (role: Role) => role.users, {
-    cascade: true,
-  })
-  @JoinTable()
-  roles: Role[];
+    @CreateDateColumn()
+    created_at: Date;
+
+    @UpdateDateColumn()
+    updated_at: Date;
+
+    @ManyToMany(() => Role, (role: Role) => role.users, {
+        cascade: true,
+    })
+    @JoinTable()
+    roles: Role[];
 }

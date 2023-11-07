@@ -17,7 +17,7 @@ export class NotificationsService {
       await this.mailService.sendMail({
         to: email,
         from: this.configService.get('MAIL_USERNAME'),
-        subject: 'Welcome to starter',
+        subject: 'Bienvenue sur la plateforme SDG',
         template: 'welcome',
         context: {
           email,
@@ -25,7 +25,7 @@ export class NotificationsService {
         },
       });
     } catch {
-      throw new HttpException('Bad request, try again', HttpStatus.BAD_REQUEST);
+      throw new HttpException('Mauvaise demande, essayez à nouveau', HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -36,7 +36,7 @@ export class NotificationsService {
       await this.mailService.sendMail({
         to: email,
         from: this.configService.get('MAIL_USERNAME'),
-        subject: 'Password reset',
+        subject: 'Réinitialisation du mot de passe',
         template: 'password-reset',
         context: {
           email,
@@ -44,7 +44,7 @@ export class NotificationsService {
         },
       });
     } catch {
-      throw new HttpException('Bad request, try again', HttpStatus.BAD_REQUEST);
+      throw new HttpException('Mauvaise demande, essayez à nouveau', HttpStatus.BAD_REQUEST);
     }
   }
 }

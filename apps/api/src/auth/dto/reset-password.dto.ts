@@ -1,9 +1,9 @@
 import { IsNotEmpty } from 'class-validator';
 
 export class ResetPasswordDto {
-  @IsNotEmpty()
+  @IsNotEmpty({ message: "Le jeton est obligatoire"})
   reset_token: string;
 
-  @IsNotEmpty()
+  @IsNotEmpty({ message: "Le mot de passe est obligatoire"})
   password: string;
 }

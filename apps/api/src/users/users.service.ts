@@ -32,11 +32,11 @@ export class UsersService {
       const payload: EmailPayload = { email, password };
       this.eventEmitter.emit('user.created', { payload });
     } catch {
-      throw new HttpException('Bad request, try again', HttpStatus.BAD_REQUEST);
+      throw new HttpException('Mauvaise demande, essayez à nouveau', HttpStatus.BAD_REQUEST);
     }
     return {
       statusCode: HttpStatus.CREATED,
-      message: 'User added successfully',
+      message: "L'utilisateur a été ajouté avec succès",
     };
   }
 
@@ -45,14 +45,14 @@ export class UsersService {
       email: registerDto.email,
     });
     if (user)
-      throw new HttpException('User already exists', HttpStatus.CONFLICT);
+      throw new HttpException("L'utilisateur existe déjà", HttpStatus.CONFLICT);
     await this.userRepository.save({
       ...registerDto,
       roles: registerDto.roles.map((role: number) => ({ id: role })),
     });
     return {
       statusCode: HttpStatus.CREATED,
-      message: 'Registration successful',
+      message: "L'inscription est réussie",
     };
   }
 
@@ -72,7 +72,7 @@ export class UsersService {
       where: { id },
       select: ['id', 'name', 'email', 'is_active', 'created_at'],
     });
-    if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    if (!user) throw new HttpException("L'utilisateur n'a pas été trouvé", HttpStatus.NOT_FOUND);
     return {
       statusCode: HttpStatus.OK,
       data: user,
@@ -84,13 +84,13 @@ export class UsersService {
       where: { email },
       relations: ['roles'],
     });
-    if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    if (!user) throw new HttpException("L'utilisateur n'a pas été trouvé", HttpStatus.NOT_FOUND);
     return user;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<any> {
     const user: User | null = await this.userRepository.findOneBy({ id });
-    if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    if (!user) throw new HttpException("L'utilisateur n'a pas été trouvé", HttpStatus.NOT_FOUND);
     const updatedUser = Object.assign(user, updateUserDto);
     try {
       await this.userRepository.save({
@@ -98,11 +98,11 @@ export class UsersService {
         roles: updateUserDto.roles.map((role: number) => ({ id: role })),
       });
     } catch {
-      throw new HttpException('Invalid roles', HttpStatus.BAD_REQUEST);
+      throw new HttpException('Rôles non valides', HttpStatus.BAD_REQUEST);
     }
     return {
       statusCode: HttpStatus.OK,
-      message: 'User updated successfully',
+      message: "Mise à jour de l'utilisateur réussie",
     };
   }
 
@@ -118,11 +118,11 @@ export class UsersService {
 
   async remove(id: number): Promise<any> {
     const user: User | null = await this.userRepository.findOneBy({ id });
-    if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    if (!user) throw new HttpException("L'utilisateur n'a pas été trouvé", HttpStatus.NOT_FOUND);
     await this.userRepository.delete(id);
     return {
       statusCode: HttpStatus.OK,
-      message: 'User deleted successfully',
+      message: "L'utilisateur est supprimé avec succès",
     };
   }
 
@@ -130,7 +130,7 @@ export class UsersService {
     const user: User | null = await this.userRepository.findOneBy({
       reset_token,
     });
-    if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    if (!user) throw new HttpException("L'utilisateur n'a pas été trouvé", HttpStatus.NOT_FOUND);
     return user;
   }
 

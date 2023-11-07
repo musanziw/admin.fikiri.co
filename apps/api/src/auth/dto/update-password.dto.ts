@@ -2,10 +2,10 @@ import { MaxLength, MinLength } from 'class-validator';
 
 export class UpdatePasswordDto {
   @MinLength(6, {
-    message: 'The confirm password field must be at least 6 characters long',
+    message: 'Le champ de confirmation du mot de passe doit comporter au moins 6 caractères.',
   })
   @MaxLength(20, {
-    message: 'The confirm password field must be less than 20 characters long',
+    message: 'Le champ de confirmation du mot de passe doit comporter moins de 20 caractères.',
   })
   password: string;
 }

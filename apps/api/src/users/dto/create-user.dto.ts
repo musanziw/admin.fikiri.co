@@ -1,15 +1,21 @@
-import { IsArray, IsEmail, IsOptional, IsString } from 'class-validator';
+import {IsArray, IsEmail, IsOptional, IsString} from 'class-validator';
 
 export class CreateUserDto {
-  @IsString({ message: 'The name field must be a string' })
-  name: string;
+    @IsString({message: 'Le nom ne peut pas être vide'})
+    name: string;
 
-  @IsEmail({}, { message: 'The email field must be a valid email address' })
-  email: string;
+    @IsEmail({}, {message: "L'email ne peut pas être vide"})
+    email: string;
 
-  @IsOptional()
-  is_active: boolean;
+    @IsString({message: 'Le numéro de téléphone ne peut pas être vide'})
+    phone: string;
 
-  @IsArray({ message: 'The roles field must be an array of role IDs' })
-  roles: number[];
+    @IsString({message: "L'adresse ne peut pas être vide"})
+    address: string;
+
+    @IsOptional()
+    is_active: boolean;
+
+    @IsArray({message: 'Les rôles ne peuvent pas être vide'})
+    roles: number[];
 }

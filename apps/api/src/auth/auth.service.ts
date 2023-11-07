@@ -18,7 +18,7 @@ export class AuthService {
       user.password,
     );
     if (!passwordMatch)
-      throw new HttpException('Invalid credentials', HttpStatus.BAD_REQUEST);
+      throw new HttpException("Informations d'identification invalides", HttpStatus.BAD_REQUEST);
 
     return {
       id: user.id,
@@ -34,7 +34,7 @@ export class AuthService {
 
   async login(): Promise<any> {
     return {
-      message: 'Login successful',
+      message: 'Connexion réussie',
       statusCode: HttpStatus.OK,
     };
   }
@@ -42,7 +42,7 @@ export class AuthService {
   async logout(@Req() request: Request): Promise<any> {
     request.session.destroy(() => {});
     return {
-      message: 'Logout successful',
+      message: 'Déconnexion réussie',
       statusCode: HttpStatus.OK,
     };
   }
@@ -62,7 +62,7 @@ export class AuthService {
     await this.userService.update(+id, updateProfileDto);
     return {
       statusCode: HttpStatus.OK,
-      message: 'Profile updated successfully',
+      message: 'Profil mis à jour avec succès',
     };
   }
 

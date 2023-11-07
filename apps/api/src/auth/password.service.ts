@@ -27,7 +27,7 @@ export class PasswordService {
     await this.userService.updatePassword(user, password);
     return {
       statusCode: HttpStatus.OK,
-      message: 'Password updated successfully',
+      message: 'Mot de passe mis à jour avec succès',
     };
   }
 
@@ -42,7 +42,7 @@ export class PasswordService {
     this.eventEmitter.emit('password.reset', { payload });
     return {
       statusCode: HttpStatus.OK,
-      message: 'Token number sent by email',
+      message: 'Numéro de jeton envoyé par e-mail',
     };
   }
 
@@ -53,7 +53,7 @@ export class PasswordService {
     await this.userService.updatePassword(user, password);
     return {
       statusCode: HttpStatus.OK,
-      message: 'Password changed successfully',
+      message: 'Le mot de passe a été modifié avec succès',
     };
   }
 }
