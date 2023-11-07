@@ -66,6 +66,9 @@
               "browserTarget": "web:build:development"
             }
           },
+          "options": {
+            "port": 3000
+          },
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
