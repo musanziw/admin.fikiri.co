@@ -3,6 +3,7 @@ import {TopbarComponent} from "./topbar/topbar.component";
 import {HeroComponent} from "./hero/hero.component";
 import {OddComponent} from "./odd/odd.component";
 import {FooterComponent} from "./footer/footer.component";
+import {ContactComponent} from "./contact/contact.component";
 
 @Component({
   standalone: true,
@@ -12,6 +13,7 @@ import {FooterComponent} from "./footer/footer.component";
     TopbarComponent,
     HeroComponent,
     OddComponent,
+    ContactComponent,
     FooterComponent,
   ],
 })
