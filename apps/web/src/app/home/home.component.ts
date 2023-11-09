@@ -1,8 +1,7 @@
 import {Component} from "@angular/core";
 import {TopbarComponent} from "./topbar/topbar.component";
 import {HeroComponent} from "./hero/hero.component";
-import {OddComponent} from "./odd/odd.component";
-import {FooterComponent} from "./footer/footer.component";
+import {ProjectComponent} from "./project/project.component";
 import {ContactComponent} from "./contact/contact.component";
 
 @Component({
@@ -12,9 +11,8 @@ import {ContactComponent} from "./contact/contact.component";
   imports: [
     TopbarComponent,
     HeroComponent,
-    OddComponent,
+    ProjectComponent,
     ContactComponent,
-    FooterComponent,
   ],
 })
 
