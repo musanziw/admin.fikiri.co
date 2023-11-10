@@ -158,6 +158,9 @@ importers:
 
   apps/web:
     dependencies:
+      geist:
+        specifier: ^1.1.0
+        version: 1.1.0(next@14.0.1)
       next:
         specifier: 14.0.1
         version: 14.0.1(react-dom@18.2.0)(react@18.2.0)
@@ -4286,6 +4289,14 @@ packages:
       string-width: 4.2.3
       strip-ansi: 6.0.1
       wide-align: 1.1.5
+    dev: false
+
+  /geist@1.1.0(next@14.0.1):
+    resolution: {integrity: sha512-UwZH+ekwAt1T5XYlviFD+jUXFeRRawDDT8RtpJ//IHTPXlVIO6BCcZ8M0Pxg1K/FT3H8HLn3KJqMsPLHbo1HNg==}
+    peerDependencies:
+      next: ^13.2 || ^14
+    dependencies:
+      next: 14.0.1(react-dom@18.2.0)(react@18.2.0)
     dev: false
 
   /generate-function@2.3.1:
