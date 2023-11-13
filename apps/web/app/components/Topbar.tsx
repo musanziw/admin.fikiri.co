@@ -29,7 +29,7 @@ export default function Topbar() {
                     <Link href={'/'}>Solutions</Link>
                     <Link href={''}>A propos</Link>
                     <Link href={'login'}>Se connecter</Link>
-                    <Link href={''}>S'inscrire</Link>
+                    <Link href={''}>S&apos;inscrire</Link>
                 </div>
             </div>
 
@@ -37,7 +37,7 @@ export default function Topbar() {
                 <Link href={'/'}>Solutions</Link>
                 <Link href={''}>A propos</Link>
                 <Link href={'login'}>Se connecter</Link>
-                <Link href={''}>S'inscrire</Link>
+                <Link href={''}>S&apos;inscrire</Link>
             </div>
 
 

@@ -1,5 +1,6 @@
 import {ReactNode} from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface AuthCardProps {
     title: string
@@ -13,7 +14,7 @@ export function AuthCard({title, children}: AuthCardProps) {
                 <div className="m-auto space-y-8 md:w-8/12 lg:w-6/12 xl:w-6/12">
                     <Link href={'/'}>
                         <div className="flex items-center justify-center">
-                            <img src="/logo.png" loading="lazy" className="w-24" alt="Img"/>
+                            <Image src="/logo.png" loading="lazy" width={200} height={200} className="w-24" alt="Img"/>
                         </div>
                     </Link>
                     <div

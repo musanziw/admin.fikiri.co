@@ -8,10 +8,10 @@ export function About() {
                 <div className={'flex flex-col gap-5 lg:text-lg'}>
                     <p>
                         Fikiri est une plateforme web qui vise à cartographier les solutions locales en République
-                        Démocratique du Congo pour accélérer l'atteinte des Objectifs de Développement Durable (ODD).
+                        Démocratique du Congo pour accélérer l&apos;atteinte des Objectifs de Développement Durable (ODD).
                     </p>
                     <p>
-                        L'objectif de Fikiri est de mettre en lumière les solutions locales qui contribuent à l'atteinte
+                        L&apos;objectif de Fikiri est de mettre en lumière les solutions locales qui contribuent à l&apos;atteinte
                         des ODD en RDC. Cela permettra de faciliter la recherche des solutions locales par les
                         organisations internationales et les bailleurs de fonds.
                     </p>

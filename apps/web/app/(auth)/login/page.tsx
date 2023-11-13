@@ -18,7 +18,7 @@ export default function Login() {
                     </p>
                     <Button label={'Se connecter'}/>
                     <p className="border-t border-gray-300 pt-6 text-sm text-gray-500">
-                        Vous n'avez pas de compte ? <Link href={'register'} className="text-gray-950">
+                        Vous n&lsquo;avez pas de compte ? <Link href={'register'} className="text-gray-950">
                         Inscrivez-vous
                     </Link>
                     </p>
