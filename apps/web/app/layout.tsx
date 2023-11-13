@@ -1,8 +1,13 @@
 import type {Metadata} from 'next'
 import './globals.css'
 import {ReactNode} from "react";
-import {GeistSans} from 'geist/font/sans'
+import {Roboto} from 'next/font/google'
 
+
+const roboto = Roboto({
+    weight: ['300', '400', '500', '700'],
+    subsets: ['latin-ext'],
+})
 
 export const metadata: Metadata = {
     title: 'Fikiri | home',
@@ -12,7 +17,7 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: { children: ReactNode }) {
     return (
         <html lang="en">
-        <body className={`${GeistSans.className} overflow-x-hidden`}>{children}</body>
+        <body className={`${roboto.className} text-neutral-50`}>{children}</body>
         </html>
     )
 }
