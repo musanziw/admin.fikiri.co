@@ -1,11 +1,15 @@
 import Image from "next/image";
 
 export function Solutions() {
-
     const solutions = new Array(8).fill(0);
+
     return (
-        <div className={'ml-4 p-4 py-16 text-gray-600 border-l border-dashed lg:mx-auto lg:max-w-screen-lg'}>
-            <h3 className={'text-2xl font-bold mb-5'}>
+        <div className={'ml-4 px-4 pt-10 pb-16 text-gray-600 border-l border-dashed lg:mx-auto lg:max-w-screen-lg'}>
+            <div className="flex flex-col gap-3">
+
+            </div>
+
+            <h3 className={'text-3xl font-bold mb-5'}>
                 Les solutions innovantes de la communauté
             </h3>
             <p className={'mb-10'}>
@@ -17,15 +21,14 @@ export function Solutions() {
                 {
                     solutions.map((_solution, index) => {
                         return (
-                            <div className="flex flex-col gap-5" key={index}>
-                                <div className="relative">
-                                    <Image src={'/bg.jpg'} alt={'Project img'} width={200} height={200}
-                                           className={'h-auto w-full rounded-xl'}/>
-                                    <div
-                                        className="h-full w-full absolute top-0 left-0 bg-indigo-400 bg-opacity-50 rounded-xl"></div>
-                                </div>
-                                <div className="pl-2">
-                                    <h5 className={'text-gray-950 font-semibold text-lg mb-2'}>
+
+                            <div className={'flex flex-col'} key={index}>
+                                <Image src={'/project.webp'} alt={'Project img'} width={200}
+                                       height={200}
+                                       className={'h-auto w-auto rounded-xl object-fill'}/>
+
+                                <div className="p-4">
+                                    <h5 className={'font-bold text-lg mb-2'}>
                                         Projet titre {index + 1}
                                     </h5>
                                     <p className={'text-sm mb-3'}>
@@ -48,9 +51,7 @@ export function Solutions() {
                         )
                     })
                 }
-
             </div>
-
         </div>
     )
 }
