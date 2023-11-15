@@ -10,7 +10,7 @@ export function Solutions() {
                 {solutions.length} Solutions
             </h2>
 
-           <div className="flex flex-col md:flex-row gap-10 mb-6">
+           <div className="flex items-center gap-4 mb-6">
                <SolutionFilter title={'Thématique'} options={['Theme 1', 'Theme 2']}/>
                <SolutionFilter title={'Objectif'} options={['Objectif 1', 'Object 2']}/>
                <SolutionFilter title={'Ville'} options={['Ville 1', 'Ville 2']}/>

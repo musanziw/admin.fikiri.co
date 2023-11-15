@@ -12,7 +12,7 @@ export function SolutionFilter({title, options}: SolutionFilterProps) {
 
     return (
         <div className="flex flex-col gap-5 mb-6">
-            <div className="flex items-center gap-6 cursor-pointer" onClick={() => setShowFilter(!showFilter)}>
+            <div className="flex items-center gap-3 cursor-pointer" onClick={() => setShowFilter(!showFilter)}>
                 <p className={'font-medium'}>{selectedFilter || title}</p>
                 <svg xmlns="http://www.w3.org/2000/svg"
                      className={`bi bi-chevron-right w-3 h-4 fill-black transition-transform duration-300 ${showFilter && 'rotate-90'}`}
