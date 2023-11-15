@@ -13,9 +13,11 @@ export function AuthCard({title, children}: AuthCardProps) {
         <div className="relative py-16 bg-gray-100">
             <div className="container relative m-auto px-6 md:px-12 xl:px-40">
                 <div className="m-auto space-y-8 md:w-8/12 lg:w-6/12 xl:w-6/12">
-                    <Link href={'/'}>
-                        <Image src={logo} alt="logo"/>
-                    </Link>
+                    <div className="flex items-center justify-center w-full">
+                        <Link href={'/'}>
+                            <Image src={logo} alt="logo" className={'w-36'}/>
+                        </Link>
+                    </div>
                     <div
                         className="rounded-md border border-gray-100 bg-white shadow-2xl shadow-gray-600/30 backdrop-blur-2xl">
                         <div className="p-8 py-12 sm:p-16">
