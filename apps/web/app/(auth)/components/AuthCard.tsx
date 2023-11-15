@@ -14,7 +14,7 @@ export function AuthCard({title, children}: AuthCardProps) {
                 <div className="m-auto space-y-8 md:w-8/12 lg:w-6/12 xl:w-6/12">
                     <Link href={'/'}>
                         <div className="flex items-center justify-center">
-                            <Image src="/logo.png" loading="lazy" width={200} height={200} className="w-24" alt="Img"/>
+                            <Image src="/logo.png" loading="lazy" width={120} height={200} className={"w-auto h-auto"} alt="Img"/>
                         </div>
                     </Link>
                     <div
