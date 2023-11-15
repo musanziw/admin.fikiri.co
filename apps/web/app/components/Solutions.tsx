@@ -6,13 +6,15 @@ export function Solutions() {
 
     return (
         <div className={'ml-4 px-4 pt-10 pb-16 text-gray-600 border-l border-dashed lg:mx-auto lg:max-w-screen-lg'}>
-            <h2 className={'text-xl font-bold mb-5'}>
+            <h2 className={'text-xl font-bold mb-8'}>
                 {solutions.length} Solutions
             </h2>
 
-            <SolutionFilter title={'Thématique'} options={['Theme 1', 'Theme 2']}/>
-            <SolutionFilter title={'Objectif'} options={['Objectif 1', 'Object 2']}/>
-            <SolutionFilter title={'Ville'} options={['Ville 1', 'Ville 2']}/>
+           <div className="flex flex-col md:flex-row gap-10 mb-6">
+               <SolutionFilter title={'Thématique'} options={['Theme 1', 'Theme 2']}/>
+               <SolutionFilter title={'Objectif'} options={['Objectif 1', 'Object 2']}/>
+               <SolutionFilter title={'Ville'} options={['Ville 1', 'Ville 2']}/>
+           </div>
 
             <h3 className={'text-2xl font-bold mb-5'}>
                 Les solutions innovantes de la communauté
