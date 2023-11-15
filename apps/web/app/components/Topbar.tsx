@@ -24,8 +24,8 @@ export default function Topbar() {
             </div>
 
             <div
-                className={`absolute top-20 right-0 z-30 h-[88vh] w-3/4 bg-indigo-950 transition-transform duration-300 lg:hidden ${!isOpen && 'translate-x-full'}`}>
-                <div className={'h-full text-lg p-10 flex flex-col gap-3 justify-center items-start'}>
+                className={`absolute top-20 z-30 rounded-xl w-3/4 bg-indigo-950/95 transition-transform duration-300 lg:hidden ${!isOpen ? 'translate-x-full right-0' : 'right-6'}`}>
+                <div className={'text-lg p-10 flex flex-col gap-5 justify-center items-start'}>
                     <Link href={'/'}>Solutions</Link>
                     <Link href={''}>A propos</Link>
                     <Link href={'login'}>Se connecter</Link>
