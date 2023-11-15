@@ -20,11 +20,11 @@ export default function Topbar() {
         },
         {
             name: 'Se connecter',
-            path: 'login'
+            path: '/login'
         },
         {
             name: 'S\'inscrire',
-            path: 'register'
+            path: '/register'
         }
     ]
 
