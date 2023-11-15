@@ -23,19 +23,25 @@ export function SolutionFilter({title, options}: SolutionFilterProps) {
             </div>
             {showFilter && (
                 <div
-                    className={`flex flex-col gap-4 bg-gray-50 p-4 border`}>
+                    className={`flex flex-col gap-4`}>
+                    <p className={'font-medium border-b pb-2'} onClick={() => {
+                        setSelectedFilter('')
+                        setShowFilter(!showFilter)
+                    }}>
+                        Aucun filtre
+                    </p>
+
                     {
                         options.map((option, index) => (
-                            <div key={index} className={'flex items-center gap-2'}>
-                                <p className="" onClick={() => {
-                                    setSelectedFilter(option)
-                                    setShowFilter(!showFilter)
-                                }}>
-                                    {
-                                        option
-                                    }
-                                </p>
-                            </div>
+                            <p className="font-medium border-b pb-2" onClick={() => {
+                                setSelectedFilter('')
+                                setSelectedFilter(option)
+                                setShowFilter(!showFilter)
+                            }} key={index}>
+                                {
+                                    option
+                                }
+                            </p>
                         ))
                     }
                 </div>

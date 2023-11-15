@@ -14,7 +14,7 @@ export function Solutions() {
             <SolutionFilter title={'Objectif'} options={['Objectif 1', 'Object 2']}/>
             <SolutionFilter title={'Ville'} options={['Ville 1', 'Ville 2']}/>
 
-            <h3 className={'text-3xl font-bold mb-5'}>
+            <h3 className={'text-2xl font-bold mb-5'}>
                 Les solutions innovantes de la communauté
             </h3>
             <p className={'mb-10'}>
