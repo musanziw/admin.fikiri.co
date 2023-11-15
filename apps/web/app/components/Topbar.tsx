@@ -56,7 +56,7 @@ export default function Topbar() {
             <div className={'hidden lg:flex items-center gap-6'}>
                 {
                     LINKS.map((link, index) => (
-                        <Link href={link.path} className={'hover:text-gray-100 transition-colors duration-300 capitalize'}
+                        <Link href={link.path} className={'hover:text-gray-200 transition-colors duration-300 capitalize'}
                               key={index}>{link.name}</Link>
                     ))
                 }
