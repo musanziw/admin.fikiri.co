@@ -1,13 +1,13 @@
 export function Footer() {
     return (
-        <div className={'bg-indigo-800 p-16'}>
+        <div className={'bg-indigo-950 px-6 py-20'}>
             <div className={'lg:mx-auto lg:max-w-screen-lg flex flex-col gap-4 lg:flex-row justify-between'}>
                 <h1 className={'text-white text-4xl font-bold mb-4'}>
                     Fikiri
                 </h1>
                 <div className={'flex flex-col gap-5'}>
                     <div className={'flex flex-col gap-2'}>
-                        <h5 className={'text-white uppercase font-bold'}>
+                        <h5 className={'text-white text-lg font-bold'}>
                             Contact
                         </h5>
                         <div className={'flex flex-col gap-1'}>
@@ -16,7 +16,7 @@ export function Footer() {
                         </div>
                     </div>
                     <div className={'flex flex-col gap-2'}>
-                        <h5 className={'text-white uppercase font-bold'}>
+                        <h5 className={'text-white text-lg font-bold'}>
                             Adresse
                         </h5>
                         <div className={'flex flex-col gap-1'}>
