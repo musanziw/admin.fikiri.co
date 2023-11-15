@@ -12,7 +12,7 @@ export default function Topbar() {
 
     return (
         <div
-            className={'absolute w-screen top-0 p-8 z-10 flex items-center justify-between'}>
+            className={'absolute w-screen top-0 px-10 py-8 z-10 flex items-center justify-between'}>
             <div>
                 <h1 className={'text-white font-bold text-2xl'}>fikiri</h1>
             </div>
@@ -25,7 +25,7 @@ export default function Topbar() {
 
             <div
                 className={`absolute top-20 z-30 rounded-xl w-3/4 bg-indigo-950/95 transition-transform duration-300 lg:hidden ${!isOpen ? 'translate-x-full right-0' : 'right-6'}`}>
-                <div className={'text-lg p-10 flex flex-col gap-5 justify-center items-start'}>
+                <div className={'text-lg p-10 flex flex-col gap-4 justify-center items-start'}>
                     <Link href={'/'}>Solutions</Link>
                     <Link href={''}>A propos</Link>
                     <Link href={'login'}>Se connecter</Link>

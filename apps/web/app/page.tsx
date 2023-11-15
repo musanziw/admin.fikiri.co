@@ -7,15 +7,13 @@ import {Footer} from "@/app/components/Footer";
 
 export default function Home() {
     return (
-        <>
-            <div className={'relative bg-hero bg-no-repeat bg-cover bg-center overflow-x-hidden'}>
-                <Topbar/>
-                <Hero/>
-            </div>
+        <div className={'relative overflow-x-hidden'}>
+            <Topbar/>
+            <Hero/>
             <Solutions/>
             <About/>
             <Partners/>
-            <Footer />
-        </>
+            <Footer/>
+        </div>
     )
 }
