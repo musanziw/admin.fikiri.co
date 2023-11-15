@@ -2,7 +2,7 @@ export function About() {
     return (
         <div className={'bg-indigo-950 p-8'}>
             <div className={'lg:mx-auto lg:max-w-screen-lg flex flex-col gap-4 lg:flex-row py-20'}>
-                <h1 className={'text-white text-4xl font-bold mb-4 basis-10/12'}>
+                <h1 className={'text-white text-2xl font-bold mb-4 basis-10/12'}>
                     A propos de Fikiri
                 </h1>
                 <div className={'flex flex-col gap-5 lg:text-lg'}>
