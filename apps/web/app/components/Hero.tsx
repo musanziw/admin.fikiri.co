@@ -1,10 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 
 export function Hero() {
     return (
-        <div className={'relative'}>
-            <Image src={'/hero.webp'} alt={'Fikiri'} layout={'fill'} objectFit={'cover'}/>
+        <div className={'relative bg-hero bg-no-repeat bg-cover bg-center'}>
             <div
                 className={'relative bg-gradient-to-b from-indigo-950/60 to-indigo-950/25 p-8 h-screen flex flex-col justify-center items-start lg:p-40'}>
                 <h1 className={`text-6xl font-bold text-white mb-6`}>
