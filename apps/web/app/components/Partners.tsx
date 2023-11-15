@@ -1,4 +1,5 @@
 import Image from "next/image";
+import logo from '@/public/logo.png'
 
 export default function Partners() {
 
@@ -16,9 +17,7 @@ export default function Partners() {
             <div className={'flex flex-wrap gap-5'}>
                 {
                     partners.map((_, index) => (
-                        <div className={''} key={index}>
-                            <Image src={'/logo.png'} alt={'Partenaire 1'} width={100} height={100} className={'grayscale ml-2'}/>
-                        </div>
+                            <Image src={logo} alt={'Partenaire 1'} className={'grayscale ml-2 w-36'} key={index}/>
                     ))
                 }
             </div>
