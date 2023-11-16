@@ -17,7 +17,7 @@ export default function Partners() {
             <div className={'flex flex-wrap gap-5'}>
                 {
                     partners.map((_, index) => (
-                            <Image src={logo} alt={'Partenaire 1'} className={'grayscale ml-2 w-36'} key={index}/>
+                            <Image src={logo} alt={'Partenaire 1'} className={'grayscale ml-2 w-24'} key={index}/>
                     ))
                 }
             </div>
