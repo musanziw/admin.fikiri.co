@@ -26,7 +26,7 @@ export function Footer() {
                         </div>
                     </div>
 
-                    <p>
+                    <p className={'text-gray-50'}>
                         © 2021 Fikiri. All rights reserved.
                     </p>
 

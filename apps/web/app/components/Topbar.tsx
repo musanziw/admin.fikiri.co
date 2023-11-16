@@ -41,22 +41,26 @@ export default function Topbar() {
                 <div className="h-[1px] w-6 bg-black transition-transform duration-300"></div>
             </div>
 
+
             <div
-                className={`absolute top-14 z-30 w-3/4 bg-white transition-transform duration-300 right-0 lg:hidden ${!isOpen && 'translate-x-full'}`}>
-                <div className={'text-lg p-10 flex flex-col gap-4 justify-center items-start'}>
+                className={`absolute top-14 z-30 w-screen bg-white transition-transform shadow-xl duration-300 right-0 lg:hidden ${!isOpen && '-translate-y-[200%]'}`}>
+                <div className={'text-lg p-10 flex flex-col gap-4 justify-start items-start'}>
                     {
                         LINKS.map((link, index) => (
-                            <Link href={link.path} className={'hover:text-gray-950 font-medium transition-colors duration-300 capitalize'}
+                            <Link href={link.path}
+                                  className={'hover:text-gray-950 font-medium transition-colors duration-300 capitalize'}
                                   key={index}>{link.name}</Link>
                         ))
                     }
                 </div>
             </div>
 
+
             <div className={'hidden lg:flex items-center gap-6'}>
                 {
                     LINKS.map((link, index) => (
-                        <Link href={link.path} className={'hover:text-gray-200 transition-colors duration-300 capitalize'}
+                        <Link href={link.path}
+                              className={'hover:text-gray-200 transition-colors duration-300 capitalize'}
                               key={index}>{link.name}</Link>
                     ))
                 }

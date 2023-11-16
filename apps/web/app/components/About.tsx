@@ -5,7 +5,7 @@ export function About() {
                 <h1 className={'text-white text-2xl font-bold mb-4 basis-10/12'}>
                     A propos de Fikiri
                 </h1>
-                <div className={'flex flex-col gap-5 lg:text-lg'}>
+                <div className={'flex flex-col gap-5 lg:text-lg text-gray-50'}>
                     <p>
                         Fikiri est une plateforme web qui vise à cartographier les solutions locales en République
                         Démocratique du Congo pour accélérer l&apos;atteinte des Objectifs de Développement Durable (ODD).
