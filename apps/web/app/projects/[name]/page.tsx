@@ -3,7 +3,7 @@ import Image from "next/image";
 import projectImg from '@/public/project.webp'
 import {Footer} from "@/app/components/Footer";
 
-export default function Page({params}: { params: { name: string } }) {
+export default function Project({params}: { params: { name: string } }) {
     return (
         <div className={'overflow-x-hidden'}>
             <div className={`relative mb-16 h-screen bg-[url('/project.webp')] bg-no-repeat bg-cover bg-center`}>

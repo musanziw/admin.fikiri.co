@@ -158,9 +158,6 @@ importers:
 
   apps/web:
     dependencies:
-      geist:
-        specifier: ^1.1.0
-        version: 1.1.0(next@14.0.1)
       next:
         specifier: 14.0.1
         version: 14.0.1(react-dom@18.2.0)(react@18.2.0)
@@ -170,6 +167,9 @@ importers:
       react-dom:
         specifier: ^18
         version: 18.2.0(react@18.2.0)
+      swiper:
+        specifier: ^11.0.4
+        version: 11.0.4
     devDependencies:
       '@types/node':
         specifier: ^20
@@ -4291,14 +4291,6 @@ packages:
       wide-align: 1.1.5
     dev: false
 
-  /geist@1.1.0(next@14.0.1):
-    resolution: {integrity: sha512-UwZH+ekwAt1T5XYlviFD+jUXFeRRawDDT8RtpJ//IHTPXlVIO6BCcZ8M0Pxg1K/FT3H8HLn3KJqMsPLHbo1HNg==}
-    peerDependencies:
-      next: ^13.2 || ^14
-    dependencies:
-      next: 14.0.1(react-dom@18.2.0)(react@18.2.0)
-    dev: false
-
   /generate-function@2.3.1:
     resolution: {integrity: sha512-eeB5GfMNeevm/GRYq20ShmsaGcmI81kIX2K9XQx5miC8KdHaC6Jm0qQ8ZNeGOi7wYB8OsdxKs+Y2oVuTFuVwKQ==}
     dependencies:
@@ -8262,6 +8254,11 @@ packages:
   /supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
+
+  /swiper@11.0.4:
+    resolution: {integrity: sha512-qtUxILrD4aD++rpKzGrkz3IAWL92f9uTrDwjb6HaNLmPvJhZCE/83DL+9w4kIgDDJeF6QKalV47rMBN77UOVYQ==}
+    engines: {node: '>= 4.7.0'}
+    dev: false
 
   /symbol-observable@4.0.0:
     resolution: {integrity: sha512-b19dMThMV4HVFynSAM1++gBHAbk2Tc/osgLIBZMKsyqh34jb2e8Os7T6ZW/Bt3pJFdBTd2JwAnAAEQV7rSNvcQ==}
