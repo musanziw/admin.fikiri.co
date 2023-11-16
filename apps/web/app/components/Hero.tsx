@@ -7,7 +7,7 @@ import {Typewriter} from "react-simple-typewriter";
 
 export function Hero() {
     return (
-        <div className={'relative py-20 mb-10 bg-indigo-50'}>
+        <div className={'relative py-20 bg-indigo-50'}>
             <Topbar background={'bg-indigo-50'}/>
 
             <div className={'p-8 h-full grid grid-cols-1 items-center md:grid-cols-2 md:mx-auto md:max-w-screen-lg'}>
@@ -33,7 +33,7 @@ export function Hero() {
                     </Link>
                 </div>
 
-                <div className={'w-3/4 justify-self-center md:justify-self-end'}>
+                <div className={'md:justify-self-end'}>
                     <Image src={slide1} alt={'Slide 1'} className={'rounded-xl'}/>
                 </div>
 
