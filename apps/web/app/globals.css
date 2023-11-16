@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
+@layer components {
     .active div:first-child {
         @apply rotate-45 translate-y-1.5
     }
@@ -10,4 +10,24 @@
     .active div:last-child {
         @apply -rotate-45 -translate-y-1
     }
+
+    .marquee-10 {
+        animation: marquee 10s infinite;
+    }
+    .marquee-15 {
+        animation: marquee 15s infinite;
+    }
+    .marquee-20 {
+        animation: marquee 20s infinite;
+    }
 }
+
+@keyframes marquee {
+    0%{
+        transform: translateX(0%);
+    }
+    0%{
+        transform: translateX(-100%);
+    }
+}
+

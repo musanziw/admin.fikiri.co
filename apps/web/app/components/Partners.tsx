@@ -6,7 +6,7 @@ export default function Partners() {
     const partners = new Array(6).fill(0)
 
     return (
-        <div className={'ml-4 p-4 text-gray-800 border-l border-dashed lg:mx-auto lg:max-w-screen-lg py-20'}>
+        <div className={'ml-4 p-4 text-gray-800 border-x border-dashed lg:mx-auto lg:max-w-screen-lg py-20'}>
             <h3 className={'text-sm uppercase text-center font-bold mb-10'}>
                 Nos partenaires
             </h3>
