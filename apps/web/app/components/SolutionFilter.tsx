@@ -11,7 +11,7 @@ export function SolutionFilter({title, options}: SolutionFilterProps) {
     const [selectedFilter, setSelectedFilter] = useState('')
 
     return (
-        <div className="flex flex-col gap-5 mb-6">
+        <div className="relative flex flex-col gap-5 mb-6">
             <div className="flex items-center gap-3 cursor-pointer" onClick={() => setShowFilter(!showFilter)}>
                 <p className={'font-medium'}>{selectedFilter || title}</p>
                 <svg xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +23,7 @@ export function SolutionFilter({title, options}: SolutionFilterProps) {
             </div>
             {showFilter && (
                 <div
-                    className={`flex flex-col gap-4`}>
+                    className={`flex flex-col gap-4 absolute top-8 bg-white p-4 w-40`}>
                     <p className={'font-medium border-b pb-2'} onClick={() => {
                         setSelectedFilter('')
                         setShowFilter(!showFilter)
