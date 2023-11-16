@@ -33,7 +33,7 @@ export function Hero() {
                     </Link>
                 </div>
 
-                <div className={'md:justify-self-end'}>
+                <div className={'md:justify-self-end md:w-3/4'}>
                     <Image src={slide1} alt={'Slide 1'} className={'rounded-xl'}/>
                 </div>
 
