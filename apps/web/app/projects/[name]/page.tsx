@@ -16,18 +16,14 @@ export default function Project({params}: { params: { name: string } }) {
                         <h2 className={'text-gray-600 text-5xl font-semibold mb-8 capitalize'}>
                             {params.name}
                         </h2>
-
-                        <p className={'font-medium mb-8'}>
+                        <p className={'font-medium mb-6'}>
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, voluptatum.
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, voluptatum.
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, voluptatum.
                         </p>
-
                     </div>
-
-                    <Image src={projectImg} alt={'Img'} className={'mb-8'}/>
-
-                    <p className={'p-4 font-medium mb-8'}>
+                    <Image src={projectImg} alt={'Img'} className={'mb-6'}/>
+                    <p className={'p-4 font-medium mb-6'}>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, voluptatum.
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, voluptatum.
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, voluptatum.
