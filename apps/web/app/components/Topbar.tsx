@@ -13,9 +13,6 @@ export default function Topbar({background}: TopbarProps) {
 
     const LINKS = [
         {
-            name: 'Accueil',
-            path: '/',
-        }, {
             name: 'solutions',
             path: ''
         },
@@ -68,7 +65,7 @@ export default function Topbar({background}: TopbarProps) {
                 {
                     LINKS.map((link, index) => (
                         <Link href={link.path}
-                              className={'hover:text-gray-200 transition-colors duration-300 capitalize'}
+                              className={'hover:text-gray-950 transition-colors duration-300 capitalize'}
                               key={index}>{link.name}</Link>
                     ))
                 }
