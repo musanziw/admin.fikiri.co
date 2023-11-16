@@ -6,10 +6,10 @@ import Image from "next/image";
 export default function Project({params}: { params: { name: string } }) {
     return (
         <>
-            <div className={'relative mt-20 mb-16'}>
+            <div className={'relative mt-16 mb-16'}>
                 <Topbar background={'bg-white'}/>
                 <div className="flex flex-col mx-6 justify-center max-w-screen-md md:mx-auto border-x border-dashed">
-                    <div className="p-4">
+                    <div className="p-4 py-10">
                         <p className="text-sm uppercase font-bold text-gray-800 mb-6">
                             Lubumbashi, Santé et bien-être
                         </p>
