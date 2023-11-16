@@ -18,9 +18,9 @@ export function SolutionCard({solutions}: SolutionCardProps) {
                 </div>
 
                 <div className="p-6">
-                    <div className="text-xs uppercase font-bold text-indigo-500 mb-4">
+                    <p className="text-xs uppercase font-bold text-indigo-500 mb-4">
                         Lubumbashi, Santé et bien-être
-                    </div>
+                    </p>
 
                     <h5 className={'font-bold text-sm uppercase mb-2'}>
                         Projet titre {index + 1}
