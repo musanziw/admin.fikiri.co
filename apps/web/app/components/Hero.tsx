@@ -19,23 +19,23 @@ export function Hero() {
                             />
                         <span className={'text-5xl font-bold text-indigo-500'}>.</span>
                     </h1>
-                    <h2 className={`text-2xl text-gray-700 mb-6 font-semibold mt-6`}>
+                    <h2 className={`text-2xl text-gray-700 mb-6 font-semibold mt-6 fade-in-1`}>
                         Cartographie des solutions locales pour accélérer l&apos;atteinte des ODD en RDC.
                     </h2>
-                    <p className={'mb-10'}>
+                    <p className={'mb-10 fade-in-2'}>
                         Fikiri est une plateforme web qui vise à cartographier les solutions locales en République
                         Démocratique du Congo pour accélérer l&apos;atteinte des Objectifs de Développement Durable
                         (ODD).
                     </p>
                     <Link href={'/solutions/submit'}
-                          className={'px-6 py-2 inline-block mb-10 rounded-md bg-indigo-500 text-white font-semibold'}>
+                          className={'px-6 fade-in-3 py-2 inline-block mb-10 rounded-md bg-indigo-500 text-white font-semibold'}>
                         Postulez maintenant
                     </Link>
                 </div>
 
 
 
-                <div className={'md:justify-self-end md:w-3/4 relative overflow-hidden'}>
+                <div className={'md:justify-self-end md:w-3/4 relative overflow-hidden fade-in-4'}>
                     {/*<div className="absolute -inset-x-1  -top-[25.5%] scale-x-125 scale-y-75 2xl:scale-95 bg-indigo-50 z-10 h-1/2 rounded-[100%]"></div>*/}
                     {/*<div className="absolute -inset-x-1  -bottom-[25.5%] scale-x-125 scale-y-75 2xl:scale-95 bg-indigo-50 z-10 h-1/2 rounded-[100%]"></div>*/}
                     <div className="w-full marquee-10 sm:marquee-15 lg:marquee-20">
