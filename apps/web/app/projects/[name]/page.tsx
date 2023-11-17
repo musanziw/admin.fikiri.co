@@ -6,7 +6,7 @@ import Image from "next/image";
 export default function Project({params}: { params: { name: string } }) {
     return (
         <>
-            <div className={'relative mt-16 mb-16'}>
+            <div className={'relative py-16'}>
                 <Topbar background={'bg-white'}/>
                 <div className="flex flex-col mx-6 justify-center max-w-screen-md md:mx-auto border-x border-dashed">
                     <div className="p-4 py-10">
@@ -22,7 +22,9 @@ export default function Project({params}: { params: { name: string } }) {
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, voluptatum.
                         </p>
                     </div>
+
                     <Image src={projectImg} alt={'Img'} className={'mb-6'}/>
+
                     <p className={'p-4 font-medium mb-6'}>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, voluptatum.
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, voluptatum.
