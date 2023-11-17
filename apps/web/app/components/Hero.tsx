@@ -7,9 +7,8 @@ import {Typewriter} from "react-simple-typewriter";
 
 export function Hero() {
     return (
-        <div className={'relative py-20 pt-32 bg-indigo-50'}>
+        <div className={'relative py-20 pt-28 bg-indigo-50'}>
             <Topbar background={'bg-indigo-50'}/>
-
             <div className={'p-8 h-full grid grid-cols-1 items-center md:grid-cols-2 md:mx-auto md:max-w-screen-lg'}>
                 <div className={'flex flex-col justify-center items-start'}>
                     <h1 className={`text-4xl font-bold text-gray-800`}>

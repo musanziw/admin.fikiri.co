@@ -1,13 +1,13 @@
 import {Hero} from "@/app/components/Hero";
-import {Solutions} from "@/app/components/Solutions";
 import {About} from "@/app/components/About";
 import {Footer} from "@/app/components/Footer";
+import Sdg from "@/app/components/Sdg";
 
 export default function Home() {
     return (
         <div className={'relative overflow-x-hidden'}>
             <Hero/>
-            <Solutions/>
+            <Sdg/>
             <About/>
             <Footer/>
         </div>

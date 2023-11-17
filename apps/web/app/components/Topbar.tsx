@@ -14,11 +14,11 @@ export default function Topbar({background}: TopbarProps) {
     const LINKS = [
         {
             name: 'solutions',
-            path: ''
+            path: '/solutions'
         },
         {
             name: 'A propos',
-            path: ''
+            path: '#about'
         },
         {
             name: 'Se connecter',
@@ -34,7 +34,7 @@ export default function Topbar({background}: TopbarProps) {
     return (
         <div
             className={`fixed ${background} border-b border-dashed text-gray-800 w-screen top-0 px-10 py-4 z-10 flex items-center justify-between`}>
-            <Link href={'/'}>
+            <Link href={'/'} className={'inline-block'}>
                 <Image src={logo} alt={'Logo'} className={'cursor-pointer w-24'}/>
             </Link>
 
