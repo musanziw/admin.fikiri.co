@@ -33,7 +33,7 @@ export default function Topbar({background}: TopbarProps) {
 
     return (
         <div
-            className={`fixed ${background} border-b border-dashed text-gray-800 w-screen top-0 px-10 py-4 z-10 flex items-center justify-between`}>
+            className={`fixed ${background} shadow-md text-gray-800 w-screen top-0 px-10 py-4 z-10 flex items-center justify-between`}>
             <Link href={'/'} className={'inline-block'}>
                 <Image src={logo} alt={'Logo'} className={'cursor-pointer w-24'}/>
             </Link>
