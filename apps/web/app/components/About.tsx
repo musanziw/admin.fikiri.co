@@ -10,7 +10,7 @@ export function About() {
 
                 <div className={'flex flex-col gap-5 lg:text-lg'}>
                     <h1 className={'text-xl font-bold'}>
-                       C'est quoi Fikiri ?
+                       C&apos;est quoi Fikiri ?
                     </h1>
                     <p>
                         Fikiri est une plateforme web qui vise à cartographier les solutions locales en République
