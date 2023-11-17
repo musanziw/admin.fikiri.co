@@ -27,7 +27,7 @@ export function Hero() {
                         Démocratique du Congo pour accélérer l&apos;atteinte des Objectifs de Développement Durable
                         (ODD).
                     </p>
-                    <Link href={'/'}
+                    <Link href={'/solutions/submit'}
                           className={'px-6 py-2 inline-block mb-10 rounded-md bg-indigo-500 text-white font-semibold'}>
                         Postulez maintenant
                     </Link>
