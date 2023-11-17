@@ -5,8 +5,8 @@ import Image from "next/image";
 export function About() {
     const partners = new Array(6).fill(0)
     return (
-        <div className={'p-8 bg-indigo-50'} id={'about'}>
-            <div className={'lg:mx-auto lg:max-w-screen-lg grid grid-cols-1 items-center md:grid-cols-2 gap-8 py-20'}>
+        <div className={'p-8 bg-white'} id={'about'}>
+            <div className={'lg:mx-auto border-t lg:max-w-screen-lg grid grid-cols-1 items-center md:grid-cols-2 gap-8 py-20'}>
 
                 <div className={'flex flex-col gap-5 lg:text-lg'}>
                     <h1 className={'text-xl font-bold'}>

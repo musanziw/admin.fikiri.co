@@ -52,9 +52,9 @@ export default function Topbar({background}: TopbarProps) {
                 <div className={'text-lg p-10 flex flex-col gap-4 justify-start items-start'}>
                     {
                         LINKS.map((link, index) => (
-                            <Link href={link.path}
-                                  className={'hover:text-gray-950 font-medium transition-colors duration-300 capitalize'}
-                                  key={index}>{link.name}</Link>
+                            <Link href={link.path} className={'hover:text-gray-950 font-medium transition-colors duration-300 capitalize'} key={index}>
+                                {link.name}
+                            </Link>
                         ))
                     }
                 </div>
@@ -64,9 +64,9 @@ export default function Topbar({background}: TopbarProps) {
             <div className={'hidden lg:flex items-center gap-6'}>
                 {
                     LINKS.map((link, index) => (
-                        <Link href={link.path}
-                              className={'hover:text-gray-950 transition-colors duration-300 capitalize'}
-                              key={index}>{link.name}</Link>
+                        <Link href={link.path} className={'hover:text-gray-950 transition-colors duration-300 capitalize'} key={index}>
+                            {link.name}
+                        </Link>
                     ))
                 }
             </div>

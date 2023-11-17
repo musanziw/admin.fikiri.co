@@ -23,87 +23,87 @@ export default function Sdg() {
         {
             oddImage: odd1,
             oddTitle: 'Éliminer la pauvreté sous toutes ses formes et partout dans le monde',
-            color: 'red-500'
+            path: 'red-500'
         },
         {
             oddImage: odd2,
             oddTitle: 'Éliminer la faim, assurer la sécurité alimentaire, améliorer la nutrition et promouvoir l’agriculture durable',
-            color: 'orange-800'
+            path: 'orange-800'
         },
         {
             oddImage: odd3,
             oddTitle: 'Permettre à tous de vivre en bonne santé et promouvoir le bien-être de tous à tout âge',
-            color: 'green-600'
+            path: 'green-600'
         },
         {
             oddImage: odd4,
             oddTitle: 'Assurer l’accès de tous à une éducation de qualité, sur un pied d’égalité, et promouvoir les possibilités d’apprentissage tout au long de la vie',
-            color: 'red-700'
+            path: 'red-700'
         },
         {
             oddImage: odd5,
             oddTitle: 'Parvenir à l’égalité des sexes et autonomiser toutes les femmes et les filles',
-            color: 'pink-500'
+            path: 'pink-500'
         },
         {
             oddImage: odd6,
             oddTitle: 'Garantir l’accès de tous à des services d’alimentation en eau et d’assainissement gérés de façon durable',
-            color: 'blue-500'
+            path: 'blue-500'
         },
         {
             oddImage: odd7,
             oddTitle: 'Garantir l’accès de tous à des services énergétiques fiables, durables et modernes, à un coût abordable',
-            color: 'yellow-500'
+            path: 'yellow-500'
         },
         {
             oddImage: odd8,
             oddTitle: 'Promouvoir une croissance économique soutenue, partagée et durable, le plein emploi productif et un travail décent pour tous',
-            color: 'red-500'
+            path: 'red-500'
         },
         {
             oddImage: odd9,
             oddTitle: 'Bâtir une infrastructure résiliente, promouvoir une industrialisation durable qui profite à tous et encourager l’innovation',
-            color: 'orange-400'
+            path: 'orange-400'
         },
         {
             oddImage: odd10,
             oddTitle: 'Réduire les inégalités dans les pays et d’un pays à l’autre',
-            color: 'pink-500'
+            path: 'pink-500'
         },
         {
             oddImage: odd11,
             oddTitle: 'Faire en sorte que les villes et les établissements humains soient ouverts à tous, sûrs, résilients et durables',
-            color: 'yellow-800'
+            path: 'yellow-800'
         },
         {
             oddImage: odd12,
             oddTitle: 'Établir des modes de consommation et de production durables',
-            color: 'orange-400'
+            path: 'orange-400'
         },
         {
             oddImage: odd13,
             oddTitle: 'Prendre d’urgence des mesures pour lutter contre les changements climatiques et leurs répercussions',
-            color: 'green-600'
+            path: 'green-600'
         },
         {
             oddImage: odd14,
             oddTitle: 'Conserver et exploiter de manière durable les océans, les mers et les ressources marines aux fins du développement durable',
-            color: 'blue-500'
+            path: 'blue-500'
         },
         {
             oddImage: odd15,
             oddTitle: 'Préserver et restaurer les écosystèmes terrestres, en veillant à les exploiter de façon durable,...',
-            color: 'green-300'
+            path: 'bg-cyan-800'
         },
         {
             oddImage: odd16,
             oddTitle: 'Promouvoir des sociétés pacifiques et inclusives pour le développement durable, permettre un accès à la justice pour tous...',
-            color: 'blue-700'
+            path: 'bg-cyan-800'
         },
         {
             oddImage: odd17,
             oddTitle: 'Renforcer les moyens de mettre en œuvre le Partenariat mondial pour le développement et le revitaliser.',
-            color: 'bg-cyan-800'
+            path: 'bg-cyan-800'
         }
     ]
 
@@ -116,7 +116,7 @@ export default function Sdg() {
                     sdgs.map((sdg, index) =>
                         (
                             <Link href={''}
-                                  className={`flex flex-col gap-4 justify-start items-start transition-colors duration-500 border rounded-lg p-8 hover:${sdg.color}`}
+                                  className={`flex flex-col gap-4 justify-start items-start transition-colors duration-500 border rounded-lg p-8 hover:border-gray-300`}
                                   key={index}>
                                 <div className={'w-20 h-20 relative overflow-hidden'}>
                                     <Image src={sdg.oddImage} alt={sdg.oddTitle} className={'rounded-md'}/>
