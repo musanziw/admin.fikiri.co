@@ -7,7 +7,7 @@ import {Typewriter} from "react-simple-typewriter";
 
 export function Hero() {
     return (
-        <div className={'relative py-20 bg-indigo-50'}>
+        <div className={'relative py-20 pt-32 bg-indigo-50'}>
             <Topbar background={'bg-indigo-50'}/>
 
             <div className={'p-8 h-full grid grid-cols-1 items-center md:grid-cols-2 md:mx-auto md:max-w-screen-lg'}>
@@ -33,15 +33,17 @@ export function Hero() {
                     </Link>
                 </div>
 
-                <div className={'relative overflow-hidden'}>
-                    <div className="absolute -inset-x-1 -top-[25.5%] scale-x-125 scale-y-75 2xl:scale-95 bg-indigo-50 z-10 h-1/2 rounded-[100%]"></div>
-                    <div className="absolute -inset-x-1 -bottom-[25.5%] scale-x-125 scale-y-75 2xl:scale-95 bg-indigo-50 z-10 h-1/2 rounded-[100%]"></div>
+
+
+                <div className={'md:justify-self-end md:w-3/4 relative overflow-hidden'}>
+                    {/*<div className="absolute -inset-x-1  -top-[25.5%] scale-x-125 scale-y-75 2xl:scale-95 bg-indigo-50 z-10 h-1/2 rounded-[100%]"></div>*/}
+                    {/*<div className="absolute -inset-x-1  -bottom-[25.5%] scale-x-125 scale-y-75 2xl:scale-95 bg-indigo-50 z-10 h-1/2 rounded-[100%]"></div>*/}
                     <div className="w-full marquee-10 sm:marquee-15 lg:marquee-20">
-                        <div className="grid grid-cols-5 gap-1 h-96 sm:h-[40rem] 2xl:h-[60rem] w-[350vw] sm:w-[300vw]  lg:w-[200vw]">
-                            <Image src={slide1} alt={'Slide 1'} className={'w-full h-full object-cover '}/>
+                        <div className="grid grid-cols-7 gap-1 h-[25rem] w-[45rem]">
+                            <Image src={slide1} alt={'Slide 1'} className={'w-full h-full object-cover'}/>
+                            <Image src={slide1} alt={'Slide 1'} className={'w-full h-full object-cover col-span-3'}/>
+                            <Image src={slide1} alt={'Slide 1'} className={'w-full h-full object-cover'}/>
                             <Image src={slide1} alt={'Slide 1'} className={'w-full h-full object-cover col-span-2'}/>
-                            <Image src={slide1} alt={'Slide 1'} className={'w-full h-full object-cover'}/>
-                            <Image src={slide1} alt={'Slide 1'} className={'w-full h-full object-cover'}/>
                             <Image src={slide1} alt={'Slide 1'} className={'w-full h-full object-cover'}/>
                         </div>
                     </div>
