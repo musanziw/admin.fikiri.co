@@ -19,7 +19,7 @@ export function AuthCard({title, children}: AuthCardProps) {
                         </Link>
                     </div>
                     <div
-                        className="rounded-md border border-gray-100 bg-white shadow-2xl shadow-gray-600/30 backdrop-blur-2xl">
+                        className="rounded-lg border border-gray-100 bg-white shadow-xl shadow-gray-600/30 backdrop-blur-2xl">
                         <div className="p-8 py-12 sm:p-16">
                             <h2 className="mb-8 text-2xl font-bold text-gray-900">{title}</h2>
                             {children}
