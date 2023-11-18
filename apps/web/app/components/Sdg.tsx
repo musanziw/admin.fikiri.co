@@ -116,12 +116,12 @@ export default function Sdg() {
                     sdgs.map((sdg, index) =>
                         (
                             <Link href={''}
-                                  className={`flex flex-col gap-4 justify-start items-start transition-colors duration-500 border rounded-lg p-8 hover:border-gray-300`}
+                                  className={`flex flex-col gap-4 justify-start items-start transition-colors duration-500 border rounded-lg p-6 hover:border-gray-300`}
                                   key={index}>
-                                <div className={'w-20 h-20 relative overflow-hidden'}>
-                                    <Image src={sdg.oddImage} alt={sdg.oddTitle} className={'rounded-md'}/>
+                                <div className={'w-10 h-10 relative overflow-hidden'}>
+                                    <Image src={sdg.oddImage} alt={sdg.oddTitle} className={'rounded-md object-cover'}/>
                                 </div>
-                                <span className={'font-medium inline-block'}>{sdg.oddTitle}</span>
+                                <span className={'font-medium text-sm inline-block'}>{sdg.oddTitle}</span>
                             </Link>
                         )
                     )
