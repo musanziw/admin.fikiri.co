@@ -25,7 +25,6 @@ export default function SubmitProject() {
 
   const onSubmit = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
-
     const payload = {
       projectTitle: projectTitleRef.current?.value || "",
       projectLienYoutube: projectLienYoutubeRef.current?.value || "",
@@ -78,23 +77,6 @@ export default function SubmitProject() {
 
           <div className="basis-1/3">
             <label htmlFor="">Selectionner la Thématique</label>
-            {/* <select
-              name=""
-              id="thematique"
-              className="h-12 rounded ps-5 w-full mt-2"
-            >
-              <option value="">Selectionner la Thématique</option>
-              <option value="">Mécanisation légère agricol</option>
-              <option value="">Gestion du couvert forestier ...</option>
-              <option value="">Inclusion financière, numérique ..</option>
-              <option value="">Amélioration de la mobilité urbaine</option>
-              <option value="">
-                {"Transparence et sécurité dans l'artisanat minier"}
-              </option>
-              <option value="">
-                {"Transparence et sécurité dans l'artisanat minier"}
-              </option>
-            </select> */} 
             <Select isMulti options={options} className="h-12 rounded w-full mt-2 basic-multi-select"/>
           </div>
         </div>
