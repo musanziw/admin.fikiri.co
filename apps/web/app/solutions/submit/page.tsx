@@ -1,13 +1,20 @@
 "use client";
 
 import { useRef, RefObject, useState, FormEvent } from "react";
+import Select from "react-select";
 
 import { SolutionSubmitCard } from "@/app/(auth)/components/SolutionSubmitCard";
 import { Button } from "@/app/(auth)/components/Button";
 
+const options = [
+    { value: 'mecanisationAgri', label: 'Mécanisation légère agricol' },
+    { value: 'GestionCouvert', label: 'Gestion du couvert forestier ...' },
+    { value: 'InclusionFinanci', label: 'Inclusion financière, numérique ..' }
+  ]
+
 export default function SubmitProject() {
   const projectTitleRef: RefObject<HTMLInputElement> = useRef(null);
-  //   const projectIllustrationRef: RefObject<HTMLInputElement> = useRef(null);
+  const projectLienYoutubeRef: RefObject<HTMLInputElement> = useRef(null);
   const projectThematiqueRef: RefObject<HTMLInputElement> = useRef(null);
   const projectDescriptionRef: RefObject<HTMLTextAreaElement> = useRef(null);
   const projectSolutionRef: RefObject<HTMLTextAreaElement> = useRef(null);
@@ -21,6 +28,7 @@ export default function SubmitProject() {
 
     const payload = {
       projectTitle: projectTitleRef.current?.value || "",
+      projectLienYoutube: projectLienYoutubeRef.current?.value || "",
       projectDescription: projectDescriptionRef.current?.value || "",
       projectSolution: projectSolutionRef.current?.value || "",
       projectEtape: projectEtapeRef.current?.value || "",
@@ -28,7 +36,7 @@ export default function SubmitProject() {
       projectExpansion: projectExpansionRef.current?.value || "",
     };
 
-    console.log(payload); // Faites ce que vous voulez avec le payload
+    console.log(payload); 
   };
 
   return (
@@ -59,7 +67,7 @@ export default function SubmitProject() {
                 {"Lien youtube de la vidéo"}
               </label>
               <input
-                // ref={projectIllustrationRef}
+                ref={projectLienYoutubeRef}
                 placeholder="Coller le lien youtube de la vidéo decrivant le projet"
                 type="text"
                 name="illustration"
@@ -70,7 +78,7 @@ export default function SubmitProject() {
 
           <div className="basis-1/3">
             <label htmlFor="">Selectionner la Thématique</label>
-            <select
+            {/* <select
               name=""
               id="thematique"
               className="h-12 rounded ps-5 w-full mt-2"
@@ -86,7 +94,8 @@ export default function SubmitProject() {
               <option value="">
                 {"Transparence et sécurité dans l'artisanat minier"}
               </option>
-            </select>
+            </select> */} 
+            <Select isMulti options={options} className="h-12 rounded w-full mt-2 basic-multi-select"/>
           </div>
         </div>
 
