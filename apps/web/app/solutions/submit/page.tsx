@@ -39,7 +39,7 @@ export default function SubmitProject() {
   };
 
   return (
-    <SolutionSubmitCard title={"Sumettez votre solution"}>
+    <SolutionSubmitCard title={"Soumettez votre solution"}>
       <form
         onSubmit={onSubmit}
         className="space-y-8 flex flex-col justify-center"
