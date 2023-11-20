@@ -13,6 +13,17 @@ export class RolesService {
     ) {
     }
 
+    async insertRoles() {
+        await this.roleRepository.upsert([
+            {id: 1, name: 'admin'},
+            {id: 2, name: 'user'},
+        ], {conflictPaths: ['id']});
+        return {
+            statusCode: HttpStatus.CREATED,
+            message: 'Rôles ajoutés avec succès',
+        };
+    }
+
     async create(createRoleDto: CreateRoleDto) {
         const {name} = createRoleDto;
         const role: Role | null = await this.roleRepository.findOne({

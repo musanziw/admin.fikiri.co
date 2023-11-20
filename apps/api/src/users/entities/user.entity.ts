@@ -3,12 +3,11 @@ import {
     CreateDateColumn,
     Entity,
     JoinTable,
-    ManyToMany,
+    ManyToMany, OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
 import {Role} from '../../roles/entities/role.entity';
-import {UserImage} from "../../user-images/entities/user-image.entity";
 
 @Entity()
 export class User {
@@ -47,10 +46,4 @@ export class User {
     })
     @JoinTable()
     roles: Role[];
-
-    @ManyToMany(() => UserImage, (userImage: UserImage) => userImage.users, {
-        cascade: true,
-    })
-    @JoinTable()
-    userImages: UserImage[];
 }

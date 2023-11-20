@@ -12,7 +12,8 @@ import {RBAC_POLICY} from './auth/rbac.policy';
 import {HandlebarsAdapter} from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import {EventEmitterModule} from '@nestjs/event-emitter';
 import {NotificationsModule} from './notifications/notifications.module';
-import {UserImagesModule} from "./user-images/user-images.module";
+import {SolutionsModule} from './solutions/solutions.module';
+import { ThematicsModule } from './thematics/thematics.module';
 
 @Module({
     imports: [
@@ -60,7 +61,8 @@ import {UserImagesModule} from "./user-images/user-images.module";
         EventEmitterModule.forRoot(),
         AccessControlModule.forRoles(RBAC_POLICY),
         NotificationsModule,
-        UserImagesModule,
+        SolutionsModule,
+        ThematicsModule
     ],
     providers: [
         {
