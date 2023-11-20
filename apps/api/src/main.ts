@@ -15,6 +15,9 @@ async function bootstrap() {
       cookie: { maxAge: +process.env.SESSION_COOKIE_MAX_AGE },
     }),
   );
+  app.enableCors({
+    origin: process.env.CORS_ORIGIN,
+  })
   app.use(passport.initialize());
   app.use(passport.session());
   app.useGlobalPipes(new ValidationPipe());
