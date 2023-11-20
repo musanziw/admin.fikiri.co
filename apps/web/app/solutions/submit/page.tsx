@@ -1,28 +1,71 @@
+"use client";
+
+import { useRef, RefObject, useState, FormEvent } from "react";
+
 import { SolutionSubmitCard } from "@/app/(auth)/components/SolutionSubmitCard";
-import { Input } from "@/app/(auth)/components/Input";
 import { Button } from "@/app/(auth)/components/Button";
 
 export default function SubmitProject() {
+  const projectTitleRef: RefObject<HTMLInputElement> = useRef(null);
+  //   const projectIllustrationRef: RefObject<HTMLInputElement> = useRef(null);
+  const projectThematiqueRef: RefObject<HTMLInputElement> = useRef(null);
+  const projectDescriptionRef: RefObject<HTMLTextAreaElement> = useRef(null);
+  const projectSolutionRef: RefObject<HTMLTextAreaElement> = useRef(null);
+  const projectEtapeRef: RefObject<HTMLTextAreaElement> = useRef(null);
+  const projectImpactRef: RefObject<HTMLTextAreaElement> = useRef(null);
+  const projectExpansionRef: RefObject<HTMLTextAreaElement> = useRef(null);
+  const projectObjectifAnswerRef: RefObject<HTMLInputElement> = useRef(null);
+
+  const onSubmit = (ev: FormEvent<HTMLFormElement>) => {
+    ev.preventDefault();
+
+    const payload = {
+      projectTitle: projectTitleRef.current?.value || "",
+      projectDescription: projectDescriptionRef.current?.value || "",
+      projectSolution: projectSolutionRef.current?.value || "",
+      projectEtape: projectEtapeRef.current?.value || "",
+      projectImpact: projectImpactRef.current?.value || "",
+      projectExpansion: projectExpansionRef.current?.value || "",
+    };
+
+    console.log(payload); // Faites ce que vous voulez avec le payload
+  };
+
   return (
     <SolutionSubmitCard title={"Sumettez votre solution"}>
-      <form action="" className="space-y-8 flex flex-col justify-center">
-        <div className="flex flex-col lg:flex-row gap-10">
+      <form
+        onSubmit={onSubmit}
+        className="space-y-8 flex flex-col justify-center"
+      >
+        <div className="flex flex-col lg:flex-row gap-10 lg:text-lg">
           <div className="basis-1/3">
-            <Input
-              label={"Nom"}
-              name={"name"}
-              type={"text"}
-              placeholder={"Titre du projet"}
-            />
+            <div className="space-y-2">
+              <label htmlFor="email" className="text-gray-800">
+                Titre du projet
+              </label>
+              <input
+                ref={projectTitleRef}
+                type="text"
+                name="title"
+                placeholder="Titre du projet"
+                className="focus:outline-none text-sm block w-full rounded-md border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500 lg:text-lg"
+              />
+            </div>
           </div>
 
           <div className="basis-1/3">
-            <Input
-              label={"Image d'illustration du projet"}
-              name={"resume"}
-              type={"file"}
-              placeholder={""}
-            />
+            <div className="space-y-2">
+              <label htmlFor="illustration" className="text-gray-800">
+                {"Lien youtube de la vidéo"}
+              </label>
+              <input
+                // ref={projectIllustrationRef}
+                placeholder="Coller le lien youtube de la vidéo decrivant le projet"
+                type="text"
+                name="illustration"
+                className="focus:outline-none text-sm block w-full rounded-md border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500 lg:text-lg"
+              />
+            </div>
           </div>
 
           <div className="basis-1/3">
@@ -50,38 +93,42 @@ export default function SubmitProject() {
         <div className="flex flex-col lg:flex-row gap-5">
           <div className="basis-1/2">
             <textarea
+              ref={projectDescriptionRef}
               name=""
               id=""
-              className="focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500"
+              className="focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500 lg:text-lg"
               placeholder={"Description du projet"}
             ></textarea>
           </div>
 
           <div className="basis-1/2">
             <textarea
+              ref={projectSolutionRef}
               name=""
               id=""
-              className="focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500"
+              className=" lg:text-lg focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500"
               placeholder={"Votre Solution"}
             ></textarea>
           </div>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-5" >
+        <div className="flex flex-col lg:flex-row gap-5">
           <div className="basis-1/2 ">
             <textarea
+              ref={projectEtapeRef}
               name=""
               id=""
-              className="focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500"
+              className="lg:text-lg focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500"
               placeholder={"Etapes de votre Solution"}
             ></textarea>
           </div>
 
           <div className="basis-1/2">
             <textarea
+              ref={projectImpactRef}
               name=""
               id=""
-              className="focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500"
+              className="lg:text-lg focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500"
               placeholder={"Impacte et fait marquant"}
             ></textarea>
           </div>
@@ -89,14 +136,15 @@ export default function SubmitProject() {
 
         <div>
           <textarea
+            ref={projectExpansionRef}
             name=""
             id=""
-            className="focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500"
+            className="lg:text-lg focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500"
             placeholder={"Projet d'expansion"}
           ></textarea>
         </div>
 
-        <div>
+        <div className="lg:text-lg">
           <p className={"mb-3"}>A quoi votre solution répont-elle ?</p>
 
           <div className="flex flex-col gap-1">

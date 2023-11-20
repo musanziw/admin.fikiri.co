@@ -21,7 +21,7 @@ export function SolutionSubmitCard({title, children}: SolutionSubmitCardProps) {
                     <div
                         className="rounded-lg border border-gray-100 bg-white shadow-xl shadow-gray-600/30 backdrop-blur-2xl">
                         <div className="p-8 py-12 sm:p-16  flex flex-col">
-                            <h2 className="mb-8 text-2xl font-bold text-gray-900 lg:text-3xl">{title}</h2>
+                            <h2 className="mb-8 text-2xl font-bold text-gray-900 lg:text-3xl lg:mb-10">{title}</h2>
                             {children}
                         </div>
                     </div>
