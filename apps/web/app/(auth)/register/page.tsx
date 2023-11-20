@@ -1,36 +1,51 @@
 "use client";
 
-import { useRef, RefObject, useState, FormEvent } from "react";
+import { useRef, RefObject, useState, FormEvent, useEffect } from "react";
 
 import Link from "next/link";
+import axios from "@/app/api/axios";
 import { AuthCard } from "@/app/(auth)/components/AuthCard";
-import { Input } from "@/app/(auth)/components/Input";
 import { Button } from "@/app/(auth)/components/Button";
+
+const REGISTER_URI = "/auth/register";
 
 export default function Register() {
   const nomRef: RefObject<HTMLInputElement> = useRef(null);
   const emailRef: RefObject<HTMLInputElement> = useRef(null);
   const telephoneRef: RefObject<HTMLInputElement> = useRef(null);
+  const adressRef: RefObject<HTMLInputElement> = useRef(null);
   const passwordRef: RefObject<HTMLInputElement> = useRef(null);
   const confirmedPasswordRef: RefObject<HTMLInputElement> = useRef(null);
 
-  const onSubmit = (ev: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
+    try {
+      const payload = {
+        name: nomRef.current?.value || "",
+        email: emailRef.current?.value || "",
+        phone: telephoneRef.current?.value || "",
+        address: adressRef.current?.value || "",
+        password: passwordRef.current?.value || "",
+        // confirmedPassword: confirmedPasswordRef.current?.value || "",
+      };
 
-    const payload = {
-      nom: nomRef.current?.value || "",
-      email: emailRef.current?.value || "",
-      telephone: telephoneRef.current?.value || "",
-      password: passwordRef.current?.value || "",
-      confirmedPassword: confirmedPasswordRef.current?.value || "",
-    };
+      const response = await axios.post(REGISTER_URI, JSON.stringify(payload), {
+        headers: { "Content-Type": "application/json" },
+      });
 
-    console.log(payload);
+      console.log(response);
+    } catch (e) {
+      console.log(e);
+    }
+
   };
 
   return (
     <AuthCard title={"Inscrivez-vous"}>
-      <form action="" className="space-y-8 flex flex-col justify-center">
+      <form
+        onSubmit={onSubmit}
+        className="space-y-8 flex flex-col justify-center"
+      >
         <div className="space-y-2">
           <label htmlFor="email" className="text-gray-800">
             Nom
@@ -46,7 +61,7 @@ export default function Register() {
 
         <div className="space-y-2">
           <label htmlFor="email" className="text-gray-800">
-            Nom
+            Adresse e-mail
           </label>
           <input
             ref={emailRef}
@@ -66,6 +81,19 @@ export default function Register() {
             type="text"
             name="telephone"
             placeholder="Entrez votre numéro Téléphone"
+            className="focus:outline-none text-sm block w-full rounded-md border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500 lg:text-lg"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="telephone" className="text-gray-800">
+            Adresse
+          </label>
+          <input
+            ref={adressRef}
+            type="text"
+            name="text"
+            placeholder="Adresse"
             className="focus:outline-none text-sm block w-full rounded-md border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500 lg:text-lg"
           />
         </div>
