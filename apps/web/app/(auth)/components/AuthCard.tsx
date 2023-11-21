@@ -12,7 +12,7 @@ export function AuthCard({title, children}: AuthCardProps) {
     return (
         <div className="relative py-16 bg-gray-100">
             <div className="container relative m-auto px-6 md:px-12 xl:px-40">
-                <div className="m-auto space-y-8 md:w-8/12 lg:w-6/12 xl:w-6/12">
+                <div className="m-auto space-y-8 md:w-8/12 lg:w-6/12 xl:w-6/12 mt-10">
                     <div className="flex items-center justify-center w-full">
                         <Link href={'/'}>
                             <Image src={logo} alt="logo" className={'w-36'}/>

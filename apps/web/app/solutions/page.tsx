@@ -2,6 +2,7 @@ import {Footer} from "@/app/components/Footer";
 import {MappedSolutions} from "@/app/components/Solutions";
 import Topbar from "@/app/components/Topbar";
 
+
 export default function Solutions() {
     return (
 

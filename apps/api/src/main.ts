@@ -17,7 +17,9 @@ async function bootstrap() {
   );
   app.enableCors({
     origin: process.env.CORS_ORIGIN,
-  })
+    allowedHeaders: 'Content-Type, Accept, Authorization',
+    credentials: true,
+  });
   app.use(passport.initialize());
   app.use(passport.session());
   app.useGlobalPipes(new ValidationPipe());

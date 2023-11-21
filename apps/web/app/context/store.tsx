@@ -1,45 +1,29 @@
-// "use client";
+"use client";
 
-// import {
-//   createContext,
-//   useContext,
-//   useState,
-// } from "react";
+import React, { createContext, useContext, Dispatch, useState, ReactNode } from "react";
 
-// const AuthProvider = createContext({
-//   user : {}
-//   setUser : {}
-// });
+interface AuthContextProps {
+  user: string; 
+}
 
+const AuthProvider = createContext<AuthContextProps | undefined>(undefined);
 
-// export const ContextProvider = ({ children }) => {
+interface ContextProviderProps {
+  children: ReactNode;
+}
 
+export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
+  const [user, setUser] = useState<string>("Moses kalunga");
 
+  return (
+    <AuthProvider.Provider
+      value={{
+        user,
+      }}
+    >
+      {children}
+    </AuthProvider.Provider>
+  );
+};
 
-//   return (
-//     <StateContext.Provider
-//       value={{
-//         currentColor,
-//         currentMode,
-//         activeMenu,
-//         screenSize,
-//         setScreenSize,
-//         handleClick,
-//         isClicked,
-//         initialState,
-//         setIsClicked,
-//         setActiveMenu,
-//         setCurrentColor,
-//         setCurrentMode,
-//         setMode,
-//         setColor,
-//         themeSettings,
-//         setThemeSettings,
-//       }}
-//     >
-//       {children}
-//     </StateContext.Provider>
-//   );
-// };
-
-// export const useStateContext = () => useContext(StateContext);
+export const useAuthContext = (): AuthContextProps | undefined => useContext(AuthProvider);

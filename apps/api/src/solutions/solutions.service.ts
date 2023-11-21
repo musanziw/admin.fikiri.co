@@ -19,7 +19,9 @@ export class SolutionsService {
                 ...createSolutionDto,
                 thematics: createSolutionDto.thematics.map((id) => ({id})),
             });
-        } catch {
+        } catch (e) {
+            console.log(e)
+            
             throw new HttpException('Mauvaise demande, essayez à nouveau', HttpStatus.BAD_REQUEST);
         }
         return {
