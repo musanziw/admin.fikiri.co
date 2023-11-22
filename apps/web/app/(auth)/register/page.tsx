@@ -26,8 +26,6 @@ export default function Register() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const { user } = useAuthContext() || {};
-
   const onSubmit = async (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     try {

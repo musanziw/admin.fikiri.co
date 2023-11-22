@@ -19,7 +19,7 @@ const LOGIN_URI = "/auth/login";
 export default function Login() {
   const emailRef: RefObject<HTMLInputElement> = useRef(null);
   const passwordRef: RefObject<HTMLInputElement> = useRef(null);
-  const { user } = useAuthContext() || {};
+
 
   const [errors, setErrors] = useState("");
   const [isLoading, setIsLoading] = useState(false);
