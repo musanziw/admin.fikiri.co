@@ -1,4 +1,4 @@
-## Sustainable Development Goals (SDGs)
+## Fikiri : Sustainable Development Goals (SDGs)
 
 A platform where innovators can connect and upload their projects in relation to sustainable development goals, which are then submitted for review, exploration and experimentation.
 
