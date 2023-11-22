@@ -9,9 +9,6 @@ A platform where innovators can connect and upload their projects in relation to
 - [Turborepo](https://turbo.build/repo/docs/installing) >= 1
 - [NestJS](https://docs.nestjs.com/#installation) >= 10
 
-### Class diagram
-
-![Class diagrams](images/class-diagrams.jpg)
 
 ### Clone 
 ```bash
