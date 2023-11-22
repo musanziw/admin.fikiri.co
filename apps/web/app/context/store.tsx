@@ -1,9 +1,18 @@
 "use client";
 
-import React, { createContext, useContext, Dispatch, useState, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  Dispatch,
+  SetStateAction,
+} from "react";
+import { Account } from "../utils/types";
 
 interface AuthContextProps {
-  user: string; 
+  account: undefined | null | Account;
+  setAccount: Dispatch<SetStateAction<undefined | null | Account>>;
 }
 
 const AuthProvider = createContext<AuthContextProps | undefined>(undefined);
@@ -12,13 +21,19 @@ interface ContextProviderProps {
   children: ReactNode;
 }
 
-export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<string>("Moses kalunga");
+export const ContextProvider: React.FC<ContextProviderProps> = ({
+  children,
+}) => {
+  const [account, setAccount] = useState<undefined | null | Account>({
+    id: 1,
+    username: "moses",
+  });
 
   return (
     <AuthProvider.Provider
       value={{
-        user,
+        account,
+        setAccount,
       }}
     >
       {children}
@@ -26,4 +41,5 @@ export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) =>
   );
 };
 
-export const useAuthContext = (): AuthContextProps | undefined => useContext(AuthProvider);
+export const useAuthContext = (): AuthContextProps | undefined =>
+  useContext(AuthProvider);

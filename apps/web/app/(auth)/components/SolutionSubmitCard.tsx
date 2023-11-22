@@ -12,7 +12,7 @@ export function SolutionSubmitCard({title, children}: SolutionSubmitCardProps) {
     return (
         <div className="relative py-16 bg-gray-100">
             <div className="container relative m-auto  px-6 md:px-12 xl:px-40">
-                <div className="m-auto space-y-8">
+                <div className="m-auto space-y-8 pt-12">
                     <div className="flex items-center justify-center w-full">
                         <Link href={'/'}>
                             <Image src={logo} alt="logo" className={'w-36'}/>

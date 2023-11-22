@@ -1,6 +1,8 @@
 "use client";
 
 import { useRef, RefObject, useState, FormEvent, useEffect } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Link from "next/link";
 import axios from "@/app/api/axios";
@@ -9,6 +11,8 @@ import { Button } from "@/app/(auth)/components/Button";
 import Topbar from "@/app/components/Topbar";
 import { Footer } from "@/app/components/Footer";
 import { useAuthContext } from "@/app/context/store";
+import Image from "next/image";
+import googleLogo from "@/public/googleLogo.svg";
 
 const REGISTER_URI = "/auth/register";
 
@@ -20,13 +24,15 @@ export default function Register() {
   const passwordRef: RefObject<HTMLInputElement> = useRef(null);
   const confirmedPasswordRef: RefObject<HTMLInputElement> = useRef(null);
 
-  const { user } = useAuthContext() || {};
+  const [isLoading, setIsLoading] = useState(false);
 
-  console.log("Register ===> ",user);
+  const { user } = useAuthContext() || {};
 
   const onSubmit = async (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     try {
+      setIsLoading(true);
+
       const payload = {
         name: nomRef.current?.value || "",
         email: emailRef.current?.value || "",
@@ -39,16 +45,20 @@ export default function Register() {
       const response = await axios.post(REGISTER_URI, JSON.stringify(payload), {
         headers: { "Content-Type": "application/json" },
       });
+      toast.success("Inscription reussie");
 
       console.log(response);
     } catch (e) {
       console.log(e);
+      toast.error("Échec de l'inscription");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <>
-      <Topbar />
+      <Topbar background="bg-white"/>
       <AuthCard title={"Inscrivez-vous"}>
         <form
           onSubmit={onSubmit}
@@ -132,6 +142,25 @@ export default function Register() {
             />
           </div>
           <Button label={"S'inscire"} />
+          <div className="flex flex-row gap-5 justify-center items-center">
+            <div className="basis-1/2 h-5 border-t border-gray-300 pt-6 text-sm text-gray-500"></div>
+            <div className="pb-5">OU</div>
+            <div className="basis-1/2 h-5 border-t border-gray-300 pt-6 text-sm text-gray-500"></div>
+          </div>
+
+          <button
+            type="submit"
+            className={
+              "py-3 white text-slate-900 rounded-full transition-colors duration-300 border border-slate-500 hover:boder-4 hover:bg-slate-100 relative"
+            }
+          >
+            {"S'inscrire avec Google"}
+            <Image
+              src={googleLogo}
+              alt="logo"
+              className="w-6 h-6 absolute right-3 bottom-3"
+            />
+          </button>
           <p className="border-t border-gray-300 pt-6 text-sm text-gray-500 dark:text-gray-400">
             Vous avez un compte ?{" "}
             <Link href={"login"} className="text-gray-950">
@@ -141,6 +170,7 @@ export default function Register() {
         </form>
       </AuthCard>
       <Footer />
+      <ToastContainer />
     </>
   );
 }

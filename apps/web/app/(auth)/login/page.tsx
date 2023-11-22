@@ -56,7 +56,7 @@ export default function Login() {
         addErrors("Error setting up the request");
       }
 
-      toast.error(errors || "Échec de la connexion");
+      toast.error("Échec de la connexion");
     } finally {
       setIsLoading(false); 
     }
@@ -64,7 +64,7 @@ export default function Login() {
 
   return (
     <>
-      <Topbar />
+      <Topbar background="bg-white"/>
 
       <AuthCard title={"Connectez-vous"}>
         <form

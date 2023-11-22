@@ -13,6 +13,10 @@ export default function Topbar({background}: TopbarProps) {
 
     const LINKS = [
         {
+            name: 'Accueil',
+            path: '/'
+        },
+        {
             name: 'solutions',
             path: '/solutions'
         },

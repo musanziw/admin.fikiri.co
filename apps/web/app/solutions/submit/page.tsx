@@ -21,6 +21,7 @@ import { SolutionSubmitCard } from "@/app/(auth)/components/SolutionSubmitCard";
 import { Button } from "@/app/(auth)/components/Button";
 
 import { useDropzone } from "react-dropzone";
+import { useAuth } from "@/app/hooks/useAuth";
 
 const SOLUTION_URI = "/solutions";
 
@@ -191,7 +192,7 @@ export default function SubmitProject() {
 
   return (
     <>
-      <Topbar />
+      <Topbar background="bg-white"/>
       <SolutionSubmitCard title={"Soumettez votre solution"}>
         <form
           onSubmit={onSubmit}
@@ -235,13 +236,6 @@ export default function SubmitProject() {
                 <label htmlFor="email" className="text-gray-800">
                   {"Image d'illustration"}
                 </label>
-                {/* <input
-                  ref={projectTitleRef}
-                  type="text"
-                  name="title"
-                  placeholder="Titre du projet"
-                  className="focus:outline-none text-sm block w-full rounded-md border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500 lg:text-lg"
-                /> */}
                 <StyledDropzone />
               </div>
             </div>
@@ -309,25 +303,6 @@ export default function SubmitProject() {
               className="lg:text-lg focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500"
               placeholder={"Projet d'expansion"}
             ></textarea>
-          </div>
-
-          <div className="lg:text-lg">
-            <p className={"mb-3"}>A quoi votre solution répont-elle ?</p>
-
-            <div className="flex flex-col gap-1">
-              <div className="flex items-center gap-3">
-                <input type={"checkbox"} className={"p-3 w-5"}></input>
-                <label htmlFor="email" className="text-gray-800">
-                  La nourriture
-                </label>
-              </div>
-              <div className="flex items-center gap-3">
-                <input type={"checkbox"} className={"p-3 w-5"}></input>
-                <label htmlFor="email" className="text-gray-800">
-                  La santé
-                </label>
-              </div>
-            </div>
           </div>
 
           <Button label={"Soumettre"} />
