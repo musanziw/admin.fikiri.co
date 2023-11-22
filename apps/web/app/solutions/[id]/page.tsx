@@ -4,6 +4,8 @@ import projectImg from "@/public/project.webp";
 import Image from "next/image";
 
 export default function Solution({params}: { params: { name: string } }) {
+
+    
     return (
         <>
             <div className={'relative'}>
