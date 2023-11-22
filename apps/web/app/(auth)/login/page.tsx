@@ -44,9 +44,7 @@ export default function Login() {
       });
 
       toast.success("Connexion réussie!");
-      console.log(response);
-    } catch (e) {
-      console.log(e);
+    } catch (e : any) {
       if (e.response) {
         addErrors(e.response.data.message || "An error occurred");
       } else if (e.request) {
