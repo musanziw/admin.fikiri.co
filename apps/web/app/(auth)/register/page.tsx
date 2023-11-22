@@ -10,7 +10,7 @@ import { AuthCard } from "@/app/(auth)/components/AuthCard";
 import { Button } from "@/app/(auth)/components/Button";
 import Topbar from "@/app/components/Topbar";
 import { Footer } from "@/app/components/Footer";
-import { useAuthContext } from "@/app/context/store";
+// import { useAuthContext } from "@/app/context/store";
 import Image from "next/image";
 import googleLogo from "@/public/googleLogo.svg";
 
