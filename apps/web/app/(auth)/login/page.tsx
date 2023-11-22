@@ -20,7 +20,6 @@ export default function Login() {
   const emailRef: RefObject<HTMLInputElement> = useRef(null);
   const passwordRef: RefObject<HTMLInputElement> = useRef(null);
 
-
   const [errors, setErrors] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
