@@ -8,7 +8,7 @@ importers:
 
   .: {}
 
-  apps/admin:
+  apps/dashboard:
     dependencies:
       '@next/eslint-plugin-next':
         specifier: 14.0.1
