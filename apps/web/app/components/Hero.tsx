@@ -18,15 +18,11 @@ export function Hero() {
   return (
     <div className={"relative py-32 pt-28 bg-indigo-800 text-gray-50"}>
       <Topbar background={"bg-white"} />
-      <div
-        className={
-          "p-8 h-full grid grid-cols-1 items-center md:grid-cols-2 md:mx-auto md:max-w-screen-lg"
-        }
-      >
+      <div className={"p-8 h-full grid grid-cols-1 items-center md:grid-cols-2 md:mx-auto md:max-w-screen-lg"}>
         <div className={"flex flex-col justify-center items-start"}>
           <h1 className={`text-4xl font-bold text-gray-50`}>
             <Typewriter
-              words={["We are", "Fikiri", "Posutelez", "Dès maintenant"]}
+              words={["We are", "Fikiri", "Postulez", "Dès maintenant"]}
               loop={false}
               cursor={true}
             />
@@ -43,22 +39,13 @@ export function Hero() {
             locales en République Démocratique du Congo pour accélérer
             l&apos;atteinte des Objectifs de Développement Durable (ODD).
           </p>
-          <Link
-            href={"/solutions/submit"}
-            className={
-              "px-6 fade-in-3 py-2 inline-block mb-10 rounded-md bg-indigo-500 text-white font-semibold"
-            }
-          >
+          <Link href={"/solutions/submit"} className={"px-6 fade-in-3 py-2 inline-block mb-10 rounded-md bg-indigo-500 text-white font-semibold"}>
             Postuler maintenant
           </Link>
         </div>
 
-        <div
-          className={
-            "self-start md:justify-self-end md:w-3/4  relative overflow-hidden"
-          }
-        >
-          <Carousel autoPlay={true} interval={3000} infiniteLoop={true}>
+        <div className={"self-start md:justify-self-end md:w-3/4  relative overflow-hidden"}>
+          <Carousel autoPlay={true} interval={3000} infiniteLoop={true} showThumbs={false}>
             <Image
               src={slide1}
               alt={"Slide 1"}
