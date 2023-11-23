@@ -10,6 +10,7 @@ async function bootstrap() {
     cors: {
       credentials: true,
       origin: true,
+      allowedHeaders: ['Access-Control-Request-Headers', 'Authorization'],
     },
   });
   app.use(
