@@ -6,7 +6,9 @@ import * as passport from 'passport';
 import * as process from 'process';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    cors: true,
+  });
   app.use(
     session({
       secret: process.env.SESSION_SECRET,
@@ -15,15 +17,7 @@ async function bootstrap() {
       cookie: { maxAge: +process.env.SESSION_COOKIE_MAX_AGE },
     }),
   );
-  app.enableCors({
-    origin: [
-      process.env.CORS_ORIGIN,
-      'https://fikiri.co',
-      'https://www.fikiri.co',
-    ],
-    allowedHeaders: 'Access-Control-Allow-Origin, Authorization',
-    credentials: true,
-  });
+
   app.use(passport.initialize());
   app.use(passport.session());
   app.useGlobalPipes(new ValidationPipe());
