@@ -24,7 +24,7 @@ export default function Login() {
   const router = useRouter();
   const [errors, setErrors] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const {account ,setAccount} = useAuthContext();
+  const {account, setAccount} = useAuthContext();
 
   if(account){
     return router.push("/solutions/submit");
