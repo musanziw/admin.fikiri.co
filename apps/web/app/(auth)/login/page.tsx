@@ -5,23 +5,30 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import axios from "@/app/api/axios";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { AuthCard } from "@/app/(auth)/components/AuthCard";
 import { Button } from "@/app/(auth)/components/Button";
 import Topbar from "@/app/components/Topbar";
 import { Footer } from "@/app/components/Footer";
-// import { useAuthContext } from "@/app/context/store";
+import { useAuthContext } from "@/app/context/store";
 import Image from "next/image";
 import googleLogo from "@/public/googleLogo.svg";
 
 const LOGIN_URI = "/auth/login";
 
 export default function Login() {
+
   const emailRef: RefObject<HTMLInputElement> = useRef(null);
   const passwordRef: RefObject<HTMLInputElement> = useRef(null);
-
+  const router = useRouter();
   const [errors, setErrors] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const {account ,setAccount} = useAuthContext();
+
+  if(account){
+    return router.push("/solutions/submit");
+  }
 
   const addErrors = (newErrors: string) => {
     setErrors(newErrors);
@@ -42,9 +49,14 @@ export default function Login() {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
-
+      setAccount(response.data.data);
       toast.success("Connexion réussie!");
+      setIsLoading(false)
+      
+      router.push("/solutions/submit");
+      
     } catch (e : any) {
+
       if (e.response) {
         addErrors(e.response.data.message || "An error occurred");
       } else if (e.request) {
@@ -97,7 +109,7 @@ export default function Login() {
           <p className="text-sm text-gray-900">
             <Link href={"forgot-password"}>Mot de passe oublié ?</Link>
           </p>
-          <Button label={"Se connecter"} />
+          <Button label={isLoading ? "Connexion en cours ..." : "Se connecter"} />
 
           <div className="flex flex-row gap-5 justify-center items-center">
             <div className="basis-1/2 h-5 border-t border-gray-300 pt-6 text-sm text-gray-500"></div>
@@ -111,7 +123,7 @@ export default function Login() {
               "py-3 white text-slate-900 rounded-full transition-colors duration-300 border border-slate-500 hover:boder-4 hover:bg-slate-100 relative"
             }
           >
-            Se connecter Avec Google
+            {"Se connecter Avec Google"}
             <Image
               src={googleLogo}
               alt="logo"
@@ -119,7 +131,7 @@ export default function Login() {
             />
           </button>
           <p className="border-t border-gray-300 pt-6 text-sm text-gray-500">
-            Vous n&lsquo;avez pas de compte ?{" "}
+            Vous n&lsquo;avez pas de compte ?
             <Link href={"register"} className="text-gray-950">
               Inscrivez-vous
             </Link>

@@ -3,6 +3,7 @@ import {useState} from "react";
 import Link from "next/link";
 import logo from '@/public/logo.png'
 import Image from "next/image";
+import { useAuthContext } from "../context/store";
 
 interface TopbarProps {
     background?: string
@@ -10,6 +11,9 @@ interface TopbarProps {
 
 export default function Topbar({background}: TopbarProps) {
     const [isOpen, setIsOpen] = useState(false);
+    const {account} = useAuthContext();
+
+    console.log(account);
 
     const LINKS = [
         {
@@ -74,8 +78,6 @@ export default function Topbar({background}: TopbarProps) {
                     ))
                 }
             </div>
-
-
         </div>
     )
 }

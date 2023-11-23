@@ -22,7 +22,7 @@ interface ContextProviderProps {
 }
 
 export const ContextProvider: React.FC<ContextProviderProps> = ({children}) => {
-    const [account, setAccount] = useState<undefined | null | Account>({id: 1, username: "moses",});
+    const [account, setAccount] = useState<undefined | null | Account>();
 
     return (
         <AuthProvider.Provider value={{account, setAccount}}>
