@@ -22,7 +22,8 @@ async function bootstrap() {
     origin: '*',
     credentials: true,
     allowedHeaders:
-      'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe, Authorization',
+      'Content-Type, Accept, Authorization, Access-Control-Allow-Headers, Access-Control-Allow-Origin, Access-Control-Allow-Methods, Access-Control-Allow-Credentials',
+    methods: 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
   });
   await app.listen(8000);
 }
