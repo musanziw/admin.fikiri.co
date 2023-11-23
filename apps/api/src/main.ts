@@ -6,26 +6,7 @@ import * as passport from 'passport';
 import * as process from 'process';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    cors: {
-      credentials: true,
-      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-      origin: '*',
-      preflightContinue: true,
-      allowedHeaders: [
-        'Origin',
-        'X-Requested-With',
-        'Content-Type',
-        'Accept',
-        'Authorization',
-        'Content-Type',
-        'Access-Control-Allow-Origin',
-        'Access-Control-Allow-Headers',
-        'Access-Control-Allow-Methods',
-        'Access-Control-Allow-Credentials',
-      ],
-    },
-  });
+  const app = await NestFactory.create(AppModule);
   app.use(
     session({
       secret: process.env.SESSION_SECRET,
@@ -37,6 +18,12 @@ async function bootstrap() {
   app.use(passport.initialize());
   app.use(passport.session());
   app.useGlobalPipes(new ValidationPipe());
+  app.enableCors({
+    origin: '*',
+    credentials: true,
+    allowedHeaders:
+      'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe, Authorization',
+  });
   await app.listen(8000);
 }
 
