@@ -27,7 +27,7 @@ export class AuthGuard implements CanActivate {
       return true;
     }
     throw new ForbiddenException({
-      message: 'Veuillez vous connecter pour continuer',
+      message: 'Veuillez vous connecter',
       statusCode: HttpStatus.FORBIDDEN,
     });
   }
