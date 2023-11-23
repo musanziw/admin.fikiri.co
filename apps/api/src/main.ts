@@ -19,11 +19,7 @@ async function bootstrap() {
   app.use(passport.session());
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors({
-    origin: [
-      process.env.CORS_ORIGIN,
-      'https://fikiri.co',
-      'https://www.fikiri.co',
-    ],
+    origin: true,
     credentials: true,
     allowedHeaders: [
       'Origin',
@@ -31,6 +27,10 @@ async function bootstrap() {
       'Content-Type',
       'Accept',
       'Authorization',
+      'Access-Control-Allow-Origin',
+      'Access-Control-Allow-Headers',
+      'Access-Control-Allow-Methods',
+      'Access-Control-Allow-Credentials',
     ],
   });
   await app.listen(8000);
