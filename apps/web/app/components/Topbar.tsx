@@ -22,7 +22,7 @@ export default function Topbar({background}: TopbarProps) {
         },
         {
             name: 'A propos',
-            path: '#about'
+            path: '/#about'
         },
         {
             name: 'Se connecter',
