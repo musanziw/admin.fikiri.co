@@ -11,7 +11,7 @@ interface TopbarProps {
 
 export default function Topbar({ background }: TopbarProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const { account, setAccount} = useAuthContext();
+  const { account, setAccount } = useAuthContext();
   let LINKS = [];
 
   if (account) {
@@ -53,10 +53,10 @@ export default function Topbar({ background }: TopbarProps) {
       },
     ];
   }
-  
+
   const logOut = () => {
     setAccount(null);
-  }
+  };
 
   return (
     <div
@@ -112,7 +112,11 @@ export default function Topbar({ background }: TopbarProps) {
             {link.name}
           </Link>
         ))}
-        {account && <button className="" onClick={logOut}>Se Deconnecter</button>}
+        {account && (
+          <button className="" onClick={logOut}>
+            Se Deconnecter
+          </button>
+        )}
       </div>
     </div>
   );

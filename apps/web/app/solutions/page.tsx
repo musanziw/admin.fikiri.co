@@ -1,19 +1,22 @@
 "use client";
 
+import { useEffect } from "react";
 import { Footer } from "@/app/components/Footer";
 import { MappedSolutions } from "@/app/components/Solutions";
 import Topbar from "@/app/components/Topbar";
 import { useAuthContext } from "../context/store";
-import Login from "@/app/(auth)/login/page";
 import { useRouter } from "next/navigation";
 
 export default function Solutions() {
   const { account } = useAuthContext();
   const router = useRouter();
 
-  if (!account) {
-    return router.push("/login");
-  }
+
+  useEffect(() => {
+    if (!account) {
+      router.push("/login");
+    }
+  }, [account, router]);
 
   return (
     <>

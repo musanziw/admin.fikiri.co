@@ -27,7 +27,7 @@ export default function Login () {
   const {account, setAccount} = useAuthContext();
 
   if(account){
-    return router.push("/");
+    router.push("/");
   }
 
   const addErrors = (newErrors: string) => {
@@ -66,7 +66,6 @@ export default function Login () {
         addErrors("Error setting up the request");
       }
 
-      console.log(e)
       toast.error("Échec de la connexion");
     } finally {
       setIsLoading(false); 

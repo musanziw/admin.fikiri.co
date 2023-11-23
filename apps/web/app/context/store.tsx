@@ -23,10 +23,7 @@ import React, {
   }
   
   export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
-
     const isBrowser = typeof window !== "undefined";
-  
-    
     const storedAccount = isBrowser ? localStorage.getItem('ACCOUNT') : null;
   
     const [account, _setAccount] = useState<undefined | null | Account>(

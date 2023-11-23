@@ -55,13 +55,11 @@ export default function SubmitProject() {
     fetchThematique();
   }, []);
 
-  if (!account) {
-    return router.push("/login");
-  }
-
-  // const addErrors = (newErrors: string) => {
-  //   setErrors(newErrors);
-  // };
+  useEffect(() => {
+    if (!account) {
+      router.push("/login");
+    }
+  }, [account, router]);
 
   const handleSelectChange = async (selectedOptions: any) => {
     setSelectedOptions(selectedOptions);
@@ -82,22 +80,17 @@ export default function SubmitProject() {
         steps: projectEtapeRef.current?.value || "",
         thematics: optionId,
         projectImpact: projectImpactRef.current?.value || "",
-        projectExpansion: projectExpansionRef.current?.value || "",
+        expansion_project: projectExpansionRef.current?.value || "",
       };
-      const response = await axios.post(SOLUTION_URI, JSON.stringify(payload), {
+
+      await axios.post(SOLUTION_URI, JSON.stringify(payload), {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
 
       toast.success("Solution soumis avec succès !");
+      setIsLoading(false);
     } catch (e: any) {
-      // if (e.response) {
-      //   addErrors(e.response.data.message || "An error occurred");
-      // } else if (e.request) {
-      //   addErrors("No response received from the server");
-      // } else {
-      //   addErrors("Error setting up the request");
-      // }
       toast.error("Échec survenue lors de la soumission de la solution");
     } finally {
       setIsLoading(false);
@@ -209,8 +202,7 @@ export default function SubmitProject() {
               placeholder={"Projet d'expansion"}
             ></textarea>
           </div>
-
-          <Button label={"Soumettre"} />
+          <Button label={isLoading ? "Soumission en cours" : "Soumettre"} />
         </form>
       </SolutionSubmitCard>
       <Footer />
