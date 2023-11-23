@@ -16,8 +16,12 @@ async function bootstrap() {
     }),
   );
   app.enableCors({
-    origin: [process.env.CORS_ORIGIN, 'https://fikiri.co'],
-    allowedHeaders: 'Content-Type, Accept, Authorization',
+    origin: [
+      process.env.CORS_ORIGIN,
+      'https://fikiri.co',
+      'https://www.fikiri.co',
+    ],
+    allowedHeaders: 'Access-Control-Allow-Origin, Authorization',
     credentials: true,
   });
   app.use(passport.initialize());
