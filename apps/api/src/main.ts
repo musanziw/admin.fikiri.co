@@ -18,6 +18,7 @@ async function bootstrap() {
         'Content-Type',
         'Accept',
         'Authorization',
+        'Content-Type',
         'Access-Control-Allow-Origin',
         'Access-Control-Allow-Headers',
         'Access-Control-Allow-Methods',
