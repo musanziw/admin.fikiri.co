@@ -10,7 +10,8 @@ async function bootstrap() {
     cors: {
       credentials: true,
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-      origin: true,
+      origin: '*',
+      preflightContinue: true,
       allowedHeaders: [
         'Origin',
         'X-Requested-With',
