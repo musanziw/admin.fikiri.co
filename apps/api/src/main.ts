@@ -25,7 +25,7 @@ async function bootstrap() {
       'https://www.fikiri.co',
       'https://fikiri.co',
     ],
-    allowedHeaders: 'Content-Type, Accept, Authorization',
+    allowedHeaders: ['Content-Type, Accept, Authorization'],
     methods: 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
     credentials: true,
   });
