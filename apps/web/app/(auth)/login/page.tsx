@@ -17,7 +17,7 @@ import googleLogo from "@/public/googleLogo.svg";
 
 const LOGIN_URI = "/auth/login";
 
-export default function Login() {
+export default function Login () {
 
   const emailRef: RefObject<HTMLInputElement> = useRef(null);
   const passwordRef: RefObject<HTMLInputElement> = useRef(null);

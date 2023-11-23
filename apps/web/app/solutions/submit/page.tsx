@@ -19,10 +19,6 @@ export default function SubmitProject() {
   const { account } = useAuthContext();
   const router = useRouter();
 
-  if (!account) {
-    return router.push("/login");
-  }
-
   const projectTitleRef: RefObject<HTMLInputElement> = useRef(null);
   const projectLienYoutubeRef: RefObject<HTMLInputElement> = useRef(null);
   const projectThematiqueRef: RefObject<HTMLInputElement> = useRef(null);
@@ -34,39 +30,38 @@ export default function SubmitProject() {
   const projectObjectifAnswerRef: RefObject<HTMLInputElement> = useRef(null);
 
   const [options, setOptions] = useState<any>();
-
-  const [errors, setErrors] = useState("");
-  const [selectedOptions, setSelectedOptions] = useState([]);
   const [optionId, setOptionId] = useState([]);
+  const [selectedOptions, setSelectedOptions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    let data: any[] = [];
-    try {
-      axios
-        .get("/thematics", {
+    const fetchThematique = async () => {
+      try {
+        const response = await axios.get("/thematics", {
           withCredentials: true,
-        })
-        .then((response) => {
-          data = response.data.data;
         });
+        const data = response.data.data;
+        if (data) {
+          setOptions(
+            data.map((option: any) => ({
+              value: option.id,
+              label: option.name,
+            }))
+          );
+        }
+      } catch (error) {}
+    };
 
-      if (data) {
-        setOptions(
-          data.map((option: any) => ({
-            value: option.id,
-            label: option.name,
-          }))
-        );
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    fetchThematique();
   }, []);
 
-  const addErrors = (newErrors: string) => {
-    setErrors(newErrors);
-  };
+  if (!account) {
+    return router.push("/login");
+  }
+
+  // const addErrors = (newErrors: string) => {
+  //   setErrors(newErrors);
+  // };
 
   const handleSelectChange = async (selectedOptions: any) => {
     setSelectedOptions(selectedOptions);
@@ -95,16 +90,14 @@ export default function SubmitProject() {
       });
 
       toast.success("Solution soumis avec succès !");
-
-      console.log(payload);
     } catch (e: any) {
-      if (e.response) {
-        addErrors(e.response.data.message || "An error occurred");
-      } else if (e.request) {
-        addErrors("No response received from the server");
-      } else {
-        addErrors("Error setting up the request");
-      }
+      // if (e.response) {
+      //   addErrors(e.response.data.message || "An error occurred");
+      // } else if (e.request) {
+      //   addErrors("No response received from the server");
+      // } else {
+      //   addErrors("Error setting up the request");
+      // }
       toast.error("Échec survenue lors de la soumission de la solution");
     } finally {
       setIsLoading(false);

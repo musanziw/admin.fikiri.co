@@ -33,7 +33,7 @@ import React, {
       isBrowser ? (storedAccount ? JSON.parse(storedAccount) : null) : null
     );
   
-    const setAccount = (newAccount: Account | null | undefined): void => {
+    const setAccount: Dispatch<SetStateAction<Account | null | undefined>> = (newAccount) => {
       _setAccount(newAccount);
       if (isBrowser && newAccount) {
         localStorage.setItem("ACCOUNT", JSON.stringify(newAccount));
