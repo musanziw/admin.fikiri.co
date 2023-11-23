@@ -23,6 +23,7 @@ async function bootstrap() {
     credentials: true,
     allowedHeaders: [
       'Origin',
+      'GET,PUT,POST,DELETE,PATCH,OPTIONS',
       'X-Requested-With',
       'Content-Type',
       'Accept',
