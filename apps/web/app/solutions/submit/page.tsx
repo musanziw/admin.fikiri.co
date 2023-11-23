@@ -16,7 +16,6 @@ import Topbar from "@/app/components/Topbar";
 import {Footer} from "@/app/components/Footer";
 import {SolutionSubmitCard} from "@/app/(auth)/components/SolutionSubmitCard";
 import {Button} from "@/app/(auth)/components/Button";
-import loading = toast.loading;
 
 
 const SOLUTION_URI = "/solutions";
@@ -25,26 +24,20 @@ const SOLUTION_URI = "/solutions";
 export default function SubmitProject() {
     const projectTitleRef: RefObject<HTMLInputElement> = useRef(null);
     const projectLienYoutubeRef: RefObject<HTMLInputElement> = useRef(null);
-    const projectThematiqueRef: RefObject<HTMLInputElement> = useRef(null);
     const projectDescriptionRef: RefObject<HTMLTextAreaElement> = useRef(null);
     const projectSolutionRef: RefObject<HTMLTextAreaElement> = useRef(null);
     const projectEtapeRef: RefObject<HTMLTextAreaElement> = useRef(null);
     const projectImpactRef: RefObject<HTMLTextAreaElement> = useRef(null);
     const projectExpansionRef: RefObject<HTMLTextAreaElement> = useRef(null);
-    const projectObjectifAnswerRef: RefObject<HTMLInputElement> = useRef(null);
 
     const [options, setOptions] = useState<any>();
-
-    const [errors, setErrors] = useState("");
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [optionId, setOptionId] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         try {
-            axios.get("/thematics", {
-                withCredentials: true,
-            }).then(response => {
+            axios.get("/thematics").then(response => {
                 const data: any[] = response.data.data;
                 setOptions(
                     data.map((option: any) => ({
@@ -58,9 +51,6 @@ export default function SubmitProject() {
         }
     }, []);
 
-    const addErrors = (newErrors: string) => {
-        setErrors(newErrors);
-    };
 
     const handleSelectChange = async (selectedOptions: any) => {
         setSelectedOptions(selectedOptions);
@@ -91,13 +81,6 @@ export default function SubmitProject() {
 
             console.log(payload);
         } catch (e: any) {
-            if (e.response) {
-                addErrors(e.response.data.message || "An error occurred");
-            } else if (e.request) {
-                addErrors("No response received from the server");
-            } else {
-                addErrors("Error setting up the request");
-            }
             console.log(e)
             toast.error("Échec survenue lors de la soumission de la solution");
         } finally {
@@ -111,7 +94,7 @@ export default function SubmitProject() {
             <Topbar background={"bg-white"}/>
             {
                 isLoading ? <div className={'flex flex-col items-center justofy-center h-screen'}>
-                <h2 className={'text-2xl font-semibold'}>Chargement...</h2>
+                    <h2 className={'text-2xl font-semibold'}>Chargement...</h2>
                 </div> : (
                     <SolutionSubmitCard title={"Soumettez votre solution"}>
                         <form onSubmit={onSubmit} className="space-y-8 flex flex-col justify-center">
@@ -154,6 +137,7 @@ export default function SubmitProject() {
                                         isMulti
                                         id={`${optionId}`}
                                         options={options}
+                                        value={selectedOptions}
                                         onChange={handleSelectChange}
                                         className="h-12 rounded w-full mt-2 basic-multi-select"
                                     />
@@ -205,15 +189,13 @@ export default function SubmitProject() {
                             </div>
 
                             <div>
-            <textarea
-                ref={projectExpansionRef}
-                name=""
-                id=""
-                className="lg:text-lg focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500"
-                placeholder={"Projet d'expansion"}
-            ></textarea>
+                                <textarea
+                                    ref={projectExpansionRef}
+                                    name=""
+                                    id=""
+                                    className="lg:text-lg focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500"
+                                    placeholder={"Projet d'expansion"}></textarea>
                             </div>
-
                             <Button label={"Soumettre"}/>
                         </form>
                     </SolutionSubmitCard>
