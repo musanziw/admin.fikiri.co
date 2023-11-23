@@ -7,7 +7,10 @@ import * as process from 'process';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    cors: true,
+    cors: {
+      credentials: true,
+      origin: true,
+    },
   });
   app.use(
     session({
