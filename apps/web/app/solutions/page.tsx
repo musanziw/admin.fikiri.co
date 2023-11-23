@@ -3,16 +3,14 @@
 import { Footer } from "@/app/components/Footer";
 import { MappedSolutions } from "@/app/components/Solutions";
 import Topbar from "@/app/components/Topbar";
-import { useAuth, AuthStatus } from "../hooks/useAuth";
+import { useAuthContext } from "../context/store";
 import Login from "../(auth)/login/page";
 import { useEffect } from "react";
 
 export default function Solutions() {
-  // const { status, authenticate, account } = useAuth();
+const { account } = useAuthContext();
 
-  // useEffect(() => {
-  //   authenticate();
-  // }, []);
+console.log(account);
 
   if (true) {
     return (

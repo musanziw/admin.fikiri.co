@@ -16,6 +16,7 @@ async function bootstrap() {
     }),
   );
   app.enableCors({
+    // origin: [process.env.CORS_ORIGIN, 'https://fikiri.co'],
     origin: true,
     allowedHeaders: 'Content-Type, Accept, Authorization',
     credentials: true,
