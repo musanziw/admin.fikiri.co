@@ -73,25 +73,32 @@ export default function SubmitProject() {
       setIsLoading(true);
 
       const payload = {
-        name: projectTitleRef.current?.value || "",
-        video_link: projectLienYoutubeRef.current?.value || "",
-        solution_description: projectDescriptionRef.current?.value || "",
-        solved_problem: projectSolutionRef.current?.value || "",
-        steps: projectEtapeRef.current?.value || "",
+        name: projectTitleRef.current?.value || "", //
+        video_link: projectLienYoutubeRef.current?.value || "", //
+        solution_description: projectDescriptionRef.current?.value || "", //
+        solved_problem: projectSolutionRef.current?.value || "", //
+        steps: projectEtapeRef.current?.value || "", //
         thematics: optionId,
-        projectImpact: projectImpactRef.current?.value || "",
-        expansion_project: projectExpansionRef.current?.value || "",
+        // projectImpact: projectImpactRef.current?.value || "",
+        expansion_project: projectExpansionRef.current?.value || "", //
       };
 
-      await axios.post(SOLUTION_URI, JSON.stringify(payload), {
+      // console.log(payload)
+
+      const response = await axios.post(SOLUTION_URI, JSON.stringify(payload), {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
 
       toast.success("Solution soumis avec succès !");
+      
       setIsLoading(false);
+
     } catch (e: any) {
+      console.log(e);
+
       toast.error("Échec survenue lors de la soumission de la solution");
+      setIsLoading(false);
     } finally {
       setIsLoading(false);
     }
@@ -115,6 +122,7 @@ export default function SubmitProject() {
                   ref={projectTitleRef}
                   type="text"
                   name="title"
+                  required
                   placeholder="Titre du projet"
                   className="focus:outline-none text-sm block w-full rounded-md border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500 lg:text-lg"
                 />
@@ -130,6 +138,7 @@ export default function SubmitProject() {
                   ref={projectLienYoutubeRef}
                   placeholder="Coller le lien youtube de la vidéo decrivant le projet"
                   type="text"
+                  required
                   name="illustration"
                   className="focus:outline-none text-sm block w-full rounded-md border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500 lg:text-lg"
                 />
@@ -155,6 +164,7 @@ export default function SubmitProject() {
                 ref={projectDescriptionRef}
                 name=""
                 id=""
+                required
                 className="focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500 lg:text-lg"
                 placeholder={"Description du projet"}
               ></textarea>
@@ -165,6 +175,7 @@ export default function SubmitProject() {
                 ref={projectSolutionRef}
                 name=""
                 id=""
+                required
                 className=" lg:text-lg focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500"
                 placeholder={"Votre Solution"}
               ></textarea>
@@ -177,6 +188,7 @@ export default function SubmitProject() {
                 ref={projectEtapeRef}
                 name=""
                 id=""
+                required
                 className="lg:text-lg focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500"
                 placeholder={"Etapes de votre Solution"}
               ></textarea>
@@ -187,6 +199,7 @@ export default function SubmitProject() {
                 ref={projectImpactRef}
                 name=""
                 id=""
+                required
                 className="lg:text-lg focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500"
                 placeholder={"Impacte et fait marquant"}
               ></textarea>
@@ -198,11 +211,12 @@ export default function SubmitProject() {
               ref={projectExpansionRef}
               name=""
               id=""
+              required
               className="lg:text-lg focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500"
               placeholder={"Projet d'expansion"}
             ></textarea>
           </div>
-          <Button label={isLoading ? "Soumission en cours" : "Soumettre"} />
+          <Button label={isLoading ? "Soumission en cours ..." : "Soumettre"} />
         </form>
       </SolutionSubmitCard>
       <Footer />

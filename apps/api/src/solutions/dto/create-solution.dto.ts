@@ -7,32 +7,32 @@ export class CreateSolutionDto {
   name: string;
 
   @IsNotEmpty({
-    message: 'Ce champ ne peut pas être vide',
+    message: 'la solution ne peut pas être vide',
   })
   solved_problem: string;
 
   @IsNotEmpty({
-    message: 'Ce champ ne peut pas être vide',
+    message: 'La secription de la solution ne peut pas être vide',
   })
   solution_description: string;
 
   @IsNotEmpty({
-    message: 'Ce champ ne peut pas être vide',
+    message: 'Le champ etape ne peut pas être vide',
   })
   steps: string;
 
   @IsNotEmpty({
-    message: 'Ce champ ne peut pas être vide',
+    message: 'Le lien est requis',
   })
   video_link: string;
 
   @IsArray({
-    message: 'Veuillez chosir une thématique',
+    message: 'Selectionner une thématique',
   })
   thematics: number[];
 
-  @IsArray({
-    message: 'Ce champ ne peut pas être vide',
+  @IsNotEmpty({
+    message: "L'expansion du projet est requis",
   })
   expansion_project: string;
 }

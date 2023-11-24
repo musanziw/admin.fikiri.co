@@ -17,16 +17,15 @@ import googleLogo from "@/public/googleLogo.svg";
 
 const LOGIN_URI = "/auth/login";
 
-export default function Login () {
-
+export default function Login() {
   const emailRef: RefObject<HTMLInputElement> = useRef(null);
   const passwordRef: RefObject<HTMLInputElement> = useRef(null);
   const router = useRouter();
   const [errors, setErrors] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const {account, setAccount} = useAuthContext();
+  const { account, setAccount } = useAuthContext();
 
-  if(account){
+  if (account) {
     router.push("/");
   }
 
@@ -50,14 +49,15 @@ export default function Login () {
         withCredentials: true,
       });
 
-      setAccount(response.data.data);
-      toast.success("Connexion réussie!");
-      setIsLoading(false)
-      
-      router.push("/solutions/submit");
-      
-    } catch (e : any) {
+      toast.success("Connexion réussie!", {
+        onClose: () => {
+          setAccount(response.data.data);
+          setIsLoading(false);
+          router.push("/solutions/submit");
+        },
+      });
 
+    } catch (e: any) {
       if (e.response) {
         addErrors(e.response.data.message || "An error occurred");
       } else if (e.request) {
@@ -67,13 +67,13 @@ export default function Login () {
       }
       toast.error(e.response.data.message);
     } finally {
-      setIsLoading(false); 
+      setIsLoading(false);
     }
   };
 
   return (
     <>
-      <Topbar background="bg-white"/>
+      <Topbar background="bg-white" />
 
       <AuthCard title={"Connectez-vous"}>
         <form
@@ -109,7 +109,9 @@ export default function Login () {
           <p className="text-sm text-gray-900">
             <Link href={"forgot-password"}>Mot de passe oublié ?</Link>
           </p>
-          <Button label={isLoading ? "Connexion en cours ..." : "Se connecter"} />
+          <Button
+            label={isLoading ? "Connexion en cours ..." : "Se connecter"}
+          />
 
           <div className="flex flex-row gap-5 justify-center items-center">
             <div className="basis-1/2 h-5 border-t border-gray-300 pt-6 text-sm text-gray-500"></div>
