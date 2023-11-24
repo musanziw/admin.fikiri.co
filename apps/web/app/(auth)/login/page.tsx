@@ -65,8 +65,7 @@ export default function Login () {
       } else {
         addErrors("Error setting up the request");
       }
-
-      toast.error("Échec de la connexion");
+      toast.error(e.response.data.message);
     } finally {
       setIsLoading(false); 
     }

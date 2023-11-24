@@ -47,11 +47,9 @@ export default function Register() {
       toast.success("Inscription reussie");
 
       setIsLoading(false);
-
-      console.log(response);
     } catch (e: any) {
-      console.log(e.data.data);
-      toast.error("Échec de l'inscription");
+      toast.error(e.response.data.message);
+      setIsLoading(false);
     } finally {
       setIsLoading(false);
     }
