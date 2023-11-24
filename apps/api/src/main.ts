@@ -18,6 +18,7 @@ async function bootstrap() {
   app.use(passport.initialize());
   app.use(passport.session());
   app.enableCors({
+    // origin: [process.env.CORS_ORIGIN, 'https://fikiri.co'],
     origin: true,
     allowedHeaders: 'Content-Type, Accept, Authorization',
     credentials: true,
