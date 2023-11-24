@@ -1,9 +1,9 @@
-"use client";
 import { useState } from "react";
 import Link from "next/link";
 import logo from "@/public/logo.png";
 import Image from "next/image";
 import { useAuthContext } from "../context/store";
+import { usePathname } from "next/navigation";
 
 interface TopbarProps {
   background?: string;
@@ -12,6 +12,8 @@ interface TopbarProps {
 export default function Topbar({ background }: TopbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { account, setAccount } = useAuthContext();
+  const pathname = usePathname();
+
   let LINKS = [];
 
   if (account) {
@@ -21,11 +23,11 @@ export default function Topbar({ background }: TopbarProps) {
         path: "/",
       },
       {
-        name: "solutions",
+        name: "Solutions",
         path: "/solutions",
       },
       {
-        name: "A propos",
+        name: "À propos",
         path: "/#about",
       },
     ];
@@ -36,11 +38,11 @@ export default function Topbar({ background }: TopbarProps) {
         path: "/",
       },
       {
-        name: "solutions",
+        name: "Solutions",
         path: "/solutions",
       },
       {
-        name: "A propos",
+        name: "À propos",
         path: "/#about",
       },
       {
@@ -90,7 +92,9 @@ export default function Topbar({ background }: TopbarProps) {
             <Link
               href={link.path}
               className={
-                "hover:text-gray-950 font-medium transition-colors duration-300 capitalize"
+                pathname === link.path
+                  ? "hover:text-gray-950 font-medium transition-colors duration-300 capitalize bg-indigo-900 text-white"
+                  : "hover:text-gray-950 font-medium transition-colors duration-300 capitalize"
               }
               key={index}
             >
@@ -105,7 +109,9 @@ export default function Topbar({ background }: TopbarProps) {
           <Link
             href={link.path}
             className={
-              "hover:text-gray-950 transition-colors duration-300 capitalize"
+              pathname === link.path
+                ? "hover:text-gray-950 transition-colors duration-300 capitalize underline decoration-indigo-900 font-semibold text-indigo-900"
+                : "hover:text-gray-950 transition-colors duration-300 capitalize"
             }
             key={index}
           >
@@ -114,7 +120,7 @@ export default function Topbar({ background }: TopbarProps) {
         ))}
         {account && (
           <button className="" onClick={logOut}>
-            Se Deconnecter
+            Se Déconnecter
           </button>
         )}
       </div>
