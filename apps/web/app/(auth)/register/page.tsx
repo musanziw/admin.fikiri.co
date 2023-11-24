@@ -43,11 +43,14 @@ export default function Register() {
       const response = await axios.post(REGISTER_URI, JSON.stringify(payload), {
         headers: { "Content-Type": "application/json" },
       });
+
       toast.success("Inscription reussie");
 
+      setIsLoading(false);
+
       console.log(response);
-    } catch (e) {
-      console.log(e);
+    } catch (e: any) {
+      console.log(e.data.data);
       toast.error("Échec de l'inscription");
     } finally {
       setIsLoading(false);
@@ -56,7 +59,7 @@ export default function Register() {
 
   return (
     <>
-      <Topbar background="bg-white"/>
+      <Topbar background="bg-white" />
       <AuthCard title={"Inscrivez-vous"}>
         <form
           onSubmit={onSubmit}
@@ -139,7 +142,9 @@ export default function Register() {
               className="focus:outline-none text-sm block w-full rounded-md border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500 lg:text-lg"
             />
           </div>
-          <Button label={"S'inscire"} />
+          <Button
+            label={isLoading ? "Inscription en cours ..." : "S'inscire"}
+          />
           <div className="flex flex-row gap-5 justify-center items-center">
             <div className="basis-1/2 h-5 border-t border-gray-300 pt-6 text-sm text-gray-500"></div>
             <div className="pb-5">OU</div>
