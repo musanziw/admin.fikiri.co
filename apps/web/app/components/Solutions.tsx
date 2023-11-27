@@ -1,12 +1,12 @@
 "use client";
 
 import { SolutionCard } from "@/app/components/SolutionCard";
-import axios from "@/app/api/axios";
+import axios from "@/app/config/axios";
 import { useEffect, RefObject, useState, FormEvent } from "react";
 
 const SOLUTION_URI = "/solutions";
 
-export  function MappedSolutions() {
+export function MappedSolutions() {
   // const solutions = new Array(9).fill(0);
   const [solutions, setSolutions] = useState([]);
 
@@ -31,7 +31,7 @@ export  function MappedSolutions() {
   //   withCredentials: true,
   // });
   // const {data : solutions} = res.data
- 
+
 
   // console.log(solutions)
 

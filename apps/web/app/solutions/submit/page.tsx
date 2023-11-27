@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 
 import Select from "react-select";
-import axios from "@/app/api/axios";
+import axios from "@/app/config/axios";
 import Topbar from "@/app/components/Topbar";
 import { Footer } from "@/app/components/Footer";
 import { SolutionSubmitCard } from "@/app/(auth)/components/SolutionSubmitCard";
@@ -49,7 +49,7 @@ export default function SubmitProject() {
             }))
           );
         }
-      } catch (error) {}
+      } catch (error) { }
     };
 
     fetchThematique();
@@ -82,21 +82,11 @@ export default function SubmitProject() {
         // projectImpact: projectImpactRef.current?.value || "",
         expansion_project: projectExpansionRef.current?.value || "", //
       };
-
-      // console.log(payload)
-
-      const response = await axios.post(SOLUTION_URI, JSON.stringify(payload), {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      });
-
+      await axios.post(SOLUTION_URI, JSON.stringify(payload));
       toast.success("Solution soumis avec succès !");
-      
       setIsLoading(false);
-
     } catch (e: any) {
       console.log(e);
-
       toast.error("Échec survenue lors de la soumission de la solution");
       setIsLoading(false);
     } finally {
@@ -108,10 +98,7 @@ export default function SubmitProject() {
     <>
       <Topbar background={"bg-white"} />
       <SolutionSubmitCard title={"Soumettez votre solution"}>
-        <form
-          onSubmit={onSubmit}
-          className="space-y-8 flex flex-col justify-center"
-        >
+        <form onSubmit={onSubmit} className="space-y-8 flex flex-col justify-center">
           <div className="flex flex-col lg:flex-row gap-10 lg:text-lg">
             <div className="basis-1/2">
               <div className="space-y-2">
@@ -216,7 +203,7 @@ export default function SubmitProject() {
               placeholder={"Projet d'expansion"}
             ></textarea>
           </div>
-          <Button label={isLoading ? "Soumission en cours ..." : "Soumettre"} />
+          <Button isLoading={isLoading} label={isLoading ? "Soumission en cours..." : "Soumettre"} />
         </form>
       </SolutionSubmitCard>
       <Footer />

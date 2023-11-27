@@ -1,37 +1,23 @@
-import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
-import {CreateRoleDto} from './dto/create-role.dto';
-import {UpdateRoleDto} from './dto/update-role.dto';
-import {InjectRepository} from '@nestjs/typeorm';
-import {Role} from './entities/role.entity';
-import {Repository} from 'typeorm';
-
+import { Prisma } from '@prisma/client';
+import { PrismaService } from './../database/prisma.service';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 @Injectable()
 export class RolesService {
     constructor(
-        @InjectRepository(Role)
-        private readonly roleRepository: Repository<Role>,
+        private readonly prismaService: PrismaService,
     ) {
     }
 
-    async insertRoles() {
-        await this.roleRepository.upsert([
-            {id: 1, name: 'admin'},
-            {id: 2, name: 'user'},
-        ], {conflictPaths: ['id']});
-        return {
-            statusCode: HttpStatus.CREATED,
-            message: 'Rôles ajoutés avec succès',
-        };
-    }
-
-    async create(createRoleDto: CreateRoleDto) {
-        const {name} = createRoleDto;
-        const role: Role | null = await this.roleRepository.findOne({
-            where: {name},
-        });
+    async create(createRoleDto: Prisma.RoleCreateInput) {
+        const name: string = createRoleDto.name as string;
+        const role = await this.prismaService.role.findUnique({
+            where: { name }
+        })
         if (role)
             throw new HttpException('Le rôle existe déjà', HttpStatus.CONFLICT);
-        await this.roleRepository.save(createRoleDto);
+        await this.prismaService.role.create({
+            data: createRoleDto
+        });
         return {
             statusCode: HttpStatus.CREATED,
             message: 'Rôle ajouté avec succès',
@@ -39,7 +25,7 @@ export class RolesService {
     }
 
     async findAll(): Promise<any> {
-        const roles: Role[] = await this.roleRepository.find();
+        const roles = await this.prismaService.role.findMany({});
         return {
             statusCode: HttpStatus.OK,
             data: roles,
@@ -47,7 +33,9 @@ export class RolesService {
     }
 
     async findOne(id: number): Promise<any> {
-        const role: Role | null = await this.roleRepository.findOneBy({id});
+        const role = await this.prismaService.role.findUnique({
+            where: { id }
+        });
         if (!role) throw new HttpException("Le rôle n'a pas été trouvé", HttpStatus.NOT_FOUND);
         return {
             statusCode: HttpStatus.OK,
@@ -55,10 +43,15 @@ export class RolesService {
         };
     }
 
-    async update(id: number, updateRoleDto: UpdateRoleDto): Promise<any> {
-        const role: Role | null = await this.roleRepository.findOneBy({id});
+    async update(id: number, updateRoleDto: Prisma.RoleUpdateInput): Promise<any> {
+        const role = await this.prismaService.role.findUnique({
+            where: { id }
+        });
         if (!role) throw new HttpException("Le rôle n'a pas été trouvé", HttpStatus.NOT_FOUND);
-        await this.roleRepository.update(id, updateRoleDto);
+        await this.prismaService.role.update({
+            data: updateRoleDto,
+            where: { id }
+        });
         return {
             statusCode: HttpStatus.OK,
             message: 'Rôle mis à jour avec succès',
@@ -66,9 +59,13 @@ export class RolesService {
     }
 
     async remove(id: number): Promise<any> {
-        const role: Role | null = await this.roleRepository.findOneBy({id});
+        const role = await this.prismaService.role.findUnique({
+            where: { id }
+        });
         if (!role) throw new HttpException("Le rôle n'a pas été trouvé", HttpStatus.NOT_FOUND);
-        await this.roleRepository.delete(id);
+        await this.prismaService.role.delete({
+            where: { id }
+        });
         return {
             statusCode: HttpStatus.OK,
             message: 'Le rôle a été supprimé avec succès',

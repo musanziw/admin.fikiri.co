@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  name        String
+  password    String
+  phoneNumber String
+  address     String
+  resetToken  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  roles       Role[]
+}
+
+model Role {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  users     User[]
+}
+
+model Thematic {
+  id        Int        @id @default(autoincrement())
+  name      String
+  sdg       Goal[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  solutions Solution[]
+  calls     Call[]
+}
+
+model Call {
+  id          Int        @id @default(autoincrement())
+  name        String
+  description String     @db.Text
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  thematics   Thematic[]
+}
+
+model Solution {
+  id             Int        @id @default(autoincrement())
+  name           String
+  videoLink      String?
+  description    String     @db.Text
+  solvedProblems String     @db.Text
+  solutionImpact String     @db.Text
+  expansion      String     @db.Text
+  steps          String     @db.Text
+  thematics      Thematic[]
+  status         String
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  callId         Int
+}
+
+model Goal {
+  id        Int        @id @default(autoincrement())
+  name      String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  thematics Thematic[]
+}

@@ -3,9 +3,8 @@
 import { useRef, RefObject, useState, FormEvent } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-import axios from "@/app/api/axios";
-import { useRouter } from "next/navigation";
+import axios from "@/app/config/axios";
+import { redirect } from "next/navigation";
 import Link from "next/link";
 import { AuthCard } from "@/app/(auth)/components/AuthCard";
 import { Button } from "@/app/(auth)/components/Button";
@@ -20,51 +19,27 @@ const LOGIN_URI = "/auth/login";
 export default function Login() {
   const emailRef: RefObject<HTMLInputElement> = useRef(null);
   const passwordRef: RefObject<HTMLInputElement> = useRef(null);
-  const router = useRouter();
-  const [errors, setErrors] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { account, setAccount } = useAuthContext();
 
-  if (account) {
-    router.push("/");
-  }
-
-  const addErrors = (newErrors: string) => {
-    setErrors(newErrors);
-  };
-
   const onSubmit = async (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
-
     try {
       setIsLoading(true);
-
       const payload = {
         email: emailRef.current?.value || "",
         password: passwordRef.current?.value || "",
       };
-
-      const response = await axios.post(LOGIN_URI, JSON.stringify(payload), {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      });
-
+      const response = await axios.post(LOGIN_URI, JSON.stringify(payload));
       toast.success("Connexion réussie!", {
         onClose: () => {
           setAccount(response.data.data);
           setIsLoading(false);
-          router.push("/solutions/submit");
         },
       });
-
+      redirect("/");
     } catch (e: any) {
-      if (e.response) {
-        addErrors(e.response.data.message || "An error occurred");
-      } else if (e.request) {
-        addErrors("No response received from the server");
-      } else {
-        addErrors("Error setting up the request");
-      }
+      console.log(e.response)
       toast.error(e.response.data.message);
     } finally {
       setIsLoading(false);
@@ -74,7 +49,6 @@ export default function Login() {
   return (
     <>
       <Topbar background="bg-white" />
-
       <AuthCard title={"Connectez-vous"}>
         <form
           action=""
@@ -109,22 +83,14 @@ export default function Login() {
           <p className="text-sm text-gray-900">
             <Link href={"forgot-password"}>Mot de passe oublié ?</Link>
           </p>
-          <Button
-            label={isLoading ? "Connexion en cours ..." : "Se connecter"}
-          />
-
+          <Button isLoading={isLoading} label={isLoading ? "Connexion en cours..." : "Se connecter"} />
           <div className="flex flex-row gap-5 justify-center items-center">
             <div className="basis-1/2 h-5 border-t border-gray-300 pt-6 text-sm text-gray-500"></div>
             <div className="pb-5">OU</div>
             <div className="basis-1/2 h-5 border-t border-gray-300 pt-6 text-sm text-gray-500"></div>
           </div>
 
-          <button
-            type="submit"
-            className={
-              "py-3 white text-slate-900 rounded-full transition-colors duration-300 border border-slate-500 hover:boder-4 hover:bg-slate-100 relative"
-            }
-          >
+          <button className={"py-3 white text-slate-900 rounded-full transition-colors duration-300 border border-slate-500 hover:boder-4 hover:bg-slate-100 relative"}>
             {"Se connecter Avec Google"}
             <Image
               src={googleLogo}

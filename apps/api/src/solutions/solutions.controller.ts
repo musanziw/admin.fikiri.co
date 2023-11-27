@@ -1,14 +1,13 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { SolutionsService } from './solutions.service';
-import { CreateSolutionDto } from './dto/create-solution.dto';
-import { UpdateSolutionDto } from './dto/update-solution.dto';
+import { Prisma } from '@prisma/client';
 
 @Controller('solutions')
 export class SolutionsController {
-  constructor(private readonly solutionsService: SolutionsService) {}
+  constructor(private readonly solutionsService: SolutionsService) { }
 
   @Post()
-  create(@Body() createSolutionDto: CreateSolutionDto) {
+  create(@Body() createSolutionDto: Prisma.SolutionCreateInput) {
     return this.solutionsService.create(createSolutionDto);
   }
 
@@ -23,7 +22,7 @@ export class SolutionsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSolutionDto: UpdateSolutionDto) {
+  update(@Param('id') id: string, @Body() updateSolutionDto: Prisma.SolutionUpdateInput) {
     return this.solutionsService.update(+id, updateSolutionDto);
   }
 

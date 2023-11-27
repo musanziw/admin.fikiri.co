@@ -1,8 +1,7 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post,} from '@nestjs/common';
-import {RolesService} from './roles.service';
-import {CreateRoleDto} from './dto/create-role.dto';
-import {UpdateRoleDto} from './dto/update-role.dto';
-import {Public} from "../auth/decorators/public.decorator";
+import { Body, Controller, Delete, Get, Param, Patch, Post, } from '@nestjs/common';
+import { RolesService } from './roles.service';
+import { Public } from "../auth/decorators/public.decorator";
+import { Prisma } from '@prisma/client';
 
 
 @Controller('roles')
@@ -10,14 +9,8 @@ export class RolesController {
     constructor(private readonly rolesService: RolesService) {
     }
 
-    @Public()
-    @Get('insert-roles')
-    insertRoles() {
-        return this.rolesService.insertRoles();
-    }
-
     @Post()
-    create(@Body() createRoleDto: CreateRoleDto) {
+    create(@Body() createRoleDto: Prisma.RoleCreateInput) {
         return this.rolesService.create(createRoleDto);
     }
 
@@ -32,7 +25,7 @@ export class RolesController {
     }
 
     @Patch(':id')
-    update(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto) {
+    update(@Param('id') id: string, @Body() updateRoleDto: Prisma.RoleUpdateInput) {
         return this.rolesService.update(+id, updateRoleDto);
     }
 

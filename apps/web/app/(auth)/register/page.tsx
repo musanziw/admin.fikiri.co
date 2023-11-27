@@ -3,14 +3,12 @@
 import { useRef, RefObject, useState, FormEvent, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import Link from "next/link";
-import axios from "@/app/api/axios";
+import axios from "@/app/config/axios";
 import { AuthCard } from "@/app/(auth)/components/AuthCard";
 import { Button } from "@/app/(auth)/components/Button";
 import Topbar from "@/app/components/Topbar";
 import { Footer } from "@/app/components/Footer";
-// import { useAuthContext } from "@/app/context/store";
 import Image from "next/image";
 import googleLogo from "@/public/googleLogo.svg";
 
@@ -23,29 +21,22 @@ export default function Register() {
   const adressRef: RefObject<HTMLInputElement> = useRef(null);
   const passwordRef: RefObject<HTMLInputElement> = useRef(null);
   const confirmedPasswordRef: RefObject<HTMLInputElement> = useRef(null);
-
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     try {
       setIsLoading(true);
-
       const payload = {
         name: nomRef.current?.value || "",
         email: emailRef.current?.value || "",
-        phone: telephoneRef.current?.value || "",
+        phoneNumber: telephoneRef.current?.value || "",
         address: adressRef.current?.value || "",
         password: passwordRef.current?.value || "",
         // confirmedPassword: confirmedPasswordRef.current?.value || "",
       };
-
-      const response = await axios.post(REGISTER_URI, JSON.stringify(payload), {
-        headers: { "Content-Type": "application/json" },
-      });
-
+      await axios.post(REGISTER_URI, JSON.stringify(payload));
       toast.success("Inscription reussie");
-
       setIsLoading(false);
     } catch (e: any) {
       toast.error(e.response.data.message);
@@ -59,10 +50,7 @@ export default function Register() {
     <>
       <Topbar background="bg-white" />
       <AuthCard title={"Inscrivez-vous"}>
-        <form
-          onSubmit={onSubmit}
-          className="space-y-8 flex flex-col justify-center"
-        >
+        <form onSubmit={onSubmit} className="space-y-8 flex flex-col justify-center">
           <div className="space-y-2">
             <label htmlFor="email" className="text-gray-800">
               Nom

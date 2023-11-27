@@ -1,6 +1,6 @@
-"use client";
+"use client"
+
 import Link from "next/link";
-import Topbar from "@/app/components/Topbar";
 import { Typewriter } from "react-simple-typewriter";
 import slide1 from "@/public/sliders/slide-1.jpeg";
 import slide2 from "@/public/sliders/slide-2.jpeg";
@@ -16,13 +16,12 @@ import { Carousel } from "react-responsive-carousel";
 
 export function Hero() {
   return (
-    <div className={"relative py-32 pt-28 bg-indigo-800 text-gray-50"}>
-      <Topbar background={"bg-white"} />
+    <div className={"py-32 pt-28 bg-indigo-800 text-gray-50"}>
       <div className={"p-8 h-full grid grid-cols-1 items-center md:grid-cols-2 md:mx-auto md:max-w-screen-lg"}>
         <div className={"flex flex-col justify-center items-start"}>
           <h1 className={`text-4xl font-bold text-gray-50`}>
             <Typewriter
-              words={["We are", "Fikiri", "Postulez", "Dès maintenant"]}
+              words={["Nous sommes", "Fikiri", "Postulez", "Dès maintenant"]}
               loop={false}
               cursor={true}
             />

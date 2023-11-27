@@ -1,26 +1,24 @@
-import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
-import {CreateThematicDto} from './dto/create-thematic.dto';
-import {UpdateThematicDto} from './dto/update-thematic.dto';
-import {InjectRepository} from "@nestjs/typeorm";
-import {Thematic} from "./entities/thematic.entity";
-import {Repository} from "typeorm";
+import { PrismaService } from './../database/prisma.service';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class ThematicsService {
     constructor(
-        @InjectRepository(Thematic)
-        private readonly thematicRepository: Repository<Thematic>
+        private readonly prismaService: PrismaService
     ) {
     }
 
-    async create(createThematicDto: CreateThematicDto) {
-        const {name} = createThematicDto;
-        const thematic: Thematic | null = await this.thematicRepository.findOne({
-            where: {name},
-        });
+    async create(createThematicDto: Prisma.ThematicCreateInput) {
+        const name: string = createThematicDto.name as string;
+        const thematic = await this.prismaService.thematic.findFirst({
+            where: { name }
+        })
         if (thematic)
             throw new HttpException('La thématique existe déjà', HttpStatus.CONFLICT);
-        await this.thematicRepository.save(createThematicDto);
+        await this.prismaService.thematic.create({
+            data: createThematicDto
+        })
         return {
             statusCode: HttpStatus.CREATED,
             message: 'La thématique ajouté avec succès',
@@ -28,7 +26,7 @@ export class ThematicsService {
     }
 
     async findAll() {
-        const thematics: Thematic[] = await this.thematicRepository.find()
+        const thematics = await this.prismaService.thematic.findMany();
         return {
             statusCode: HttpStatus.OK,
             data: thematics
@@ -36,7 +34,9 @@ export class ThematicsService {
     }
 
     async findOne(id: number) {
-        const thematic: Thematic | null = await this.thematicRepository.findOneBy({id});
+        const thematic = await this.prismaService.thematic.findUnique({
+            where: { id }
+        })
         if (!thematic) throw new HttpException("La thématique n'a pas été trouvé", HttpStatus.NOT_FOUND);
         return {
             statusCode: HttpStatus.OK,
@@ -44,10 +44,15 @@ export class ThematicsService {
         };
     }
 
-    async update(id: number, updateThematicDto: UpdateThematicDto) {
-        const thematic: Thematic | null = await this.thematicRepository.findOneBy({id});
+    async update(id: number, updateThematicDto: Prisma.ThematicUpdateInput) {
+        const thematic = await this.prismaService.thematic.findUnique({
+            where: { id }
+        });
         if (!thematic) throw new HttpException("La thématique n'a pas été trouvé", HttpStatus.NOT_FOUND);
-        await this.thematicRepository.update(id, updateThematicDto);
+        await this.prismaService.thematic.update({
+            data: updateThematicDto,
+            where: { id }
+        });
         return {
             statusCode: HttpStatus.OK,
             message: 'La thématique est mis à jour avec succès',
@@ -55,9 +60,13 @@ export class ThematicsService {
     }
 
     async remove(id: number) {
-        const thematic: Thematic | null = await this.thematicRepository.findOneBy({id});
+        const thematic = await this.prismaService.thematic.findUnique({
+            where: { id }
+        });
         if (!thematic) throw new HttpException("La thématique n'a pas été trouvé", HttpStatus.NOT_FOUND);
-        await this.thematicRepository.delete(id);
+        await this.prismaService.thematic.delete({
+            where: { id }
+        });
         return {
             statusCode: HttpStatus.OK,
             message: 'La thématique a été supprimé avec succès',

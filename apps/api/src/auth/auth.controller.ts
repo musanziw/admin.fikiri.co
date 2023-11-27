@@ -7,18 +7,14 @@ import {
     Req,
     UseGuards,
 } from '@nestjs/common';
-import {AuthService} from './auth.service';
-import {RegisterDto} from './dto/register.dto';
-import {LocalGuard} from './guards/local.guard';
-import {Request} from 'express';
-import {Public} from './decorators/public.decorator';
-import {CurrentUser} from './decorators/current-user.decorator';
-import {UpdateProfileDto} from './dto/update-profile.dto';
-import {UpdatePasswordDto} from './dto/update-password.dto';
-import {SerializedUser} from '../types/serialized-user';
-import {PasswordService} from './password.service';
-import {ResetPasswordDto} from './dto/reset-password.dto';
-import {ResetPasswordRequestDto} from './dto/reset-password-request.dto';
+import { AuthService } from './auth.service';
+import { LocalGuard } from './guards/local.guard';
+import { Request } from 'express';
+import { Public } from './decorators/public.decorator';
+import { CurrentUser } from './decorators/current-user.decorator';
+import { SerializedUser } from '../types/serialized-user';
+import { PasswordService } from './password.service';
+import { Prisma } from '@prisma/client';
 
 @Controller('auth')
 export class AuthController {
@@ -41,17 +37,14 @@ export class AuthController {
     @Patch('profile')
     updateProfile(
         @CurrentUser() user: SerializedUser,
-        @Body() updateProfileDto: UpdateProfileDto,
+        @Body() updateProfileDto: Prisma.UserUpdateInput,
     ) {
         return this.authService.updateProfile(user, updateProfileDto);
     }
 
     @Patch('update-password')
-    updatePassword(
-        @CurrentUser() user: SerializedUser,
-        @Body() updatePassword: UpdatePasswordDto,
-    ): Promise<any> {
-        return this.authPasswordService.updatePassword(user, updatePassword);
+    updatePassword(@CurrentUser() user: SerializedUser, @Body('password') password: string) {
+        return this.authPasswordService.updatePassword(user, password);
     }
 
     @Public()
@@ -63,21 +56,19 @@ export class AuthController {
 
     @Public()
     @Post('reset-password-request')
-    resetPasswordRequest(
-        @Body() resetPasswordDto: ResetPasswordRequestDto,
-    ): Promise<any> {
-        return this.authPasswordService.resetPasswordRequest(resetPasswordDto);
+    resetPasswordRequest(@Body('email') email: string) {
+        return this.authPasswordService.resetPasswordRequest(email);
     }
 
     @Public()
     @Post('reset-password')
-    resetPassword(@Body() resetPasswordDto: ResetPasswordDto): Promise<any> {
-        return this.authPasswordService.resetPassword(resetPasswordDto);
+    resetPassword(@Body() resetPasswordDto: { token: string, email: string }): Promise<any> {
+        return this.authPasswordService.resetPassword(resetPasswordDto.token, resetPasswordDto.email);
     }
 
     @Public()
     @Post('register')
-    register(@Body() registerDto: RegisterDto): Promise<any> {
+    register(@Body() registerDto: Prisma.UserCreateInput): Promise<any> {
         return this.authService.register(registerDto);
     }
 }

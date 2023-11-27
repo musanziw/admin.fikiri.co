@@ -1,29 +1,21 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { CurrentUser } from './decorators/current-user.decorator';
-import { UpdatePasswordDto } from './dto/update-password.dto';
-import { User } from '../users/entities/user.entity';
 import { SerializedUser } from '../types/serialized-user';
-import { ResetPasswordDto } from './dto/reset-password.dto';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { EmailPayload } from '../types/email-payload';
 import { randomPassword } from '../helpers/random-password';
-import { ResetPasswordRequestDto } from './dto/reset-password-request.dto';
 
 @Injectable()
 export class PasswordService {
   constructor(
     private readonly userService: UsersService,
     private readonly eventEmitter: EventEmitter2,
-  ) {}
+  ) { }
 
-  async updatePassword(
-    @CurrentUser() currentUser: SerializedUser,
-    updatePasswordDto: UpdatePasswordDto,
-  ): Promise<any> {
+  async updatePassword(@CurrentUser() currentUser: SerializedUser, password: string) {
     const { email } = currentUser;
-    const user: User = await this.userService.findByEmail(email);
-    const { password } = updatePasswordDto;
+    const user = await this.userService.findByEmail(email);
     await this.userService.updatePassword(user, password);
     return {
       statusCode: HttpStatus.OK,
@@ -31,12 +23,9 @@ export class PasswordService {
     };
   }
 
-  async resetPasswordRequest(
-    resetPasswordRequestDto: ResetPasswordRequestDto,
-  ): Promise<any> {
-    const { email } = resetPasswordRequestDto;
+  async resetPasswordRequest(email: string) {
     const password: string = randomPassword();
-    const user: User = await this.userService.findByEmail(email);
+    const user = await this.userService.findByEmail(email);
     await this.userService.saveResetToken(user, password);
     const payload: EmailPayload = { email, password };
     this.eventEmitter.emit('password.reset', { payload });
@@ -46,9 +35,8 @@ export class PasswordService {
     };
   }
 
-  async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<any> {
-    const { reset_token, password } = resetPasswordDto;
-    const user: User = await this.userService.findByResetToken(reset_token);
+  async resetPassword(token: string, password: string) {
+    const user = await this.userService.findByResetToken(token);
     await this.userService.removeResetToken(user);
     await this.userService.updatePassword(user, password);
     return {

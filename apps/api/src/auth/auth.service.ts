@@ -1,15 +1,14 @@
 import { HttpException, HttpStatus, Injectable, Req } from '@nestjs/common';
-import { RegisterDto } from './dto/register.dto';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
 import { Request } from 'express';
 import { CurrentUser } from './decorators/current-user.decorator';
-import { UpdateProfileDto } from './dto/update-profile.dto';
 import { SerializedUser } from '../types/serialized-user';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UsersService) {}
+  constructor(private readonly userService: UsersService) { }
 
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.userService.findByEmail(email);
@@ -24,7 +23,6 @@ export class AuthService {
       id: user.id,
       email: user.email,
       name: user.name,
-      roles: user.roles.map((role) => role.name),
     } as SerializedUser;
   }
 
@@ -41,7 +39,7 @@ export class AuthService {
   }
 
   async logout(@Req() request: Request): Promise<any> {
-    request.session.destroy(() => {});
+    request.session.destroy(() => { });
     return {
       message: 'Déconnexion réussie',
       statusCode: HttpStatus.OK,
@@ -56,8 +54,8 @@ export class AuthService {
   }
 
   async updateProfile(
-    @CurrentUser() user: any,
-    updateProfileDto: UpdateProfileDto,
+    @CurrentUser() user: SerializedUser,
+    updateProfileDto: Prisma.UserUpdateInput,
   ): Promise<any> {
     const { id } = user;
     await this.userService.update(+id, updateProfileDto);
@@ -67,7 +65,7 @@ export class AuthService {
     };
   }
 
-  register(registerDto: RegisterDto): Promise<any> {
+  register(registerDto: Prisma.UserCreateInput): Promise<any> {
     return this.userService.register(registerDto);
   }
 }
