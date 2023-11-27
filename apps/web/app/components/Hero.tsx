@@ -2,18 +2,32 @@
 
 import Link from "next/link";
 import { Typewriter } from "react-simple-typewriter";
-import slide1 from "@/public/sliders/slide-1.jpeg";
-import slide2 from "@/public/sliders/slide-2.jpeg";
-import slide3 from "@/public/sliders/slide-3.jpeg";
-import slide4 from "@/public/sliders/slide-4.jpeg";
-import slide5 from "@/public/sliders/slide-5.jpeg";
-import slide6 from "@/public/sliders/slide-6.jpeg";
-import slide7 from "@/public/sliders/slide-7.jpeg";
-import slide8 from "@/public/sliders/slide-8.jpeg";
+// import slide1 from "@/public/sliders/slide-1.jpeg";
+// import slide2 from "@/public/sliders/slide-2.jpeg";
+// import slide3 from "@/public/sliders/slide-3.jpeg";
+// import slide4 from "@/public/sliders/slide-4.jpeg";
+// import slide5 from "@/public/sliders/slide-5.jpeg";
+// import slide6 from "@/public/sliders/slide-6.jpeg";
+// import slide7 from "@/public/sliders/slide-7.jpeg";
+// import slide8 from "@/public/sliders/slide-8.jpeg";
+import slide1 from "@/public/sliders2/COMING SOON-2.png";
+import slide2 from "@/public/sliders2/FIKIRI-POSTER-1.png";
+import slide3 from "@/public/sliders2/FIKIRI-POSTER-3.png";
+import slide4 from "@/public/sliders2/FIKIRI-POSTER-B.png";
+import slide5 from "@/public/sliders2/ODD 1-8.png";
+import slide6 from "@/public/sliders2/ODD 13 15.png";
+import slide7 from "@/public/sliders2/ODD 2-8.png"
+import slide8 from "@/public/sliders2/ODD 3-8.png";
+import slide9 from "@/public/sliders2/ODD 9.png";
+
 import Image from "next/image";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import Topbar from "@/app/components/Topbar";
+
+const IMAGES = [
+
+]
 
 export function Hero() {
   return (
@@ -86,6 +100,11 @@ export function Hero() {
               <Image
                 src={slide8}
                 alt={"Slide 8"}
+                className={"w-full h-full object-cover rounded-md"}
+              />
+                            <Image
+                src={slide9}
+                alt={"Slide 9"}
                 className={"w-full h-full object-cover rounded-md"}
               />
             </Carousel>

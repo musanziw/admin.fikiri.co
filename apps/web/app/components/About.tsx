@@ -140,11 +140,8 @@ export function About() {
           </div>
         </div>
         <Image
-
           src={about}
-
           alt={"About"}
-
           className={
             "rounded-xl grayscale hover:grayscale-0 transition-all duration-300"
           }
