@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { CallsService } from './calls.service';
 import { Prisma } from '@prisma/client';
 
-@Controller('calls-for-proposal')
+@Controller('calls')
 export class CallsController {
   constructor(private readonly callsService: CallsService) { }
 

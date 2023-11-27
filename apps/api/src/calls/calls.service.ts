@@ -28,7 +28,10 @@ export class CallsService {
 
   async findOne(id: number) {
     const call = await this.prismaService.call.findUnique({
-      where: { id }
+      where: { id },
+      include: {
+        thematics: true
+      }
     })
     if (!call) throw new NotFoundException("L'appel à solution introuvable")
     return {

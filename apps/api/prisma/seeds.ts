@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { faker } from '@faker-js/faker';
+import { fa, faker } from '@faker-js/faker';
 import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
@@ -18,6 +18,7 @@ async function main() {
             },
         ],
     });
+
     await prisma.user.create({
         data: {
             name: "Admin",
@@ -32,6 +33,37 @@ async function main() {
             }
         },
     });
+
+    for (let i = 1; i < 31; i++) {
+        await prisma.thematic.create({
+            data: {
+                name: faker.company.buzzPhrase(),
+            }
+        })
+    }
+
+    for (let i = 1; i < 5; i++) {
+        await prisma.call.create({
+            data: {
+                name: faker.commerce.productName(),
+                description: faker.lorem.paragraph(),
+                thematics: {
+                    connect: {
+                        id: faker.number.int({ min: 1, max: 17 })
+                    }
+                }
+            }
+        })
+    }
+
+    for (let i = 1; i < 18; i++) {
+        await prisma.goal.create({
+            data: {
+                name: faker.company.buzzPhrase(),
+            }
+        })
+    }
+
 }
 
 // execute the main function

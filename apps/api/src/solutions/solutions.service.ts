@@ -12,7 +12,9 @@ export class SolutionsService {
     async create(createSolutionDto: Prisma.SolutionCreateInput) {
         try {
             await this.prismaService.solution.create({
-                data: createSolutionDto
+                data: {
+                    ...createSolutionDto
+                },
             });
         } catch {
             throw new HttpException(

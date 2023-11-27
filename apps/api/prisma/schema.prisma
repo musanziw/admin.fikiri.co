@@ -53,11 +53,11 @@ model Solution {
   videoLink      String?
   description    String     @db.Text
   solvedProblems String     @db.Text
-  solutionImpact String     @db.Text
+  impact         String     @db.Text
   expansion      String     @db.Text
   steps          String     @db.Text
   thematics      Thematic[]
-  status         String
+  status         String     @default("pending")
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
   callId         Int
