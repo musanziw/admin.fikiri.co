@@ -1,4 +1,3 @@
-import logo from "@/public/logo.png";
 import ingeniousCity from "@/public/partainers/1.png";
 import unJourNouveau from "@/public/partainers/2.png";
 import waza from "@/public/partainers/3.png";
@@ -103,7 +102,6 @@ const PARTAINERS = [
 ];
 
 export function About() {
-  const partners = new Array(6).fill(0);
 
   return (
     <div className={"p-8 bg-white"} id={"about"}>
@@ -125,8 +123,8 @@ export function About() {
           </p>
 
           <div className={"overflow-hidden mt-5"}>
-            <div className="w-full marquee-10 sm:marquee-15 lg:marquee-20">
-              <div className={"flex items-center justify-center gap-10"}>
+            <div className="w-full marquee-10">
+              <div className={"flex items-center justify-center"}>
                 {PARTAINERS.map((partainer, index) => (
                   <Image
                     src={partainer.src}
@@ -140,8 +138,11 @@ export function About() {
           </div>
         </div>
         <Image
+
           src={about}
+
           alt={"About"}
+
           className={
             "rounded-xl grayscale hover:grayscale-0 transition-all duration-300"
           }
