@@ -22,17 +22,17 @@ const menuItems = [
         icon: <MdDashboard />,
       },
       {
-        title: "Compte Utilisateur",
+        title: "Comptes Utilisateur",
         path: "/dashboard/users_acount",
         icon: <MdSupervisedUserCircle />,
       },
       {
-        title: "Compte Admin",
+        title: "Curateurs",
         path: "/dashboard/admins",
         icon: <MdSupervisorAccount />,
       },
       {
-        title: "Projet",
+        title: "Projets",
         path: "/dashboard/project",
         icon: <MdPlaylistAddCheck />,
       },
@@ -62,7 +62,7 @@ const menuItems = [
     title: "User",
     list: [
       {
-        title: "Paramètre",
+        title: "Paramètres",
         path: "/dashboard/parametre",
         icon: <MdOutlineSettings />,
       },

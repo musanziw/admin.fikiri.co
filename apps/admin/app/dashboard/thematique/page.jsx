@@ -1,9 +1,13 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Pagination from "@/app/ui/dashboard/pagination/pagination";
 import Search from "@/app/ui/dashboard/search/search";
 import styles from "@/app/ui/dashboard/thematique/thematique.module.css";
 import Link from "next/link";
 import { useStateContext } from "@/app/context/store";
 import Image from "next/image";
+import axios from "@/app/api/axios";
 
 const THEMATIQUE = [
   {
@@ -19,6 +23,27 @@ const THEMATIQUE = [
 ];
 
 const Thematique = () => {
+  const [thematiques, setThematiques] = useState();
+
+  useEffect(() => {
+    const fetchThematique = async () => {
+      try {
+        const response = await axios.get("/thematics", {
+          withCredentials: true,
+        });
+
+        const data = response.data.data;
+        
+        if (data) {
+          setThematiques(data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchThematique();
+  }, []);
+
   return (
     <div className={styles.container}>
       <div className={styles.top}>
@@ -37,45 +62,46 @@ const Thematique = () => {
           </tr>
         </thead>
         <tbody>
-          {THEMATIQUE.map((thematique) => (
-            <tr key={thematique.id}>
-              <td>
-                <div className={styles.user}>
-                  <Image
-                    src={`${thematique.profil}`}
+          {thematiques &&
+            thematiques.map((thematique) => (
+              <tr key={thematique.id}>
+                <td>
+                  <div className={styles.user}>
+                    {/* <Image
+                    src={`${THEMATIQUE.profil}`}
                     alt=""
                     width={40}
                     height={40}
                     className={styles.userImage}
-                  />
-                  {thematique.nomComplet}
-                </div>
-              </td>
-              <td>{thematique.email}</td>
-              <td>{thematique.create_at}</td>
-              <td>
-                <div className={styles.buttons}>
-                  <Link href={`/dashboard/thematique/${thematique.id}`}>
-                    <button className={`${styles.button} ${styles.view}`}>
-                      Détail
-                    </button>
-                  </Link>
-                  <form>
-                    <input type="hidden" name="id" />
-                    <button className={`${styles.button} ${styles.disabled}`}>
-                      Désactiver
-                    </button>
-                  </form>
-                  <form>
-                    <input type="hidden" name="id" />
-                    <button className={`${styles.button} ${styles.delete}`}>
-                      Supprimer
-                    </button>
-                  </form>
-                </div>
-              </td>
-            </tr>
-          ))}
+                  /> */}
+                    {thematique.name}
+                  </div>
+                </td>
+                <td>ODD</td>
+                <td>{THEMATIQUE.create_at}</td>
+                <td>
+                  <div className={styles.buttons}>
+                    <Link href={`/dashboard/thematique/${thematique.id}`}>
+                      <button className={`${styles.button} ${styles.view}`}>
+                        Détail
+                      </button>
+                    </Link>
+                    <form>
+                      <input type="hidden" name="id" />
+                      <button className={`${styles.button} ${styles.disabled}`}>
+                        Désactiver
+                      </button>
+                    </form>
+                    <form>
+                      <input type="hidden" name="id" />
+                      <button className={`${styles.button} ${styles.delete}`}>
+                        Supprimer
+                      </button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
       <Pagination count={2} />
