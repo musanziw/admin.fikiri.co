@@ -119,7 +119,7 @@ export default function Sdg() {
                             <Link href={''}
                                   className={`flex flex-col gap-4 justify-start items-start transition-colors duration-500 border rounded-lg p-6 hover:border-gray-300`}
                                   key={index}>
-                                <div className={'w-20 h-20 relative overflow-hidden'}>
+                                <div className={'w-15 h-15 relative overflow-hidden'}>
                                     <Image src={sdg.oddImage} alt={sdg.oddTitle} className={'rounded-md object-cover'}/>
                                 </div>
                                 <span className={'font-medium inline-block'}>{sdg.oddTitle}</span>
