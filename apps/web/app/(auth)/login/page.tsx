@@ -4,7 +4,7 @@ import { useRef, RefObject, useState, FormEvent } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "@/app/config/axios";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { AuthCard } from "@/app/(auth)/components/AuthCard";
 import { Button } from "@/app/(auth)/components/Button";
@@ -20,7 +20,8 @@ export default function Login() {
   const emailRef: RefObject<HTMLInputElement> = useRef(null);
   const passwordRef: RefObject<HTMLInputElement> = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { account, setAccount } = useAuthContext();
+  const { setAccount } = useAuthContext();
+  const router = useRouter();
 
   const onSubmit = async (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
@@ -31,15 +32,15 @@ export default function Login() {
         password: passwordRef.current?.value || "",
       };
       const response = await axios.post(LOGIN_URI, JSON.stringify(payload));
-      toast.success("Connexion réussie!", {
-        onClose: () => {
-          setAccount(response.data.data);
-          setIsLoading(false);
-        },
-      });
-      redirect("/");
+      if (response) {
+        setAccount(response.data.data);
+        setIsLoading(false);
+        toast.success("Connexion réussie ");
+        setTimeout(() => {
+          router.push("/");
+        }, 2000)
+      }
     } catch (e: any) {
-      console.log(e.response)
       toast.error(e.response.data.message);
     } finally {
       setIsLoading(false);

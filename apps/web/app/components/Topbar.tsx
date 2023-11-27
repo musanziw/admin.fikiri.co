@@ -61,9 +61,7 @@ export default function Topbar({ background }: TopbarProps) {
 
   const logOut = () => {
     setAccount(null);
-    axios.get("/auth/logout", {
-      withCredentials: true,
-    });
+    axios.get("/auth/logout");
   };
 
   return (
@@ -71,10 +69,7 @@ export default function Topbar({ background }: TopbarProps) {
       <Link href={"/"} className={"inline-block"} aria-label="logo">
         <Image src={logo} alt={"Logo"} className={"cursor-pointer w-24"} />
       </Link>
-
-      <div className={`flex flex-col gap-2 lg:hidden ${isOpen && "active"}`} onClick={() => {
-        setIsOpen(!isOpen);
-      }}>
+      <div className={`flex flex-col gap-2 lg:hidden ${isOpen && "active"}`} onClick={() => { setIsOpen(!isOpen) }}>
         <div className="h-[1px] w-6 bg-black transition-transform duration-300"></div>
         <div className="h-[1px] w-6 bg-black transition-transform duration-300"></div>
       </div>
@@ -90,7 +85,6 @@ export default function Topbar({ background }: TopbarProps) {
           ))}
         </ul>
       </div>
-
       <div className={"hidden lg:flex items-center gap-6"}>
         {LINKS.map((link, index) => (
           <Link

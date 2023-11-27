@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, RefObject, useState, FormEvent, useEffect } from "react";
+import { useRef, RefObject, useState, FormEvent } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
@@ -11,6 +11,7 @@ import Topbar from "@/app/components/Topbar";
 import { Footer } from "@/app/components/Footer";
 import Image from "next/image";
 import googleLogo from "@/public/googleLogo.svg";
+import { useRouter } from "next/navigation";
 
 const REGISTER_URI = "/auth/register";
 
@@ -22,6 +23,7 @@ export default function Register() {
   const passwordRef: RefObject<HTMLInputElement> = useRef(null);
   const confirmedPasswordRef: RefObject<HTMLInputElement> = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter()
 
   const onSubmit = async (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
@@ -33,11 +35,11 @@ export default function Register() {
         phoneNumber: telephoneRef.current?.value || "",
         address: adressRef.current?.value || "",
         password: passwordRef.current?.value || "",
-        // confirmedPassword: confirmedPasswordRef.current?.value || "",
       };
       await axios.post(REGISTER_URI, JSON.stringify(payload));
       toast.success("Inscription reussie");
       setIsLoading(false);
+      router.push("/login")
     } catch (e: any) {
       toast.error(e.response.data.message);
       setIsLoading(false);

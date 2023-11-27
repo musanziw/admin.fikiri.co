@@ -4,7 +4,6 @@ import { useRef, RefObject, useState, FormEvent, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
-
 import Select from "react-select";
 import axios from "@/app/config/axios";
 import Topbar from "@/app/components/Topbar";
@@ -17,8 +16,6 @@ const SOLUTION_URI = "/solutions";
 
 export default function SubmitProject() {
   const { account } = useAuthContext();
-  const router = useRouter();
-
   const projectTitleRef: RefObject<HTMLInputElement> = useRef(null);
   const projectLienYoutubeRef: RefObject<HTMLInputElement> = useRef(null);
   const projectThematiqueRef: RefObject<HTMLInputElement> = useRef(null);
@@ -28,22 +25,22 @@ export default function SubmitProject() {
   const projectImpactRef: RefObject<HTMLTextAreaElement> = useRef(null);
   const projectExpansionRef: RefObject<HTMLTextAreaElement> = useRef(null);
   const projectObjectifAnswerRef: RefObject<HTMLInputElement> = useRef(null);
-
-  const [options, setOptions] = useState<any>();
   const [optionId, setOptionId] = useState([]);
-  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [selectedthematics, setSelectedthematics] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [calls, setCalls] = useState<any>();
+  const router = useRouter();
 
   useEffect(() => {
-    const fetchThematique = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get("/thematics", {
-          withCredentials: true,
-        });
-        const data = response.data.data;
-        if (data) {
-          setOptions(
-            data.map((option: any) => ({
+
+        const callsResponse = await axios.get("/calls");
+        const calls = callsResponse.data.data;
+
+        if (calls) {
+          setCalls(
+            calls.map((option: any) => ({
               value: option.id,
               label: option.name,
             }))
@@ -52,7 +49,7 @@ export default function SubmitProject() {
       } catch (error) { }
     };
 
-    fetchThematique();
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -61,10 +58,11 @@ export default function SubmitProject() {
     }
   }, [account, router]);
 
-  const handleSelectChange = async (selectedOptions: any) => {
-    setSelectedOptions(selectedOptions);
-    setOptionId(selectedOptions.map((option: any) => option.value));
+  const handleThematicsChange = async (thematics: any) => {
+    setSelectedthematics(thematics);
+    setOptionId(thematics.map((option: any) => option.value));
   };
+
 
   const onSubmit = async (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
@@ -74,13 +72,13 @@ export default function SubmitProject() {
 
       const payload = {
         name: projectTitleRef.current?.value || "", //
-        video_link: projectLienYoutubeRef.current?.value || "", //
-        solution_description: projectDescriptionRef.current?.value || "", //
-        solved_problem: projectSolutionRef.current?.value || "", //
+        videoLink: projectLienYoutubeRef.current?.value || "", //
+        description: projectDescriptionRef.current?.value || "", //
+        solvedProblem: projectSolutionRef.current?.value || "", //
         steps: projectEtapeRef.current?.value || "", //
         thematics: optionId,
-        // projectImpact: projectImpactRef.current?.value || "",
-        expansion_project: projectExpansionRef.current?.value || "", //
+        expansion: projectExpansionRef.current?.value || "", //
+        callId: 1,
       };
       await axios.post(SOLUTION_URI, JSON.stringify(payload));
       toast.success("Solution soumis avec succès !");
@@ -103,7 +101,7 @@ export default function SubmitProject() {
             <div className="basis-1/2">
               <div className="space-y-2">
                 <label htmlFor="email" className="text-gray-800">
-                  Titre du projet
+                  Nom de la solution
                 </label>
                 <input
                   ref={projectTitleRef}
@@ -123,7 +121,7 @@ export default function SubmitProject() {
                 </label>
                 <input
                   ref={projectLienYoutubeRef}
-                  placeholder="Coller le lien youtube de la vidéo decrivant le projet"
+                  placeholder="Coller le lien de la vidéo"
                   type="text"
                   required
                   name="illustration"
@@ -135,11 +133,21 @@ export default function SubmitProject() {
 
           <div className="flex flex-col lg:flex-row gap-10 lg:text-lg">
             <div className="basis-full">
-              <label htmlFor="">Selectionner la Thématique</label>
+              <label htmlFor="">Selectionner l&lsquo;appel</label>
               <Select
-                isMulti
-                options={options}
-                onChange={handleSelectChange}
+                options={calls}
+                onChange={handleThematicsChange}
+                className="h-12 rounded w-full mt-2 basic-multi-select"
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col lg:flex-row gap-10 lg:text-lg">
+            <div className="basis-full">
+              <label htmlFor="">Selectionner une thématique</label>
+              <Select
+                options={calls}
+                onChange={handleThematicsChange}
                 className="h-12 rounded w-full mt-2 basic-multi-select"
               />
             </div>
