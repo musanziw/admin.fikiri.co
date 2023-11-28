@@ -8,10 +8,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(
     session({
-      secret: process.env.SESSION_SECRET,
-      resave: Boolean(process.env.SESSION_RESAVE),
+      secret: 'keyboard cat',
+      resave: false,
       saveUninitialized: false,
-      cookie: { maxAge: +process.env.SESSION_COOKIE_MAX_AGE },
+      cookie: { maxAge: 3600000 },
     }),
   );
   app.use(passport.initialize());
