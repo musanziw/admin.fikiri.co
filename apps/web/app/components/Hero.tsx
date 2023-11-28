@@ -11,7 +11,6 @@ import slide6 from "@/public/sliders2/ODD 13 15.png";
 import slide7 from "@/public/sliders2/ODD 2-8.png";
 import slide8 from "@/public/sliders2/ODD 3-8.png";
 import slide9 from "@/public/sliders2/ODD 9.png";
-
 import Image from "next/image";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
@@ -74,9 +73,7 @@ export function Hero() {
               />
               <span className={"text-5xl font-bold text-red-500"}> .</span>
             </h1>
-            <h2
-              className={`text-2xl text-gray-50 mb-6 font-semibold mt-6 fade-in-1`}
-            >
+            <h2 className={`text-2xl text-gray-50 mb-6 font-semibold mt-6 fade-in-1`}>
               Cartographie des solutions innovantes locales pour accélérer
               l&apos;atteinte des ODD en RDC.
             </h2>

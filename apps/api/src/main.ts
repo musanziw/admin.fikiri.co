@@ -11,7 +11,7 @@ async function bootstrap() {
       secret: process.env.SESSION_SECRET,
       resave: Boolean(process.env.SESSION_RESAVE),
       saveUninitialized: Boolean(process.env.SESSION_SAVE_UNINITIALIZED),
-      cookie: { maxAge: +process.env.SESSION_COOKIE_MAX_AGE, sameSite: 'none', secure: true, domain: 'https://fikiri.co' },
+      cookie: { maxAge: +process.env.SESSION_COOKIE_MAX_AGE, sameSite: 'none', secure: true, domain: 'https://musanzi-wilfried.me' },
     }),
   );
   app.use(passport.initialize());
