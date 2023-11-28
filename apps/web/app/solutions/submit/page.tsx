@@ -116,7 +116,7 @@ export default function SubmitProject() {
           <div className="flex flex-col gap-10">
             <div className="space-y-2">
               <label htmlFor="email" className="text-gray-800">
-                Nom de la solution
+                Le titre de la solution
               </label>
               <input
                 ref={projectTitleRef}
@@ -172,17 +172,25 @@ export default function SubmitProject() {
 
 
           <div className="flex flex-col gap-5">
+            <label htmlFor="illustration" className="text-gray-800">
+              La description de la solution
+            </label>
             <textarea
               ref={projectDescriptionRef}
               name=""
               id=""
               required
               className="focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500 lg:text-lg"
-              placeholder={"Description du projet"}
+              placeholder={"La description de la solution"}
             ></textarea>
           </div>
 
           <div className="basis-1/2">
+
+            <label htmlFor="illustration" className="text-gray-800 inline-block mb-4">
+              Problème résolu
+            </label>
+
             <textarea
               ref={projectSolutionRef}
               name=""
@@ -194,6 +202,9 @@ export default function SubmitProject() {
           </div>
 
           <div className="flex flex-col gap-5">
+            <label htmlFor="illustration" className="text-gray-800 ,b)(">
+              Etapes de votre Solution
+            </label>
             <div className="basis-1/2 ">
               <textarea
                 ref={projectEtapeRef}
@@ -205,6 +216,9 @@ export default function SubmitProject() {
               ></textarea>
             </div>
 
+            <label htmlFor="illustration" className="text-gray-800">
+              Impact et fait marquant
+            </label>
             <textarea
               ref={projectImpactRef}
               name=""
@@ -215,6 +229,9 @@ export default function SubmitProject() {
             ></textarea>
           </div>
 
+          <label htmlFor="illustration" className="text-gray-800">
+            Projet d&apos;expansion
+          </label>
           <textarea
             ref={projectExpansionRef}
             name=""
