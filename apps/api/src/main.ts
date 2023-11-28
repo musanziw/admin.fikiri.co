@@ -18,7 +18,7 @@ async function bootstrap() {
   app.use(passport.session());
   app.enableCors({
     origin: true,
-    allowedHeaders: ['Content-Type', 'Authorization', 'Set-Cookie', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials', 'Access-Control-Allow-Headers'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Set-Cookie', 'Cookie'],
     credentials: true,
   });
   await app.listen(8000);
