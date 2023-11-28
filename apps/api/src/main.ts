@@ -25,11 +25,11 @@ async function bootstrap() {
       'https://fikiri.co',
       'https://www.fikiri.co',
     ],
-    allowedHeaders: 'Content-Type, Set-Cookie, Authorization, Access-Control-Allow-Origin',
+    allowedHeaders: ['Content-Type', 'Set-Cookie', 'Authorization', 'Access-Control-Allow-Origin'],
     methods: ['POST', 'PUT', 'DELETE', 'GET'],
     credentials: true,
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
+    // preflightContinue: false,
+    // optionsSuccessStatus: 204,
   });
   await app.listen(8000);
 }
