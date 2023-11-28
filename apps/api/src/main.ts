@@ -8,21 +8,18 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(
     session({
-      secret: 'keyboard cat',
-      resave: false,
-      saveUninitialized: false,
-      cookie: { maxAge: 3600000 },
+      secret: process.env.SESSION_SECRET,
+      resave: Boolean(process.env.SESSION_RESAVE),
+      saveUninitialized: Boolean(process.env.SESSION_SAVE_UNINITIALIZED),
+      cookie: { maxAge: +process.env.SESSION_COOKIE_MAX_AGE },
     }),
   );
   app.use(passport.initialize());
   app.use(passport.session());
   app.enableCors({
     origin: true,
-    allowedHeaders: ['Content-Type', 'Set-Cookie', 'Authorization', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials', 'Access-Control-Origin'],
-    methods: ['POST', 'PUT', 'DELETE', 'GET'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Set-Cookie', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials', 'Access-Control-Allow-Headers'],
     credentials: true,
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
   });
   await app.listen(8000);
 }

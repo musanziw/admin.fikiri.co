@@ -89,21 +89,19 @@ export function Hero() {
             <Link
               href={isLogged ? "/solutions/submit" : "/login"}
               className={"px-6 fade-in-3 py-2 inline-block mb-10 rounded-md bg-indigo-500 text-white font-semibold"}>
-              {isLogged ? "Soumettre une solution" : "Se connecter et posuler"}
+              {isLogged ? "Soumettre une solution" : "Se connecter et postuler"}
             </Link>
           </div>
 
           <div
             className={
               "self-start md:justify-self-end md:w-3/4  relative overflow-hidden"
-            }
-          >
+            }>
             <Carousel
               autoPlay={true}
               interval={3000}
               infiniteLoop={true}
-              showThumbs={false}
-            >
+              showThumbs={false}>
               {IMAGES.map((image, index) => (
                 <Image
                   key={index}
