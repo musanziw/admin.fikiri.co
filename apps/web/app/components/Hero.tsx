@@ -92,7 +92,7 @@ export function Hero() {
             <Link
               href={isLogged ? "/solutions/submit" : "/login"}
               className={"px-6 fade-in-3 py-2 inline-block mb-10 rounded-md bg-indigo-500 text-white font-semibold"}>
-              {isLogged ? "Soumettre une solution" : "Se connecter"}
+              {isLogged ? "Soumettre une solution" : "Se connecter et posuler"}
             </Link>
           </div>
 
