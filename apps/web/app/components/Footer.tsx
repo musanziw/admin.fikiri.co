@@ -6,11 +6,11 @@ export function Footer() {
       <div className="max-w-screen-lg md:mx-auto ">
         <div className="grid grid-cols-2 gap-6 lg:grid-cols-3 mb-6">
           <div className="flex flex-col gap-5">
-            <p className={"font-semibold"}>Join us</p>
+            <p className={"font-semibold"}>Nous joindre</p>
             <ul className="flex flex-col gap-2">
               <li>123 Avenue de la Révolution, Lubumbashi, RDC.</li>
               <Link href={""} className={"inline-block"}>
-                contact@fikiri.com
+                contact@fikiri.co
               </Link>
               <Link href={""} className={"inline-block"}>
                 +243 97 926 5726
