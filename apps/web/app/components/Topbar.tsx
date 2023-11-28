@@ -48,13 +48,13 @@ export default function Topbar({ background }: TopbarProps) {
   ];
 
   const logOut = () => {
-    axios.get("/auth/logout");
-    setIsLogged(false)
-    storeToken(null)
     toast.success("Vous êtes déconnecté !")
     setTimeout(() => {
       router.push("/")
     }, 1000)
+    axios.get("/auth/logout");
+    storeToken(null)
+    setIsLogged(false)
   };
 
   return (

@@ -11,7 +11,7 @@ export default async function Solution({ params }: { params: { id: string } }) {
             <div className={'relative'}>
                 <Topbar background={'bg-white'} />
                 <div className="flex flex-col mx-6 justify-center max-w-screen-md md:mx-auto border-x border-dashed">
-                    <div className="p-4 pt-28">
+                    <div className="p-4 pt-10">
                         <p className="text-sm uppercase font-bold text-gray-800 mb-6">
                             {solution.thematics.map((thematic: any) => thematic.name).join(', ')}
                         </p>
