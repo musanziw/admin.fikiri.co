@@ -62,7 +62,7 @@ export function Hero() {
   return (
     <>
       <Topbar background={"bg-white"} />
-      <div className={"py-32 pt-28 bg-indigo-800 text-gray-50"}>
+      <div className={"py-20 bg-indigo-800 text-gray-50"}>
         <div
           className={"p-8 h-full grid grid-cols-1 items-center md:grid-cols-2 md:mx-auto md:max-w-screen-lg"}>
           <div className={"flex flex-col justify-center items-start"}>
