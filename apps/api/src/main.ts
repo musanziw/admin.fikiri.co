@@ -4,6 +4,7 @@ import * as session from 'express-session';
 import * as passport from 'passport';
 import * as process from 'process';
 import { tr } from '@faker-js/faker';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,10 +18,14 @@ async function bootstrap() {
   );
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use(helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+  }))
+
   app.enableCors({
     origin: true,
-    allowedHeaders: ['Content-Type', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials', 'Access-Control-Allow-Headers'],
-    exposedHeaders: ['Content-Type', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials', 'Access-Control-Allow-Headers'],
+    allowedHeaders: 'Content-Type, Access-Control-Allow-Origin, Access-Control-Allow-Credentials, Access-Control-Allow-Headers',
     credentials: true,
   });
   await app.listen(8000);
