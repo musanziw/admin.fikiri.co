@@ -16,6 +16,7 @@ import Image from "next/image";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import Topbar from "@/app/components/Topbar";
+import { useAuthContext } from "../context/store";
 
 const IMAGES = [
   {
@@ -57,6 +58,7 @@ const IMAGES = [
 ];
 
 export function Hero() {
+  const { isLogged } = useAuthContext()
   return (
     <>
       <Topbar background={"bg-white"} />
@@ -88,12 +90,9 @@ export function Hero() {
               (ODD).
             </p>
             <Link
-              href={"/solutions/submit"}
-              className={
-                "px-6 fade-in-3 py-2 inline-block mb-10 rounded-md bg-indigo-500 text-white font-semibold"
-              }
-            >
-              Postuler maintenant
+              href={isLogged ? "/solutions/submit" : "/login"}
+              className={"px-6 fade-in-3 py-2 inline-block mb-10 rounded-md bg-indigo-500 text-white font-semibold"}>
+              {isLogged ? "Soumettre une solution" : "Se connecter"}
             </Link>
           </div>
 
