@@ -18,14 +18,11 @@ async function bootstrap() {
   );
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(helmet({
-    contentSecurityPolicy: false,
-    crossOriginEmbedderPolicy: false,
-  }))
-
+  app.use(helmet());
   app.enableCors({
     origin: true,
-    allowedHeaders: 'Content-Type, Access-Control-Allow-Origin, Access-Control-Allow-Credentials, Access-Control-Allow-Headers',
+    allowedHeaders: 'Content-Type, Authorization',
+    methods: ['POST', 'PUT', 'DELETE', 'GET'],
     credentials: true,
   });
   await app.listen(8000);
