@@ -33,11 +33,8 @@ export function Footer() {
           <div className="flex flex-col gap-5">
             <p className={"font-semibold"}>Fikiri</p>
             <ul className="flex flex-col gap-2">
-              <Link href={""} className={"inline-block"}>
+              <Link href={"/#about"} className={"inline-block"} aria-label="about us">
                 A propos de nous
-              </Link>
-              <Link href={""} className={"inline-block"}>
-                Soumettre votre projet
               </Link>
             </ul>
           </div>
