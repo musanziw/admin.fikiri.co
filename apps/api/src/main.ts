@@ -25,6 +25,7 @@ async function bootstrap() {
     allowedHeaders: ['Content-Type', 'Authorization', 'Set-Cookie'],
     methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
     credentials: true,
+    preflightContinue: false,
   });
   await app.listen(8000);
 }
