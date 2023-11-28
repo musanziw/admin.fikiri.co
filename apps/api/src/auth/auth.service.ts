@@ -5,12 +5,16 @@ import { Request } from 'express';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { SerializedUser } from '../types/serialized-user';
 import { Prisma } from '@prisma/client';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UsersService) { }
+  constructor(
+    private readonly userService: UsersService,
+    private readonly jwtService: JwtService
+  ) { }
 
-  async validateUser(email: string, password: string): Promise<any> {
+  async login(email: string, password: string): Promise<any> {
     const user = await this.userService.findByEmail(email);
     const passwordMatch: boolean = await this.passworMatch(
       password,
@@ -19,24 +23,26 @@ export class AuthService {
     if (!passwordMatch)
       throw new HttpException("Informations d'identification invalides", HttpStatus.BAD_REQUEST);
 
+    const payload = { sub: user.userId, name: user.name };
+
     return {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-    } as SerializedUser;
+      message: 'Connexion réussie',
+      statusCode: HttpStatus.OK,
+      data: {
+        id: user.userId,
+        name: user.name,
+        email: user.email,
+        accessToken: await this.jwtService.signAsync(payload),
+      },
+    };
+
   }
 
   async passworMatch(password: string, hash: string): Promise<boolean> {
     return await bcrypt.compare(password, hash);
   }
 
-  async login(@CurrentUser() user: SerializedUser): Promise<any> {
-    return {
-      message: 'Connexion réussie',
-      statusCode: HttpStatus.OK,
-      data: user
-    };
-  }
+
 
   async logout(@Req() request: Request): Promise<any> {
     request.session.destroy(() => { });

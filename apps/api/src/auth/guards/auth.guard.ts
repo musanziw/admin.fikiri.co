@@ -6,11 +6,18 @@ import {
   HttpStatus,
   Injectable,
 } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { IS_PUBLIC } from '../decorators/public.decorator';
+import { Request } from 'express';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
+  constructor(
+    private reflector: Reflector,
+    private jwtService: JwtService,
+    private configService: ConfigService,
+  ) { }
 
   async canActivate(context: ExecutionContext) {
     const isPublic =
@@ -22,13 +29,30 @@ export class AuthGuard implements CanActivate {
       return true;
     }
     const request = context.switchToHttp().getRequest();
-    const isAuth = request.isAuthenticated();
-    if (isAuth) {
-      return true;
+    const token = this.extractTokenFromHeader(request);
+    if (!token) {
+      throw new ForbiddenException({
+        message: 'Veuillez vous connecter',
+        statusCode: HttpStatus.FORBIDDEN,
+      });
     }
-    throw new ForbiddenException({
-      message: 'Veuillez vous connecter',
-      statusCode: HttpStatus.FORBIDDEN,
-    });
+
+    try {
+      const payload = await this.jwtService.verifyAsync(
+        token, { secret: this.configService.get('JWT_SECRET') }
+      );
+      request['user'] = payload;
+    } catch {
+      throw new ForbiddenException({
+        message: 'Veuillez vous connecter',
+        statusCode: HttpStatus.FORBIDDEN,
+      });
+    }
+    return true;
+  }
+
+  private extractTokenFromHeader(request: Request): string | undefined {
+    const [type, token] = request.headers.authorization?.split(' ') ?? [];
+    return type === 'Bearer' ? token : undefined;
   }
 }

@@ -16,11 +16,22 @@ import { ThematicsModule } from './thematics/thematics.module';
 import { PrismaModule } from './database/prisma.module';
 import { CallsModule } from './calls/calls.module';
 import { GoalsModule } from './goals/goals.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+    }),
+    JwtModule.registerAsync({
+      inject: [ConfigService],
+      global: true,
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get('JWT_SECRET'),
+        signOptions: {
+          expiresIn: configService.get('JWT_EXPIRATION_TIME'),
+        },
+      }),
     }),
     MailerModule.forRootAsync({
       inject: [ConfigService],

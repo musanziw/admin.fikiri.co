@@ -20,7 +20,7 @@ interface optionProps {
 }
 
 export default function SubmitProject() {
-  const { isLogged, setIsLogged } = useAuthContext();
+  const { isLogged, token } = useAuthContext();
   const projectTitleRef: RefObject<HTMLInputElement> = useRef(null);
   const projectLienYoutubeRef: RefObject<HTMLInputElement> = useRef(null);
   const projectDescriptionRef: RefObject<HTMLTextAreaElement> = useRef(null);
@@ -37,20 +37,30 @@ export default function SubmitProject() {
   const router = useRouter();
 
   useEffect(() => {
-    axios.get(`calls`).then(({ data: apiResponse }) => {
-      const options = apiResponse.data
-      setCalls(
-        options.map((option: optionProps) => ({
-          value: option.id,
-          label: option.name,
-        }))
-      );
-    }).catch(() => { })
-  }, [router]);
+    if (isLogged) {
+      axios.get(`calls`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(({ data: apiResponse }) => {
+        const options = apiResponse.data
+        setCalls(
+          options.map((option: optionProps) => ({
+            value: option.id,
+            label: option.name,
+          }))
+        );
+      }).catch(() => { })
+    }
+  }, [router, token, isLogged]);
 
   const handleCallChange = (option: any) => {
     setSelectedCall(option.value)
-    axios.get(`calls/${option.value}`).then(({ data: apiResponse }) => {
+    axios.get(`calls/${option.value}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(({ data: apiResponse }) => {
       const { thematics: options } = apiResponse.data
       setThematics(
         options.map((option: optionProps) => ({
@@ -80,7 +90,11 @@ export default function SubmitProject() {
         impact: projectImpactRef.current?.value || "",
         thematics: selectedThematics
       };
-      await axios.post(SOLUTION_URI, JSON.stringify(payload));
+      await axios.post(SOLUTION_URI, JSON.stringify(payload), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       toast.success("Solution soumis avec succès !");
       setIsLoading(false);
       setTimeout(() => {

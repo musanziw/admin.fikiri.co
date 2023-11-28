@@ -20,7 +20,7 @@ export default function Login() {
   const emailRef: RefObject<HTMLInputElement> = useRef(null);
   const passwordRef: RefObject<HTMLInputElement> = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { isLogged, setIsLogged } = useAuthContext();
+  const { isLogged, setIsLogged, storeToken } = useAuthContext();
   const router = useRouter();
 
   const onSubmit = async (ev: FormEvent<HTMLFormElement>) => {
@@ -31,8 +31,9 @@ export default function Login() {
         email: emailRef.current?.value || "",
         password: passwordRef.current?.value || "",
       };
-      const response = await axios.post(LOGIN_URI, JSON.stringify(payload));
-      if (response) {
+      const { data: apiReponse } = await axios.post(LOGIN_URI, JSON.stringify(payload));
+      if (apiReponse.data) {
+        storeToken(apiReponse.data.accessToken);
         setIsLogged(true)
         setIsLoading(false);
         toast.success("Connexion réussie ");

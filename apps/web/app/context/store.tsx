@@ -12,7 +12,9 @@ import axios from "../config/axios";
 
 interface AuthContextProps {
   isLogged: boolean,
-  setIsLogged: (isLogged: boolean) => void
+  token: string | null,
+  storeToken: (token: string | null) => void
+  setIsLogged: (isLogged: boolean) => void,
 }
 
 const AuthProvider = createContext<AuthContextProps | undefined>(undefined);
@@ -22,18 +24,33 @@ interface ContextProviderProps {
 }
 
 export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
-  const [isLogged, setIsLogged] = useState(false);
+  const [isLogged, setIsLogged] = useState(false)
+  const [token, setToken] = useState<string | null>(
+    typeof window !== "undefined" ? localStorage.getItem("token") : null
+  )
+
+  const storeToken = (token: string | null) => {
+    if (typeof window !== "undefined") {
+      setToken(token);
+      if (token === null) localStorage.removeItem("token");
+      else localStorage.setItem("token", token);
+    }
+  }
 
   useEffect(() => {
-    axios.get("/auth/profile").then(({ data: response }) => {
-      return setIsLogged(response.data);
+    axios.get("/auth/profile", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(({ data: response }) => {
+      setIsLogged(response.data);
     }).catch(() => {
       setIsLogged(false)
     })
-  }, [isLogged])
+  }, [isLogged, token])
 
   return (
-    <AuthProvider.Provider value={{ isLogged, setIsLogged }}>
+    <AuthProvider.Provider value={{ isLogged, setIsLogged, storeToken, token }}>
       {children}
     </AuthProvider.Provider>
   );

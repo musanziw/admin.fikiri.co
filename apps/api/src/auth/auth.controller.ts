@@ -8,7 +8,6 @@ import {
     UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LocalGuard } from './guards/local.guard';
 import { Request } from 'express';
 import { Public } from './decorators/public.decorator';
 import { CurrentUser } from './decorators/current-user.decorator';
@@ -48,10 +47,9 @@ export class AuthController {
     }
 
     @Public()
-    @UseGuards(LocalGuard)
     @Post('login')
-    login(@CurrentUser() user: SerializedUser): Promise<any> {
-        return this.authService.login(user);
+    login(@Body() signinDto: { email: string, password: string }): Promise<any> {
+        return this.authService.login(signinDto.email, signinDto.password);
     }
 
     @Public()

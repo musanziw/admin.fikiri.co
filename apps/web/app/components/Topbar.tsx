@@ -14,7 +14,7 @@ interface TopbarProps {
 
 export default function Topbar({ background }: TopbarProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const { isLogged, setIsLogged } = useAuthContext()
+  const { isLogged, setIsLogged, storeToken } = useAuthContext()
   const pathname = usePathname()
 
   const LINKS = [
@@ -48,6 +48,7 @@ export default function Topbar({ background }: TopbarProps) {
   const logOut = () => {
     axios.get("/auth/logout");
     setIsLogged(false)
+    storeToken(null)
   };
 
   return (
@@ -71,7 +72,7 @@ export default function Topbar({ background }: TopbarProps) {
         }
 
         {isLogged && (
-          <button onClick={logOut} className={"transition-colors duration-300 text-red-600"}>
+          <button onClick={logOut} className={"text-red-600"}>
             Se déconnecter
           </button>
         )}
@@ -85,7 +86,7 @@ export default function Topbar({ background }: TopbarProps) {
         ))}
 
         {isLogged && (
-          <button onClick={logOut} className={"transition-colors duration-300 text-red-600"}>
+          <button onClick={logOut} className={"text-red-600"}>
             Se déconnecter
           </button>
         )}

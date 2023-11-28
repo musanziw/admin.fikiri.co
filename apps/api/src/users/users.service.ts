@@ -107,7 +107,7 @@ export class UsersService {
 
     async findByEmail(email: string): Promise<any> {
         const user = await this.prismaService.user.findUnique({
-            where: { email }
+            where: { email },
         })
         if (!user) throw new HttpException("L'utilisateur n'a pas été trouvé", HttpStatus.NOT_FOUND);
         return user;
