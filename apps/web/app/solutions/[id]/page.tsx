@@ -20,7 +20,7 @@ export default async function Solution({ params }: { params: { id: string } }) {
                             {solution.name}
                         </h2>
 
-                        <h2 className={'font-semibold text-3xl mb-4'}>
+                        <h2 className={'font-semibold text-xl mb-4'}>
                             Desciption de la solution
                         </h2>
 
@@ -30,36 +30,37 @@ export default async function Solution({ params }: { params: { id: string } }) {
                     </div>
 
                     <div className="p-4">
-                        <h2 className={'font-semibold text-3xl mb-4'}>
+                        <h2 className={'font-semibold text-xl mb-4'}>
                             Vidéo de présentation
                         </h2>
-                        <div className="relative h-[300px] w-full pb-9/16">
-                            <VideoPlayer link={solution.videoLink} />
-                        </div>
+                    </div>
+
+                    <div className="relative h-[420px] w-full pb-9/16">
+                        <VideoPlayer link={solution.videoLink} />
                     </div>
 
                     <div className="p-4">
 
-                        <h2 className={'font-semibold text-3xl mb-4'}>
+                        <h2 className={'font-semibold text-xl mb-4'}>
                             Problème résolu
                         </h2>
                         <p className={'px-4 font-medium mb-8'}>
                             {solution.solvedProblem}
                         </p>
 
-                        <h2 className={'font-semibold text-3xl mb-4'}>
+                        <h2 className={'font-semibold text-xl mb-4'}>
                             Project d&apos;expension
                         </h2>
                         <p className={'px-4 font-medium mb-8'}>
                             {solution.expansion}
                         </p>
-                        <h2 className={'font-semibold text-3xl mb-4'}>
+                        <h2 className={'font-semibold text-xl mb-4'}>
                             Impactes de la solution
                         </h2>
                         <p className={'px-4 font-medium mb-8'}>
                             {solution.impact}
                         </p>
-                        <h2 className={'font-semibold text-3xl mb-4'}>
+                        <h2 className={'font-semibold text-xl mb-4'}>
                             Etapes
                         </h2>
                         <p className={'px-4 font-medium mb-8'}>
