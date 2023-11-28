@@ -39,7 +39,9 @@ export default function Register() {
       await axios.post(REGISTER_URI, JSON.stringify(payload));
       toast.success("Inscription reussie");
       setIsLoading(false);
-      router.push("/login")
+      setTimeout(() => {
+        router.push("/login");
+      }, 2000)
     } catch (e: any) {
       toast.error(e.response.data.message);
       setIsLoading(false);

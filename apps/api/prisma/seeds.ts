@@ -48,9 +48,11 @@ async function main() {
                 name: faker.commerce.productName(),
                 description: faker.lorem.paragraph(),
                 thematics: {
-                    connect: {
-                        id: faker.number.int({ min: 1, max: 17 })
-                    }
+                    connect: new Array(faker.number.int({ min: 3, max: 6 })).fill(0).map((_) => {
+                        return {
+                            id: faker.number.int({ min: 1, max: 30 })
+                        }
+                    })
                 }
             }
         })

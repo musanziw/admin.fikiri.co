@@ -102,14 +102,12 @@ const PARTAINERS = [
 ];
 
 export function About() {
-
   return (
     <div className={"p-8 bg-white"} id={"about"}>
       <div
         className={
           "lg:mx-auto border-t lg:max-w-screen-lg grid grid-cols-1 items-center md:grid-cols-2 gap-8 py-20"
-        }
-      >
+        }>
         <div className={"flex flex-col gap-5 lg:text-lg"}>
           <h1 className={"text-xl font-bold"}>Qui sommes-nous ?</h1>
           <p>

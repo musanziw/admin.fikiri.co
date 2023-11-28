@@ -52,7 +52,7 @@ CREATE TABLE `Solution` (
     `name` VARCHAR(191) NOT NULL,
     `videoLink` VARCHAR(191) NULL,
     `description` TEXT NOT NULL,
-    `solvedProblems` TEXT NOT NULL,
+    `solvedProblem` TEXT NOT NULL,
     `impact` TEXT NOT NULL,
     `expansion` TEXT NOT NULL,
     `steps` TEXT NOT NULL,

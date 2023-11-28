@@ -48,19 +48,19 @@ model Call {
 }
 
 model Solution {
-  id             Int        @id @default(autoincrement())
-  name           String
-  videoLink      String?
-  description    String     @db.Text
-  solvedProblems String     @db.Text
-  impact         String     @db.Text
-  expansion      String     @db.Text
-  steps          String     @db.Text
-  thematics      Thematic[]
-  status         String     @default("pending")
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @updatedAt
-  callId         Int
+  id            Int        @id @default(autoincrement())
+  name          String
+  videoLink     String?
+  description   String     @db.Text
+  solvedProblem String     @db.Text
+  impact        String     @db.Text
+  expansion     String     @db.Text
+  steps         String     @db.Text
+  thematics     Thematic[]
+  status        String     @default("pending")
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  callId        Int
 }
 
 model Goal {

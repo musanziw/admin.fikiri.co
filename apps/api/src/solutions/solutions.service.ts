@@ -9,11 +9,14 @@ export class SolutionsService {
     ) {
     }
 
-    async create(createSolutionDto: Prisma.SolutionCreateInput) {
+    async create(createSolutionDto: Prisma.SolutionCreateInput & { thematics: number[] }) {
         try {
             await this.prismaService.solution.create({
                 data: {
-                    ...createSolutionDto
+                    ...createSolutionDto,
+                    thematics: {
+                        connect: createSolutionDto.thematics.map((id) => ({ id }))
+                    }
                 },
             });
         } catch {
@@ -29,7 +32,15 @@ export class SolutionsService {
     }
 
     async findAll() {
-        const solutions = await this.prismaService.solution.findMany({})
+        const solutions = await this.prismaService.solution.findMany({
+            include: {
+                thematics: {
+                    include: {
+                        calls: true
+                    }
+                },
+            }
+        })
         return {
             statusCode: HttpStatus.OK,
             data: solutions,
@@ -40,7 +51,7 @@ export class SolutionsService {
         const solution = await this.prismaService.solution.findUnique({
             where: { id },
             include: {
-                thematics: true
+                thematics: true,
             }
         });
         if (!solution)

@@ -20,7 +20,7 @@ export default function Login() {
   const emailRef: RefObject<HTMLInputElement> = useRef(null);
   const passwordRef: RefObject<HTMLInputElement> = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { setAccount } = useAuthContext();
+  const { isLogged, setIsLogged } = useAuthContext();
   const router = useRouter();
 
   const onSubmit = async (ev: FormEvent<HTMLFormElement>) => {
@@ -33,7 +33,7 @@ export default function Login() {
       };
       const response = await axios.post(LOGIN_URI, JSON.stringify(payload));
       if (response) {
-        setAccount(response.data.data);
+        setIsLogged(true)
         setIsLoading(false);
         toast.success("Connexion réussie ");
         setTimeout(() => {
