@@ -11,14 +11,14 @@ async function bootstrap() {
       secret: process.env.SESSION_SECRET,
       resave: Boolean(process.env.SESSION_RESAVE),
       saveUninitialized: Boolean(process.env.SESSION_SAVE_UNINITIALIZED),
-      cookie: { maxAge: +process.env.SESSION_COOKIE_MAX_AGE, sameSite: 'lax' },
+      cookie: { maxAge: +process.env.SESSION_COOKIE_MAX_AGE, sameSite: 'none', secure: true },
     }),
   );
   app.use(passport.initialize());
   app.use(passport.session());
   app.enableCors({
     origin: true,
-    allowedHeaders: ['Content-Type', 'Authorization', 'Set-Cookie', 'Access-Control-Allow-Origin', 'Access-Control-Allow-Credentials', 'Access-Control-Allow-Headers'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Set-Cookie'],
     credentials: true,
   });
   await app.listen(8000);
