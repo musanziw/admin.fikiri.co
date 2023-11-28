@@ -20,10 +20,16 @@ async function bootstrap() {
   app.use(passport.session());
   app.use(helmet());
   app.enableCors({
-    origin: true,
+    origin: [
+      'http://localhost:3000',
+      'https://fikiri.co',
+      'https://www.fikiri.co',
+    ],
     allowedHeaders: 'Content-Type, Authorization',
     methods: ['POST', 'PUT', 'DELETE', 'GET'],
     credentials: true,
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
   });
   await app.listen(8000);
 }
