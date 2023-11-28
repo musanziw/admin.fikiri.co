@@ -16,7 +16,7 @@ export function VideoPlayer({ link }: VideoProps) {
     }
 
     const opts: YouTubeProps['opts'] = {
-        height: '400px',
+        height: '400rem',
         width: '100%',
         playerVars: {
             autoplay: 1,
