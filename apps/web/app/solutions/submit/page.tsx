@@ -37,7 +37,7 @@ export default function SubmitProject() {
   const router = useRouter();
 
   useEffect(() => {
-    if (isLogged) {
+    if (token) {
       axios.get(`calls`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -52,7 +52,7 @@ export default function SubmitProject() {
         );
       }).catch(() => { })
     }
-  }, [router, token, isLogged]);
+  }, [router, token]);
 
   const handleCallChange = (option: any) => {
     setSelectedCall(option.value)

@@ -4,9 +4,10 @@ import { useState } from "react";
 import Link from "next/link";
 import logo from "@/public/logo.png";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import axios from "../config/axios";
 import { useAuthContext } from "../context/store";
+import { toast } from "react-toastify";
 
 interface TopbarProps {
   background?: string;
@@ -16,6 +17,7 @@ export default function Topbar({ background }: TopbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { isLogged, setIsLogged, storeToken } = useAuthContext()
   const pathname = usePathname()
+  const router = useRouter()
 
   const LINKS = [
     {
@@ -49,6 +51,10 @@ export default function Topbar({ background }: TopbarProps) {
     axios.get("/auth/logout");
     setIsLogged(false)
     storeToken(null)
+    toast.success("Vous êtes déconnecté !")
+    setTimeout(() => {
+      router.push("/")
+    }, 1000)
   };
 
   return (
