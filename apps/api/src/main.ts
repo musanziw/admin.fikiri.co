@@ -17,7 +17,11 @@ async function bootstrap() {
   app.use(passport.initialize());
   app.use(passport.session());
   app.enableCors({
-    origin: true,
+    origin: [
+      'http://localhost:3000',
+      'https://fikiri.co',
+      'https://www.fikiri.co',
+    ],
     allowedHeaders: ['Content-Type', 'Authorization', 'Set-Cookie'],
     methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
     credentials: true,
