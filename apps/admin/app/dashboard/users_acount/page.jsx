@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import Pagination from "@/app/ui/dashboard/pagination/pagination";
 import Search from "@/app/ui/dashboard/search/search";
@@ -6,13 +6,15 @@ import styles from "@/app/ui/dashboard/users_acount/users_acount.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { useStateContext } from "@/app/context/store";
+import { useEffect, useState } from "react";
+import axios from "@/app/api/axios";
 
 const USERS = [
   {
     id: 1,
     nomComplet: "John Doe",
     email: "john.doe@email.com",
-    profil : "/avatar30.png",
+    profil: "/avatar30.png",
     numTel: "123-456-7890",
     create_at: "2023-01-01T12:00:00Z",
     status: "actif",
@@ -21,7 +23,7 @@ const USERS = [
     id: 2,
     nomComplet: "Jane Smith",
     email: "jane.smith@email.com",
-    profil : "/avatar31.jpg",
+    profil: "/avatar31.jpg",
     numTel: "987-654-3210",
     create_at: "2023-01-02T09:30:00Z",
     status: "actif",
@@ -30,7 +32,7 @@ const USERS = [
     id: 3,
     nomComplet: "Alice Johnson",
     email: "alice.johnson@email.com",
-    profil : "/avatar23.png",
+    profil: "/avatar23.png",
     numTel: "555-123-4567",
     create_at: "2023-01-03T15:45:00Z",
     status: "inactif",
@@ -39,22 +41,34 @@ const USERS = [
     id: 4,
     nomComplet: "Bob Williams",
     email: "bob.williams@email.com",
-    profil : "/avatar27.png",
+    profil: "/avatar27.png",
     numTel: "111-222-3333",
     create_at: "2023-01-04T08:00:00Z",
     status: "actif",
   },
 ];
 
-const UsersPage =  () => {
+const UsersPage = () => {
+  const [uses, setUsers] = useState();
 
-  const { currentColor, currentMode } = useStateContext();
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get("/users", {
+          withCredentials: true,
+        });
+        const data = response.data.data;
+        console.log(data);
+      } catch (error) {
+        console.log(error)
+      }
+    };
 
-  console.log(currentColor, currentMode);
+    fetchUsers();
+  }, []);
 
   return (
     <div className={styles.container}>
-
       <table className={styles.table}>
         <thead>
           <tr>

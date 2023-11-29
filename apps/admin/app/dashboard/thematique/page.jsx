@@ -44,6 +44,7 @@ const Thematique = () => {
     fetchThematique();
   }, []);
 
+
   return (
     <div className={styles.container}>
       <div className={styles.top}>
@@ -67,13 +68,6 @@ const Thematique = () => {
               <tr key={thematique.id}>
                 <td>
                   <div className={styles.user}>
-                    {/* <Image
-                    src={`${THEMATIQUE.profil}`}
-                    alt=""
-                    width={40}
-                    height={40}
-                    className={styles.userImage}
-                  /> */}
                     {thematique.name}
                   </div>
                 </td>
