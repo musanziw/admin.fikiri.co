@@ -14,7 +14,6 @@ import sadek from "@/public/partainers/13.png";
 import base from "@/public/partainers/14.png";
 import luBaHub from "@/public/partainers/15.png";
 import yPardRDC from "@/public/partainers/16.png";
-
 import about from "@/public/about.jpeg";
 import Image from "next/image";
 
