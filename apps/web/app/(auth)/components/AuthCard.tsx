@@ -14,7 +14,7 @@ export function AuthCard({ title, children }: AuthCardProps) {
             <div className="container relative m-auto px-6 md:px-12 xl:px-40">
                 <div className="m-auto space-y-8 md:w-8/12 lg:w-6/12 xl:w-6/12 mt-10">
                     <div className="flex items-center justify-center w-full">
-                        <h2 className="text-3xl font-bold text-gray-900">{title}</h2>
+                        <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
                     </div>
                     <div
                         className="rounded-lg border border-gray-100 bg-white shadow-xl shadow-gray-600/30 backdrop-blur-2xl">

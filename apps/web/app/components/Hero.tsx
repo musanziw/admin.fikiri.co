@@ -56,9 +56,9 @@ export function Hero() {
       <Topbar background={"bg-white"} />
       <div className={"py-16 bg-indigo-800 text-gray-50"}>
         <div
-          className={"p-8 h-full grid grid-cols-1 items-center md:grid-cols-2 md:mx-auto md:max-w-screen-lg"}>
+          className={"p-8 h-screen grid grid-cols-1 content-center md:grid-cols-2 md:mx-auto md:max-w-screen-lg"}>
           <div className={"flex flex-col justify-center items-start"}>
-            <h2 className={`text-2xl text-gray-50 mb-6 font-semibold mt-6 fade-in-1`}>
+            <h2 className={`text-3xl text-gray-50 mb-6 font-semibold mt-6 fade-in-1`}>
               Cartographie des solutions innovantes locales pour accélérer
               l&apos;atteinte des ODD en RDC.
             </h2>
