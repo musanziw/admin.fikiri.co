@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { Typewriter } from "react-simple-typewriter";
 import slide1 from "@/public/sliders2/COMING SOON-2.png";
 import slide2 from "@/public/sliders2/FIKIRI-POSTER-1.png";
 import slide3 from "@/public/sliders2/FIKIRI-POSTER-3.png";
@@ -12,8 +11,6 @@ import slide7 from "@/public/sliders2/ODD 2-8.png";
 import slide8 from "@/public/sliders2/ODD 3-8.png";
 import slide9 from "@/public/sliders2/ODD 9.png";
 import Image from "next/image";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Carousel } from "react-responsive-carousel";
 import Topbar from "@/app/components/Topbar";
 import { useAuthContext } from "../context/authContext";
 
@@ -91,7 +88,7 @@ export function Hero() {
               "self-start md:justify-self-end md:w-3/4  relative overflow-hidden"
             }>
             <Image
-              src={slide4}
+              src={IMAGES[3].src}
               alt={'Hero banner'}
               className={"w-full h-full object-cover rounded-md"}
             />
