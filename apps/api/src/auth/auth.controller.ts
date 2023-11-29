@@ -20,13 +20,7 @@ export class AuthController {
     constructor(
         private readonly authService: AuthService,
         private readonly authPasswordService: PasswordService,
-    ) {
-    }
-
-    @Get('logout')
-    logout(@Req() request: Request): Promise<any> {
-        return this.authService.logout(request);
-    }
+    ) { }
 
     @Get('profile')
     profile(@CurrentUser() user: SerializedUser) {

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ReactNode } from "react";
 import { Roboto } from "next/font/google";
-import { ContextProvider } from "./context/store";
+import { ContextProvider } from "./context/authContext";
 
 const roboto = Roboto({
   subsets: ["latin"],

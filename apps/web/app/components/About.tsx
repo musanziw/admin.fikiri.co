@@ -15,7 +15,7 @@ import base from "@/public/partainers/14.png";
 import luBaHub from "@/public/partainers/15.png";
 import yPardRDC from "@/public/partainers/16.png";
 
-import about from "@/public/about.webp";
+import about from "@/public/about.jpeg";
 import Image from "next/image";
 
 const PARTAINERS = [
@@ -103,38 +103,33 @@ const PARTAINERS = [
 
 export function About() {
   return (
-    <div className={"p-8 bg-white overflow-x-hidden"} id={"about"}>
+    <div className={"p-8 bg-white"} id={"about"}>
       <div
-        className={
-          "lg:mx-auto border-t lg:max-w-screen-lg grid grid-cols-1 items-center md:grid-cols-2 gap-8 py-20"
-        }>
-        <div className={"lg:text-lg"}>
-          <h1 className={"text-xl font-bold"}>Qui sommes-nous ?</h1>
-          <p>
-            Fikiri est une plateforme web qui vise à cartographier les solutions
-            locales en République Démocratique du Congo pour accélérer
-            l&apos;atteinte des Objectifs de Développement Durable (ODD).
-            L&apos;objectif de Fikiri est de mettre en lumière les solutions
-            locales qui contribuent à l&apos;atteinte des ODD en RDC. Cela
-            permettra de faciliter la recherche des solutions locales par les
-            organisations internationales et les bailleurs de fonds.
-          </p>
-        </div>
+        className={"lg:mx-auto border-t overflow-hidden lg:max-w-screen-lg py-20"}>
 
+        <div className="grid grid-rows-1 md:grid-cols-2 gap-8 items-center content-center">
 
-        <div className="rounded-2xl h-[400px] overflow-hidden">
+          <h1 className={"text-xl font-bold"}>
+            Qui sommes-nous ?
+            <span className={'font-medium md:text-lg block mt-4'}>
+              Fikiri est une plateforme web qui vise à cartographier les solutions
+              locales en République Démocratique du Congo pour accélérer
+              l&apos;atteinte des Objectifs de Développement Durable (ODD).
+              L&apos;objectif de Fikiri est de mettre en lumière les solutions
+              locales qui contribuent à l&apos;atteinte des ODD en RDC. Cela
+              permettra de faciliter la recherche des solutions locales par les
+              organisations internationales et les bailleurs de fonds.
+            </span>
+          </h1>
           <Image
             src={about}
             alt={"About"}
-            className={
-              "grayscale rounded-2xl w-full h-[500px] object-contain hover:grayscale-0 transition-all duration-300"
-            }
+            className={"rounded-lg"}
           />
         </div>
 
-
-        <div className={"lg:mx-auto lg:max-w-screen-xl"}>
-          <div className="marquee-10">
+        <div className={"px-20 mx-auto lg:max-w-screen-sm"}>
+          <div className="grid grid-cols-2 marquee-10">
             <div className={"flex items-center justify-center"}>
               {PARTAINERS.map((partainer, index) => (
                 <Image
@@ -148,7 +143,7 @@ export function About() {
           </div>
         </div>
 
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }

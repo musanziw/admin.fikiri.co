@@ -15,6 +15,7 @@ export class AuthService {
   ) { }
 
   async login(email: string, password: string): Promise<any> {
+    console.log(email, password)
     const user = await this.userService.findByEmail(email);
     const passwordMatch: boolean = await this.passworMatch(
       password,
@@ -42,15 +43,6 @@ export class AuthService {
     return await bcrypt.compare(password, hash);
   }
 
-
-
-  async logout(@Req() request: Request): Promise<any> {
-    request.session.destroy(() => { });
-    return {
-      message: 'Déconnexion réussie',
-      statusCode: HttpStatus.OK,
-    };
-  }
 
   async profile(@CurrentUser() user: SerializedUser): Promise<any> {
     return {

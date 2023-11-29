@@ -15,7 +15,7 @@ import Image from "next/image";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import Topbar from "@/app/components/Topbar";
-import { useAuthContext } from "../context/store";
+import { useAuthContext } from "../context/authContext";
 
 const IMAGES = [
   {
@@ -61,17 +61,13 @@ export function Hero() {
   return (
     <>
       <Topbar background={"bg-white"} />
-      <div className={"py-20 bg-indigo-800 text-gray-50"}>
+      <div className={"pt-32 h-screen flex flex-col items-center bg-indigo-800 text-gray-50"}>
         <div
           className={"p-8 h-full grid grid-cols-1 items-center md:grid-cols-2 md:mx-auto md:max-w-screen-lg"}>
           <div className={"flex flex-col justify-center items-start"}>
             <h1 className={`text-4xl font-bold text-gray-50`}>
-              <Typewriter
-                words={["Nous sommes", "Fikiri", "Postulez", "Dès maintenant"]}
-                loop={false}
-                cursor={true}
-              />
-              <span className={"text-5xl font-bold text-red-500"}> .</span>
+              Candidatez maintenant
+              <span className={"text-5xl font-bold text-red-500"}>.</span>
             </h1>
             <h2 className={`text-2xl text-gray-50 mb-6 font-semibold mt-6 fade-in-1`}>
               Cartographie des solutions innovantes locales pour accélérer
@@ -94,20 +90,11 @@ export function Hero() {
             className={
               "self-start md:justify-self-end md:w-3/4  relative overflow-hidden"
             }>
-            <Carousel
-              autoPlay={true}
-              interval={3000}
-              infiniteLoop={true}
-              showThumbs={false}>
-              {IMAGES.map((image, index) => (
-                <Image
-                  key={index}
-                  src={image.src}
-                  alt={image.name}
-                  className={"w-full h-full object-cover rounded-md"}
-                />
-              ))}
-            </Carousel>
+            <Image
+              src={slide4}
+              alt={'Hero banner'}
+              className={"w-full h-full object-cover rounded-md"}
+            />
           </div>
         </div>
       </div>

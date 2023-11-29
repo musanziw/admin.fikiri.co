@@ -10,18 +10,17 @@ import { AuthCard } from "@/app/(auth)/components/AuthCard";
 import { Button } from "@/app/(auth)/components/Button";
 import Topbar from "@/app/components/Topbar";
 import { Footer } from "@/app/components/Footer";
-import { useAuthContext } from "@/app/context/store";
 import Image from "next/image";
 import googleLogo from "@/public/googleLogo.svg";
-
-const LOGIN_URI = "/auth/login";
+import { useAuthContext } from "@/app/context/authContext";
 
 export default function Login() {
   const emailRef: RefObject<HTMLInputElement> = useRef(null);
   const passwordRef: RefObject<HTMLInputElement> = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { isLogged, setIsLogged, storeToken } = useAuthContext();
+  const { setIsLogged, storeToken } = useAuthContext();
   const router = useRouter();
+  const LOGIN_URI = "/auth/login";
 
   const onSubmit = async (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
@@ -32,7 +31,7 @@ export default function Login() {
         password: passwordRef.current?.value || "",
       };
       const { data: apiReponse } = await axios.post(LOGIN_URI, JSON.stringify(payload));
-      if (apiReponse.data) {
+      if (apiReponse.data.accessToken) {
         storeToken(apiReponse.data.accessToken);
         setIsLogged(true)
         setIsLoading(false);
@@ -52,11 +51,7 @@ export default function Login() {
     <>
       <Topbar background="bg-white" />
       <AuthCard title={"Connectez-vous"}>
-        <form
-          action=""
-          className="space-y-8 flex flex-col justify-center"
-          onSubmit={onSubmit}
-        >
+        <form action="" className="space-y-8 flex flex-col justify-center" onSubmit={onSubmit}>
           {/* <Input name={'email'} label={'Email'} placeholder={'Entrez votre email'} type={'email'}/> */}
           <div className="space-y-2">
             <label htmlFor="email" className="text-gray-800">
@@ -92,7 +87,7 @@ export default function Login() {
             <div className="basis-1/2 h-5 border-t border-gray-300 pt-6 text-sm text-gray-500"></div>
           </div>
 
-          <button className={"py-3 white text-slate-900 rounded-full transition-colors duration-300 border border-slate-500 hover:boder-4 hover:bg-slate-100 relative"}>
+          <button className={"py-3 white text-slate-900 text-sm rounded-full transition-colors duration-300 border border-slate-500 hover:boder-4 hover:bg-slate-100 relative"}>
             {"Se connecter Avec Google"}
             <Image
               src={googleLogo}
@@ -100,6 +95,7 @@ export default function Login() {
               className="w-6 h-6 absolute right-3 bottom-3"
             />
           </button>
+
           <p className="border-t border-gray-300 pt-6 text-sm text-gray-500">
             Vous n&lsquo;avez pas de compte ?
             <Link href={"register"} className="text-gray-950">

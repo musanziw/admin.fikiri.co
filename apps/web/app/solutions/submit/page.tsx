@@ -9,7 +9,7 @@ import axios from "@/app/config/axios";
 import Topbar from "@/app/components/Topbar";
 import { Footer } from "@/app/components/Footer";
 import { Button } from "@/app/(auth)/components/Button";
-import { useAuthContext } from "@/app/context/store";
+import { useAuthContext } from "@/app/context/authContext";
 import { AuthCard } from "@/app/(auth)/components/AuthCard";
 
 const SOLUTION_URI = "/solutions";

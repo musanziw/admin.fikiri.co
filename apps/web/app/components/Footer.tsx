@@ -9,7 +9,7 @@ export function Footer() {
             <p className={"font-semibold"}>Nous joindre</p>
             <ul className="flex flex-col gap-2">
               <li>123 Avenue de la Révolution, Lubumbashi, RDC.</li>
-              <Link href={""} className={"inline-block"}>
+              <Link href={"mailto:wilfriedm@cinolu.org"} className={"inline-block"}>
                 contact@fikiri.co
               </Link>
               <Link href={""} className={"inline-block"}>

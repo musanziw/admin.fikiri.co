@@ -5,9 +5,8 @@ import Link from "next/link";
 import logo from "@/public/logo.png";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
-import axios from "../config/axios";
-import { useAuthContext } from "../context/store";
-import { toast } from "react-toastify";
+import { useAuthContext } from "../context/authContext";
+// import { toast } from "react-toastify";
 
 interface TopbarProps {
   background?: string;
@@ -44,21 +43,22 @@ export default function Topbar({ background }: TopbarProps) {
       name: "S'inscrire",
       path: "/register",
       isShown: !isLogged,
+    },
+    {
+      name: "Dashboard",
+      path: "/register",
+      isShown: isLogged,
     }
   ];
 
   const logOut = () => {
-    toast.success("Vous êtes déconnecté !")
-    setTimeout(() => {
-      router.push("/")
-    }, 1000)
-    axios.get("/auth/logout");
-    storeToken(null)
     setIsLogged(false)
+    storeToken(null)
+    router.push("/")
   };
 
   return (
-    <header className={`relative ${background} text-gray-800 shadow-lg px-10 py-4 z-10 flex items-center justify-between`}>
+    <header className={`fixed w-full ${background} text-gray-800 shadow-lg px-10 py-4 z-10 flex items-center justify-between`}>
       <Link href={"/"} className={"inline-block"} aria-label="logo">
         <Image src={logo} alt={"Logo"} className={"cursor-pointer w-24"} />
       </Link>
@@ -78,9 +78,9 @@ export default function Topbar({ background }: TopbarProps) {
         }
 
         {isLogged && (
-          <button onClick={logOut} className={"text-red-600"}>
+          <Link href={''} onClick={logOut} className={"text-red-600"}>
             Se déconnecter
-          </button>
+          </Link>
         )}
       </div>
 
@@ -92,9 +92,9 @@ export default function Topbar({ background }: TopbarProps) {
         ))}
 
         {isLogged && (
-          <button onClick={logOut} className={"text-red-600"}>
+          <Link href={''} onClick={logOut} className={"text-red-600"}>
             Se déconnecter
-          </button>
+          </Link>
         )}
       </div>
 
