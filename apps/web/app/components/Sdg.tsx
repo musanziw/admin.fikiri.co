@@ -118,16 +118,16 @@ export default function Sdg() {
                         sdgs.map((sdg, index) =>
                         (
                             <p className={`flex gap-4 items-center`} key={index}>
-                                <svg xmlns="http://www.w3.org/2000/svg" className={"bi bi-caret-right h-4 w-4 fill-indigo-700"} viewBox="0 0 16 16">
-                                    <path d="M6 12.796V3.204L11.481 8zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z" />
-                                </svg>
+                                <span className={'font-bold text-blue-600'}>
+                                    {index + 1}.
+                                </span>
                                 <span className={'font-medium inline-block text-gray-950'}>{sdg.oddTitle}</span>
                             </p>
                         )
                         )
                     }
                 </div>
-                <div className={`grid grid-cols-3 gap-4 `}>
+                <div className={`grid grid-cols-3 gap-2`}>
                     {
                         sdgs.map((sdg, index) => <Image src={sdg.oddImage} alt={sdg.oddTitle} key={index} />)
                     }

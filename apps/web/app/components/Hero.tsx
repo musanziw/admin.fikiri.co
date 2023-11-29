@@ -68,8 +68,8 @@ export function Hero() {
               accélérer l&apos;atteinte des Objectifs de Développement Durable
               (ODD).
             </p>
-            <Link href={"/solutions"} className={"px-6 fade-in-3 py-2 inline-block mb-10 rounded-md bg-indigo-500 text-white font-semibold"}>
-              Soumettre une solution
+            <Link href={""} className={"px-6 fade-in-3 py-2 inline-block mb-10 rounded-md bg-indigo-500 text-white font-semibold"}>
+              Postulez dès maintenant
             </Link>
           </div>
 
