@@ -52,9 +52,11 @@ export default function Topbar({ background }: TopbarProps) {
   ];
 
   const logOut = () => {
-    setIsLogged(false)
-    storeToken(null)
     router.push("/")
+    setTimeout(() => {
+      setIsLogged(false)
+      storeToken(null)
+    }, 1000)
   };
 
   return (

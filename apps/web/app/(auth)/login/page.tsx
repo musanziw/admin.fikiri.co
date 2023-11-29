@@ -13,6 +13,7 @@ import { Footer } from "@/app/components/Footer";
 import Image from "next/image";
 import googleLogo from "@/public/googleLogo.svg";
 import { useAuthContext } from "@/app/context/authContext";
+import { signIn } from "next-auth/react";
 
 export default function Login() {
   const emailRef: RefObject<HTMLInputElement> = useRef(null);
@@ -22,7 +23,12 @@ export default function Login() {
   const router = useRouter();
   const LOGIN_URI = "/auth/login";
 
-  const onSubmit = async (ev: FormEvent<HTMLFormElement>) => {
+  function googleAuth(e: any) {
+    e.preventDefault();
+    signIn('google', { callbackUrl: 'http://localhost:3000/' });
+  }
+
+  async function onSubmit(ev: FormEvent<HTMLFormElement>) {
     ev.preventDefault();
     try {
       setIsLoading(true);
@@ -87,7 +93,8 @@ export default function Login() {
             <div className="basis-1/2 h-5 border-t border-gray-300 pt-6 text-sm text-gray-500"></div>
           </div>
 
-          <button className={"py-3 white text-slate-900 text-sm rounded-full transition-colors duration-300 border border-slate-500 hover:boder-4 hover:bg-slate-100 relative"}>
+          <button className={"py-3 white text-slate-900 text-sm rounded-full transition-colors duration-300 border border-slate-500 hover:boder-4 hover:bg-slate-100 relative"}
+            onClick={googleAuth}>
             {"Se connecter Avec Google"}
             <Image
               src={googleLogo}

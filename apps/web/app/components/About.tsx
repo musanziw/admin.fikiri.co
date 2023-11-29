@@ -108,7 +108,7 @@ export function About() {
         <div className="grid grid-rows-1 md:grid-cols-2 gap-8 items-center content-center">
           <h1 className={"text-xl font-semibold"}>
             Qui sommes-nous ?
-            <span className={'font-medium block mt-4'}>
+            <span className={'font-medium text-base block mt-4'}>
               Fikiri est une plateforme web qui vise à cartographier les solutions
               locales en République Démocratique du Congo pour accélérer
               l&apos;atteinte des Objectifs de Développement Durable (ODD).
@@ -125,14 +125,14 @@ export function About() {
           />
         </div>
 
-        <div className={"px-20 mx-auto lg:max-w-screen-sm marquee-10"}>
+        <div className={"px-20 mt-6 mx-auto lg:max-w-screen-sm marquee-10"}>
           <div className="grid grid-cols-1">
             <div className={"flex items-center justify-center  "}>
               {PARTAINERS.map((partainer, index) => (
                 <Image
                   src={partainer.src}
                   alt={partainer.nom}
-                  // className={"ml-2 w-40"}
+                  className={"ml-2 w-40"}
                   key={index}
                 />
               ))}
