@@ -103,12 +103,12 @@ const PARTAINERS = [
 
 export function About() {
   return (
-    <div className={"p-8 bg-white"} id={"about"}>
+    <div className={"p-8 bg-white overflow-x-hidden"} id={"about"}>
       <div
         className={
           "lg:mx-auto border-t lg:max-w-screen-lg grid grid-cols-1 items-center md:grid-cols-2 gap-8 py-20"
         }>
-        <div className={"flex flex-col gap-5 lg:text-lg"}>
+        <div className={"lg:text-lg"}>
           <h1 className={"text-xl font-bold"}>Qui sommes-nous ?</h1>
           <p>
             Fikiri est une plateforme web qui vise à cartographier les solutions
@@ -119,29 +119,35 @@ export function About() {
             permettra de faciliter la recherche des solutions locales par les
             organisations internationales et les bailleurs de fonds.
           </p>
+        </div>
 
-          <div className={"overflow-hidden mt-5"}>
-            <div className="w-full marquee-10">
-              <div className={"flex items-center justify-center"}>
-                {PARTAINERS.map((partainer, index) => (
-                  <Image
-                    src={partainer.src}
-                    alt={partainer.nom}
-                    className={"ml-2 w-48"}
-                    key={index}
-                  />
-                ))}
-              </div>
+
+        <div className="rounded-2xl h-[400px] overflow-hidden">
+          <Image
+            src={about}
+            alt={"About"}
+            className={
+              "grayscale rounded-2xl w-full h-[500px] object-contain hover:grayscale-0 transition-all duration-300"
+            }
+          />
+        </div>
+
+
+        <div className={"lg:mx-auto lg:max-w-screen-xl"}>
+          <div className="marquee-10">
+            <div className={"flex items-center justify-center"}>
+              {PARTAINERS.map((partainer, index) => (
+                <Image
+                  src={partainer.src}
+                  alt={partainer.nom}
+                  className={"ml-2 w-48"}
+                  key={index}
+                />
+              ))}
             </div>
           </div>
         </div>
-        <Image
-          src={about}
-          alt={"About"}
-          className={
-            "rounded-xl grayscale h-3/4  object-cover hover:grayscale-0 transition-all duration-300"
-          }
-        />
+
       </div>
     </div>
   );
