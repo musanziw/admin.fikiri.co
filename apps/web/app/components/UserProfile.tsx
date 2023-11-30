@@ -10,7 +10,7 @@ const UserProfile = ({ userInfo }: { userInfo: any }) => {
   const { handleClicked } = useAuthContext();
   const pathname = usePathname();
   const router = useRouter();
-  const { isLogged, setIsLogged, storeToken, setIsClicked, isClicked } =
+  const { setIsLogged, storeToken, setIsClicked, isClicked } =
     useAuthContext();
 
   const logOut = () => {
