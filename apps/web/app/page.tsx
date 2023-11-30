@@ -3,14 +3,13 @@ import { About } from "@/app/components/About";
 import { Footer } from "@/app/components/Footer";
 import Sdg from "@/app/components/Sdg";
 
-
 export default function Home() {
-    return (
-        <>
-            <Hero />
-            <Sdg />
-            <About />
-            <Footer />
-        </>
-    )
+  return (
+    <>
+      <Hero />
+      <Sdg />
+      <About />
+      <Footer />
+    </>
+  );
 }
