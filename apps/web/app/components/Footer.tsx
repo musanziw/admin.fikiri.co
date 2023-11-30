@@ -6,10 +6,13 @@ export function Footer() {
       <div className="max-w-screen-lg md:mx-auto ">
         <div className="grid grid-cols-2 gap-6 lg:grid-cols-3 mb-6">
           <div className="flex flex-col gap-5">
-            <p className={"font-semibold"}>Nous joindre</p>
+            <p className={"font-semibold"}>Rejoignez-nous</p>
             <ul className="flex flex-col gap-2">
               <li>123 Avenue de la Révolution, Lubumbashi, RDC.</li>
-              <Link href={"mailto:wilfriedm@cinolu.org"} className={"inline-block"}>
+              <Link
+                href={"mailto:wilfriedm@cinolu.org"}
+                className={"inline-block"}
+              >
                 contact@fikiri.co
               </Link>
               <Link href={""} className={"inline-block"}>
@@ -33,7 +36,11 @@ export function Footer() {
           <div className="flex flex-col gap-5">
             <p className={"font-semibold"}>Fikiri</p>
             <ul className="flex flex-col gap-2">
-              <Link href={"/#about"} className={"inline-block"} aria-label="about us">
+              <Link
+                href={"/#about"}
+                className={"inline-block"}
+                aria-label="about us"
+              >
                 A propos de nous
               </Link>
             </ul>
@@ -56,6 +63,19 @@ export function Footer() {
                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.287 5.906c-.778.324-2.334.994-4.666 2.01-.378.15-.577.298-.595.442-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294.26.006.549-.1.868-.32 2.179-1.471 3.304-2.214 3.374-2.23.05-.012.12-.026.166.016.047.041.042.12.037.141-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8.154 8.154 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629.093.06.183.125.27.187.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.426 1.426 0 0 0-.013-.315.337.337 0 0 0-.114-.217.526.526 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09z" />
               </svg>
             </Link>
+            <Link href={""} className={"bg-indigo-900 p-2 rounded-full"}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="bi bi-tiktok"
+                viewBox="0 0 16 16"
+              >
+                <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z" />
+              </svg>
+            </Link>
+
             <Link
               href={"https://www.facebook.com/fikiriSDG?mibextid=ViGcVu"}
               className={"bg-indigo-900 p-2 rounded-full"}
