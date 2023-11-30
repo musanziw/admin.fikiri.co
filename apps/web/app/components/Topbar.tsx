@@ -1,5 +1,6 @@
 "use client";
 
+import { MdOutlineCancel, MdDashboardCustomize } from "react-icons/md";
 import { useState } from "react";
 import Link from "next/link";
 import logo from "@/public/logo.png";
@@ -17,8 +18,15 @@ interface TopbarProps {
 
 export default function Topbar({ background }: TopbarProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const { isLogged, setIsLogged, storeToken, isClicked, handleClicked, account, storeAccount } =
-    useAuthContext();
+  const {
+    isLogged,
+    setIsLogged,
+    storeToken,
+    isClicked,
+    handleClicked,
+    account,
+    storeAccount,
+  } = useAuthContext();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -47,7 +55,7 @@ export default function Topbar({ background }: TopbarProps) {
       name: "S'inscrire",
       path: "/register",
       isShown: !isLogged,
-    }
+    },
   ];
 
   const logOut = () => {
@@ -55,10 +63,9 @@ export default function Topbar({ background }: TopbarProps) {
     setTimeout(() => {
       setIsLogged(false);
       storeToken(null);
-      storeAccount(null)
+      storeAccount(null);
     }, 1000);
   };
-
 
   return (
     <header
@@ -79,15 +86,57 @@ export default function Topbar({ background }: TopbarProps) {
       </div>
 
       <div
-        className={`absolute top-14 z-30 w-screen h-screen ${background} transition-transform shadow-xl duration-500 right-0 text-lg py-20 px-16 flex flex-col items-start gap-4 justify-start lg:hidden ${!isOpen && "-translate-y-[200%]"
-          }`}
+        className={`absolute top-14 z-30 w-screen h-screen ${background} transition-transform shadow-xl duration-500 right-0 text-lg py-20 px-16 flex flex-col items-start gap-4 justify-start lg:hidden ${
+          !isOpen && "-translate-y-[200%]"
+        }`}
       >
+        {isLogged && (
+          <div className="w-full flex static border border-dashed items-start flex-col">
+            <div className="flex mt-5 gap-5">
+              <div className=" ms-4 flex basis-1/3">
+                <Image
+                  className="rounded-full h-16 w-16"
+                  src={avatar}
+                  alt="user-profile"
+                />
+              </div>
+              <div className="flex basis-2/3">
+                <p>
+                  <p className=" text-xl">{account?.name}</p>
+                  <p className="text-gray-500 text-sm">Utilisateur</p>
+                  <p className="text-gray-500 text-sm font-semibold">
+                    {account?.email}
+                  </p>
+                </p>
+              </div>
+            </div>
+            <div className="flex mt-5 gap-5">
+              <div className="border-b-1 border-black p-4 hover:bg-light-gray cursor-pointer flex">
+                <button
+                  type="button"
+                  className="text-xl rounded-lg p-3 hover:bg-light-gray text-[#03C9D7] bg-[#E5FAFB]"
+                >
+                  <MdDashboardCustomize />
+                </button>
+
+                <div className="ms-7">
+                  <p className="">Tableau de bord</p>
+                  <p className="text-gray-500 text-sm">
+                    {"Votre tableau de bord"}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {LINKS.map((link, index) => (
           <Link
             href={link.path}
             key={index}
-            className={`${pathname === link.path && "text-blue-800 font-medium"
-              }`}
+            className={`${
+              pathname === link.path && "text-blue-800 font-medium"
+            }`}
             aria-label={link.name}
           >
             {link.isShown && link.name}
@@ -95,25 +144,38 @@ export default function Topbar({ background }: TopbarProps) {
         ))}
 
         {isLogged && (
-          <Link href={""} onClick={logOut} className={"text-red-600"}>
-            Se déconnecter
-          </Link>
+          <div className="">
+            <Link
+              href={""}
+              onClick={logOut}
+              className={
+                "p-3 w-40 hover:drop-shadow-xl bg-red-600 hover:bg-red-500 transition-colors duration-300 text-white rounded"
+              }
+            >
+              Se déconnecter
+            </Link>
+          </div>
         )}
       </div>
 
       <div className={"hidden lg:flex items-center"}>
-        {LINKS.map((link, index) => (
-          link.isShown && (
-            <Link
-              href={link.path}
-              className={`transition-colors duration-300 ${link.path === '/register' && 'border rounded-md px-6 py-2 bg-indigo-500 text-white font-semibold'} mr-3 inline-block ${pathname === link.path && "text-blue-800 font-medium"
+        {LINKS.map(
+          (link, index) =>
+            link.isShown && (
+              <Link
+                href={link.path}
+                className={`transition-colors duration-300 ${
+                  link.path === "/register" &&
+                  "border rounded-md px-6 py-2 bg-indigo-500 text-white font-semibold"
+                } mr-3 inline-block ${
+                  pathname === link.path && "text-blue-800 font-medium"
                 }}`}
-              key={index}
-            >
-              {link.name}
-            </Link>
-          )
-        ))}
+                key={index}
+              >
+                {link.name}
+              </Link>
+            )
+        )}
 
         {isLogged && (
           <TooltipComponent position="BottomCenter">
