@@ -116,7 +116,7 @@ export default function Topbar({ background }: TopbarProps) {
         ))}
 
         {isLogged && (
-          <TooltipComponent content="Profile" position="BottomCenter">
+          <TooltipComponent position="BottomCenter">
             <div
               className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg border ms-3"
               onClick={handleClicked}
@@ -128,7 +128,7 @@ export default function Topbar({ background }: TopbarProps) {
               />
               <p>
                 <span className="text-gray-400 font-bold ml-1 text-14">
-                  {account.name}
+                  {account?.name}
                 </span>
               </p>
               <MdKeyboardArrowDown className="text-gray-400 text-14" />

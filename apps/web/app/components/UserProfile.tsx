@@ -43,13 +43,13 @@ const UserProfile = ({ userInfo }: { userInfo: any }) => {
         />
         <div>
           <p className="font-semibold text-xl">
-            {userInfo.name}
+            {userInfo?.name}
           </p>
           <p className="text-gray-500 text-sm">
             Utilisateur
           </p>
           <p className="text-gray-500 text-sm font-semibold">
-            {userInfo.email}
+            {userInfo?.email}
           </p>
         </div>
       </div>
