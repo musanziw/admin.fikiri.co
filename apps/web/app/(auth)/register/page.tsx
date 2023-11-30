@@ -9,8 +9,6 @@ import { AuthCard } from "@/app/(auth)/components/AuthCard";
 import { Button } from "@/app/(auth)/components/Button";
 import Topbar from "@/app/components/Topbar";
 import { Footer } from "@/app/components/Footer";
-import Image from "next/image";
-import googleLogo from "@/public/googleLogo.svg";
 import { useRouter } from "next/navigation";
 
 const REGISTER_URI = "/auth/register";
@@ -141,19 +139,6 @@ export default function Register() {
             <div className="basis-1/2 h-5 border-t border-gray-300 pt-6 text-sm text-gray-500"></div>
           </div>
 
-          <button
-            type="submit"
-            className={
-              "py-3 white text-slate-900 rounded-full transition-colors duration-300 border border-slate-500 hover:boder-4 hover:bg-slate-100 relative"
-            }
-          >
-            {"S'inscrire avec Google"}
-            <Image
-              src={googleLogo}
-              alt="logo"
-              className="w-6 h-6 absolute right-3 bottom-3"
-            />
-          </button>
           <p className="border-t border-gray-300 pt-6 text-sm text-gray-500 dark:text-gray-400">
             Vous avez un compte ?{" "}
             <Link href={"login"} className="text-gray-950">

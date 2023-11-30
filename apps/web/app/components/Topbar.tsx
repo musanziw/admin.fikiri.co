@@ -17,7 +17,7 @@ interface TopbarProps {
 
 export default function Topbar({ background }: TopbarProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const { isLogged, setIsLogged, storeToken, isClicked, handleClicked, data, account, storeAccount } =
+  const { isLogged, setIsLogged, storeToken, isClicked, handleClicked, account, storeAccount } =
     useAuthContext();
   const pathname = usePathname();
   const router = useRouter();
@@ -128,7 +128,7 @@ export default function Topbar({ background }: TopbarProps) {
               />
               <p>
                 <span className="text-gray-400 font-bold ml-1 text-14">
-                  {account.name || data.name}
+                  {account.name}
                 </span>
               </p>
               <MdKeyboardArrowDown className="text-gray-400 text-14" />
@@ -136,7 +136,7 @@ export default function Topbar({ background }: TopbarProps) {
           </TooltipComponent>
         )}
       </div>
-      {isClicked && <UserProfile userInfo={data?.user || account} />}
+      {isClicked && <UserProfile userInfo={account} />}
     </header>
   );
 }

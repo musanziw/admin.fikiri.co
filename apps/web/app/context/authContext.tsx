@@ -9,7 +9,7 @@ import React, {
 } from "react";
 
 import axios from "../config/axios";
-import { useSession } from "next-auth/react";
+
 
 interface AuthContextProps {
   isLogged: boolean;
@@ -19,7 +19,6 @@ interface AuthContextProps {
   setIsClicked: (isClicked: boolean) => void;
   handleClicked: () => any;
   isClicked: boolean;
-  data: any,
   account: any,
   storeAccount: (account: any) => void,
 }
@@ -41,8 +40,6 @@ export const ContextProvider: React.FC<ContextProviderProps> = ({
   const [token, setToken] = useState<string | null>(
     typeof window !== "undefined" ? localStorage.getItem("token") : null
   )
-  const { status, data } = useSession()
-  const LOGIN_URI_WITH_GOOGLE = "/auth/login-with-google";
 
   const storeToken = (token: string | null) => {
     if (typeof window !== "undefined") {
@@ -62,22 +59,7 @@ export const ContextProvider: React.FC<ContextProviderProps> = ({
 
 
   const handleClicked = () => setIsClicked(!isClicked);
-
   useEffect(() => {
-    if (status === 'authenticated') {
-      const payload = {
-        email: data.user?.email
-      }
-      axios.post(LOGIN_URI_WITH_GOOGLE, JSON.stringify(payload))
-        .then(({ data: res }) => {
-          setIsLogged(true);
-          setToken(res.data.accessToken)
-          setAccount({ email: res.data.email, name: res.data.name })
-        }).catch(() => {
-          setIsLogged(false)
-        })
-    }
-
     axios.get("/auth/profile", {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -87,7 +69,7 @@ export const ContextProvider: React.FC<ContextProviderProps> = ({
     }).catch(() => {
       setIsLogged(false)
     })
-  }, [isLogged, token, data, status])
+  }, [isLogged, token])
 
   return (
     <AuthProvider.Provider
@@ -99,7 +81,6 @@ export const ContextProvider: React.FC<ContextProviderProps> = ({
         handleClicked,
         isClicked,
         setIsClicked,
-        data,
         account,
         storeAccount
       }}

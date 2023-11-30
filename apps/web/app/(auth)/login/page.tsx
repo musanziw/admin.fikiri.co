@@ -10,10 +10,7 @@ import { AuthCard } from "@/app/(auth)/components/AuthCard";
 import { Button } from "@/app/(auth)/components/Button";
 import Topbar from "@/app/components/Topbar";
 import { Footer } from "@/app/components/Footer";
-import Image from "next/image";
-import googleLogo from "@/public/googleLogo.svg";
 import { useAuthContext } from "@/app/context/authContext";
-import { signIn } from "next-auth/react";
 
 export default function Login() {
   const emailRef: RefObject<HTMLInputElement> = useRef(null);
@@ -22,13 +19,6 @@ export default function Login() {
   const { setIsLogged, storeToken, storeAccount } = useAuthContext();
   const router = useRouter();
   const LOGIN_URI = "/auth/login";
-
-  function googleAuth(e: any) {
-    e.preventDefault();
-    signIn('google', {
-      callbackUrl: '/'
-    });
-  }
 
   async function onSubmit(ev: FormEvent<HTMLFormElement>) {
     ev.preventDefault();
@@ -96,17 +86,6 @@ export default function Login() {
             <div className="pb-5">OU</div>
             <div className="basis-1/2 h-5 border-t border-gray-300 pt-6 text-sm text-gray-500"></div>
           </div>
-
-          <button className={"py-3 white text-slate-900 rounded-full transition-colors duration-300 border border-slate-500 hover:boder-4 hover:bg-slate-100 flex items-center justify-center gap-6"}
-            onClick={googleAuth}>
-            {isLoading ? "Connexion en cours..." : "Se connecter avec Google"}
-            <Image
-              src={googleLogo}
-              alt="logo"
-              className="w-6 h-6"
-            />
-          </button>
-
           <p className="border-t border-gray-300 pt-6 text-sm text-gray-500">
             Vous n&lsquo;avez pas de compte ?
             <Link href={"register"} className="text-gray-950">
