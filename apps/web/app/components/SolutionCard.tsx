@@ -12,12 +12,12 @@ export function SolutionCard({ solutions }: SolutionCardProps) {
         key={index}
       >
         <div className="p-8">
-          <p className="text-xs uppercase font-bold text-indigo-400 mb-4">
+          {/* <p className="text-xs uppercase font-bold text-indigo-400 mb-4">
             {solution.thematics[0].calls[0].name} &mdash;{" "}
             {solution.thematics
               .map((thematic: any) => thematic.name)
               .join(", ")}
-          </p>
+          </p> */}
           <h5 className={"font-bold text-sm uppercase mb-2"}>
             {solution.name}
           </h5>

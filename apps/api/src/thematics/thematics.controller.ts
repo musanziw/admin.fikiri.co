@@ -1,7 +1,9 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ThematicsService } from './thematics.service';
 import { Prisma } from '@prisma/client';
+import { Public } from 'src/auth/decorators/public.decorator';
 
+@Public()
 @Controller('thematics')
 export class ThematicsController {
   constructor(private readonly thematicsService: ThematicsService) { }

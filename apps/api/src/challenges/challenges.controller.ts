@@ -17,9 +17,4 @@ export class ChallengesController {
     return this.ChallengesService.findOne(+id);
   }
 
-  @Get('thematic/:id')
-  findByThematic(@Param('id') id: string) {
-    return this.ChallengesService.findByThematic(+id);
-  }
-
 }

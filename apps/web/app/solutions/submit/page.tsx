@@ -33,11 +33,11 @@ export default function SubmitProject() {
   const [thematics, setThematics] = useState<any[]>()
   const [selectedCall, setSelectedCall] = useState<any>()
   const [selectedThematic, setSelectedThematic] = useState<string>('')
-  const [maturities, setMaturities] = useState<string>('')
-  const [selectedMaturity, setSelectedMaturities] = useState<string>('')
-  const [challenges, setChallenges] = useState<string>('')
-  const [selectedChallenge, setSelectedChallenge] = useState<string>('')
-
+  const [maturities, setMaturities] = useState<any[]>()
+  const [selectedMaturity, setSelectedMaturity] = useState<string>('')
+  const [challenges, setChallenges] = useState<any[]>()
+  const [selectedChallenges, setSelectedChallenges] = useState<any>()
+  const { account } = useAuthContext()
   const router = useRouter();
 
   useEffect(() => {
@@ -55,6 +55,22 @@ export default function SubmitProject() {
           }))
         );
       }).catch(() => { })
+
+
+      axios.get(`maturities`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(({ data: apiResponse }) => {
+        const options = apiResponse.data
+        setMaturities(
+          options.map((option: optionProps) => ({
+            value: option.id,
+            label: option.name,
+          }))
+        );
+      }).catch(() => { })
+
     }
   }, [router, token]);
 
@@ -68,8 +84,6 @@ export default function SubmitProject() {
       const { thematics: options } = apiResponse.data
 
 
-
-
       setThematics(
         options.map((option: optionProps) => ({
           value: option.id,
@@ -77,10 +91,36 @@ export default function SubmitProject() {
         }))
       );
     }).catch(() => { })
+
+
   };
 
   const handleThematicsChange = (option: any) => {
     setSelectedThematic(option.value)
+    axios.get(`thematics/${option.value}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(({ data: apiResponse }) => {
+      console.log(apiResponse.data)
+      const { challenges: options } = apiResponse.data
+      setChallenges(
+        options.map((option: optionProps) => ({
+          value: option.id,
+          label: option.name,
+        }))
+      );
+    }).catch(() => { })
+  }
+
+  function handleChallenge(options: any) {
+    setSelectedChallenges(
+      options.map((option: any) => option.value)
+    )
+  }
+
+  function handleMaturity(option: any) {
+    setSelectedMaturity(option.value)
   }
 
   const onSubmit = async (ev: FormEvent<HTMLFormElement>) => {
@@ -94,8 +134,11 @@ export default function SubmitProject() {
         targetedProblem: projectSolutionRef.current?.value || "", //
         call: selectedCall,
         thematic: selectedThematic,
-        maturity: selectedMaturity
+        maturity: selectedMaturity,
+        user: account?.email,
+        challenges: selectedChallenges
       };
+      console.log(payload)
       await axios.post(SOLUTION_URI, JSON.stringify(payload), {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -113,6 +156,7 @@ export default function SubmitProject() {
       setIsLoading(false);
     }
   };
+
 
   return (
     <>
@@ -136,7 +180,7 @@ export default function SubmitProject() {
 
             <div className="space-y-2">
               <label htmlFor="illustration" className="text-gray-800">
-                {"Lien youtube de la vidéo"}
+                {"Lien youtube de la vidéo (optionnel)"}
               </label>
               <input
                 ref={projectLienYoutubeRef}
@@ -150,44 +194,48 @@ export default function SubmitProject() {
           </div>
 
 
-          <div className="flex flex-col gap-3">
-            <label htmlFor="">Selectionner l&lsquo;appel</label>
-            <Select
-              options={calls}
-              onChange={handleCallChange}
-              className="h-12 rounded w-full mt-2 basic-select"
-            />
-          </div>
+          {
+            isLogged && (
+              <>
+                <div className="flex flex-col gap-3">
+                  <label htmlFor="">Selectionner l&lsquo;appel</label>
+                  <Select
+                    options={calls}
+                    onChange={handleCallChange}
+                    className="h-12 rounded w-full mt-2 basic-select"
+                  />
+                </div>
 
-          <div className="flex flex-col gap-3">
-            <label htmlFor="">Choisir une thématique</label>
-            <Select
-              isClearable
-              options={thematics}
-              onChange={handleThematicsChange}
-              className="h-12 rounded w-full mt-2 basic-multi-select"
-            />
-          </div>
+                <div className="flex flex-col gap-3">
+                  <label htmlFor="">Choisir une thématique</label>
+                  <Select
+                    options={thematics}
+                    onChange={handleThematicsChange}
+                    className="h-12 rounded w-full mt-2 basic-multi-select"
+                  />
+                </div>
 
-          <div className="flex flex-col gap-3">
-            <label htmlFor="">A quoi votre solution répond elle ?</label>
-            <Select
-              isClearable
-              options={thematics}
-              onChange={handleThematicsChange}
-              className="h-12 rounded w-full mt-2 basic-multi-select"
-            />
-          </div>
+                <div className="flex flex-col gap-3">
+                  <label htmlFor="">A quoi votre solution répond elle ?</label>
+                  <Select
+                    isMulti
+                    options={challenges}
+                    onChange={handleChallenge}
+                    className="h-12 rounded w-full mt-2 basic-multi-select"
+                  />
+                </div>
 
-          <div className="flex flex-col gap-3">
-            <label htmlFor="">L&apos;étape de votre solution</label>
-            <Select
-              isClearable
-              options={thematics}
-              onChange={handleThematicsChange}
-              className="h-12 rounded w-full mt-2 basic-multi-select"
-            />
-          </div>
+                <div className="flex flex-col gap-3">
+                  <label htmlFor="">L&apos;étape de votre solution</label>
+                  <Select
+                    options={maturities}
+                    onChange={handleMaturity}
+                    className="h-12 rounded w-full mt-2 basic-multi-select"
+                  />
+                </div>
+              </>
+            )
+          }
 
 
 

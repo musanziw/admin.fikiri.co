@@ -5,7 +5,7 @@ import Image from "next/image";
 import avatar from "@/public/noavatar.png";
 import { useAuthContext } from "../context/authContext";
 import { useRouter, usePathname } from "next/navigation";
-
+import Link from "next/link";
 const UserProfile = ({ userInfo }: { userInfo: any }) => {
   const { handleClicked } = useAuthContext();
   const pathname = usePathname();
@@ -28,6 +28,7 @@ const UserProfile = ({ userInfo }: { userInfo: any }) => {
         <p className="font-semibold text-lg ">
           Profile Utilisateur
         </p>
+
         <button
           type="button"
           onClick={handleClicked}
@@ -37,7 +38,7 @@ const UserProfile = ({ userInfo }: { userInfo: any }) => {
       </div>
       <div className="flex gap-5 items-center mt-6 border-black border-b-1 pb-6">
         <Image
-          className="rounded-full h-24 w-24"
+          className="rounded-full h-20 w-20"
           src={avatar}
           alt="user-profile"
         />
@@ -54,7 +55,7 @@ const UserProfile = ({ userInfo }: { userInfo: any }) => {
         </div>
       </div>
       <div>
-        <div className="flex gap-5 border-b-1 border-black p-4 hover:bg-light-gray cursor-pointer">
+        <Link href={'/me'} className="flex gap-5 border-b-1 border-black p-4 hover:bg-light-gray cursor-pointer">
           <button
             type="button"
             className="text-xl rounded-lg p-3 hover:bg-light-gray text-[#03C9D7] bg-[#E5FAFB]"
@@ -68,7 +69,7 @@ const UserProfile = ({ userInfo }: { userInfo: any }) => {
               {"Votre tableau de bord"}
             </p>
           </div>
-        </div>
+        </Link>
       </div>
       <div className="mt-5">
         <button

@@ -40,7 +40,6 @@ export default function Login() {
         }, 2000)
       }
     } catch (e: any) {
-      console.log(e)
       toast.error(e.response.data.message);
     } finally {
       setIsLoading(false);

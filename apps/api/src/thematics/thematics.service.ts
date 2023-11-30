@@ -35,7 +35,10 @@ export class ThematicsService {
 
     async findOne(id: number) {
         const thematic = await this.prismaService.thematic.findUnique({
-            where: { id }
+            where: { id },
+            include: {
+                challenges: true
+            }
         })
         if (!thematic) throw new HttpException("La thématique n'a pas été trouvé", HttpStatus.NOT_FOUND);
         return {

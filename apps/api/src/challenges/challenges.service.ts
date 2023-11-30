@@ -19,16 +19,6 @@ export class ChallengesService {
         }
     }
 
-    async findByThematic(thematicId: number) {
-        const challenges = await this.prismaService.challenge.findMany({
-            where: { id: thematicId }
-        })
-        return {
-            statusCode: HttpStatus.OK,
-            data: challenges
-        }
-    }
-
     async findOne(id: number) {
         const thematic = await this.prismaService.challenge.findUnique({
             where: { id }

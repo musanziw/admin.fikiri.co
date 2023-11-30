@@ -9,7 +9,7 @@ export class SolutionsService {
     ) {
     }
 
-    async create(createSolutionDto: Prisma.SolutionCreateInput & { thematic: number, call: number, maturity: number, challenges: number[] }) {
+    async create(createSolutionDto: Prisma.SolutionCreateInput & { thematic: number, call: number, maturity: number, challenges: number[], user: string }) {
         try {
             await this.prismaService.solution.create({
                 data: {
@@ -17,6 +17,11 @@ export class SolutionsService {
                     thematic: {
                         connect: {
                             id: createSolutionDto.thematic
+                        }
+                    },
+                    user: {
+                        connect: {
+                            email: createSolutionDto.user
                         }
                     },
                     call: {
@@ -39,7 +44,8 @@ export class SolutionsService {
                     }
                 },
             });
-        } catch {
+        } catch (e) {
+            console.log(e)
             throw new HttpException(
                 'Mauvaise demande, essayez à nouveau',
                 HttpStatus.BAD_REQUEST,
@@ -53,6 +59,11 @@ export class SolutionsService {
 
     async findAll() {
         const solutions = await this.prismaService.solution.findMany({
+            where: {
+                status: {
+                    id: 2
+                }
+            },
             include: {
                 thematic: true,
             }
@@ -65,10 +76,7 @@ export class SolutionsService {
 
     async findOne(id: number) {
         const solution = await this.prismaService.solution.findUnique({
-            where: { id },
-            include: {
-                thematic: true,
-            }
+            where: { id }
         });
         if (!solution)
             throw new HttpException(
@@ -81,11 +89,16 @@ export class SolutionsService {
         };
     }
 
-    async findByThematic(thematicId: number) {
+    async findUserSolution(email: string) {
+        const user = await this.prismaService.user.findFirst({
+            where: { email }
+        })
         const solutions = await this.prismaService.solution.findMany({
-            where: { thematicId },
+            where: {
+                userId: user.id
+            },
             include: {
-                thematic: true,
+                status: true
             }
         })
         return {

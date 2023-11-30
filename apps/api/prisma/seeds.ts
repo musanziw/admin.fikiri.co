@@ -14,7 +14,7 @@ async function main() {
     })
 
     await prisma.maturity.createMany({
-        data: [{ name: 'Idée' }, { name: 'Prototype' }, { name: 'MVP' }, { name: 'Produit finii' }]
+        data: [{ name: 'Idée' }, { name: 'Prototype' }, { name: 'MVP(Produit minimum viable)' }, { name: 'Produit fini' }]
     })
 
 
@@ -44,7 +44,7 @@ async function main() {
             thematics: {
                 create: [
                     {
-                        name: `Transparence et eécurité dans l’artisanat Minier`,
+                        name: `Transparence et sécurité dans l’artisanat Minier`,
                         odds: '3, 8',
                         challenges: {
                             create: [
@@ -117,14 +117,12 @@ async function main() {
                         }
                     },
                     {
-                        name: `Mécanisation Légère agricole`,
+                        name: `Mécanisation légère agricole`,
                         odds: '2, 8',
                         challenges: {
                             create: [
                                 {
                                     name: `Préparation du sol`
-                                }, {
-                                    name: `Labour et ensemencement`
                                 }, {
                                     name: `Labour et ensemencement`
                                 }, {

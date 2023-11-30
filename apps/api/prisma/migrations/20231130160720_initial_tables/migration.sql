@@ -64,6 +64,7 @@ CREATE TABLE `Solution` (
     `maturityId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
+    `userId` INTEGER NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -145,6 +146,9 @@ ALTER TABLE `Solution` ADD CONSTRAINT `Solution_statusId_fkey` FOREIGN KEY (`sta
 
 -- AddForeignKey
 ALTER TABLE `Solution` ADD CONSTRAINT `Solution_maturityId_fkey` FOREIGN KEY (`maturityId`) REFERENCES `Maturity`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Solution` ADD CONSTRAINT `Solution_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `_RoleToUser` ADD CONSTRAINT `_RoleToUser_A_fkey` FOREIGN KEY (`A`) REFERENCES `Role`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
