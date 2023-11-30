@@ -80,11 +80,7 @@ export default function Login() {
             <Link href={"forgot-password"}>Mot de passe oublié ?</Link>
           </p>
           <Button isLoading={isLoading} label={isLoading ? "Connexion en cours..." : "Se connecter"} />
-          <div className="flex flex-row gap-5 justify-center items-center">
-            <div className="basis-1/2 h-5 border-t border-gray-300 pt-6 text-sm text-gray-500"></div>
-            <div className="pb-5">OU</div>
-            <div className="basis-1/2 h-5 border-t border-gray-300 pt-6 text-sm text-gray-500"></div>
-          </div>
+          
           <p className="border-t border-gray-300 pt-6 text-sm text-gray-500">
             Vous n&lsquo;avez pas de compte ?
             <Link href={"register"} className="text-gray-950">

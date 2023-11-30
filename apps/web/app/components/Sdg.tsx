@@ -128,7 +128,7 @@ export default function Sdg() {
         Les objectifs de développement durables durables (ODD)
       </h2>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {sdgs.map((sdg, index) => (
           <div
             className={`flex flex-col gap-4 justify-start items-start transition-colors duration-500 border rounded-lg p-6 hover:border-gray-300`}
@@ -141,7 +141,7 @@ export default function Sdg() {
                 className={"rounded-md object-cover"}
               />
             </div>
-            <span className={"font-medium text-sm inline-block"}>
+            <span className={"font-medium inline-block"}>
               {sdg.oddTitle}
             </span>
           </div>
