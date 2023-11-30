@@ -1,3 +1,5 @@
+'use client';
+
 import Link from "next/link";
 import slide1 from "@/public/sliders2/COMING SOON-2.png";
 import slide2 from "@/public/sliders2/FIKIRI-POSTER-1.png";
@@ -10,6 +12,7 @@ import slide8 from "@/public/sliders2/ODD 3-8.png";
 import slide9 from "@/public/sliders2/ODD 9.png";
 import Image from "next/image";
 import Topbar from "@/app/components/Topbar";
+import { useAuthContext } from "../context/authContext";
 
 const IMAGES = [
   {
@@ -51,6 +54,7 @@ const IMAGES = [
 ];
 
 export function Hero() {
+  const { isLogged } = useAuthContext();
   return (
     <>
       <Topbar background={"bg-white"} />
@@ -68,8 +72,8 @@ export function Hero() {
               accélérer l&apos;atteinte des Objectifs de Développement Durable
               (ODD).
             </p>
-            <Link href={""} className={"px-6 fade-in-3 py-2 inline-block mb-10 rounded-md bg-indigo-500 text-white font-semibold"}>
-              Postulez dès maintenant
+            <Link href={isLogged ? '/solutions/submit' : '/login'} className={"px-6 fade-in-3 py-2 inline-block mb-10 rounded-md bg-indigo-500 text-white font-semibold"}>
+              {isLogged ? 'Postulez dès maintenant' : 'Se connecter et postuler'}
             </Link>
           </div>
 

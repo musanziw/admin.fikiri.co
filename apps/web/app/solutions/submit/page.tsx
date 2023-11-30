@@ -32,7 +32,11 @@ export default function SubmitProject() {
   const [calls, setCalls] = useState<any[]>();
   const [thematics, setThematics] = useState<any[]>()
   const [selectedCall, setSelectedCall] = useState<any>()
-  const [selectedThematics, setSelectedThematics] = useState<number[]>()
+  const [selectedThematic, setSelectedThematic] = useState<string>('')
+  const [maturities, setMaturities] = useState<string>('')
+  const [selectedMaturity, setSelectedMaturities] = useState<string>('')
+  const [challenges, setChallenges] = useState<string>('')
+  const [selectedChallenge, setSelectedChallenge] = useState<string>('')
 
   const router = useRouter();
 
@@ -62,6 +66,10 @@ export default function SubmitProject() {
       },
     }).then(({ data: apiResponse }) => {
       const { thematics: options } = apiResponse.data
+
+
+
+
       setThematics(
         options.map((option: optionProps) => ({
           value: option.id,
@@ -71,8 +79,8 @@ export default function SubmitProject() {
     }).catch(() => { })
   };
 
-  const handleThematicsChange = (options: any) => {
-    setSelectedThematics(options.map((option: any) => option.value))
+  const handleThematicsChange = (option: any) => {
+    setSelectedThematic(option.value)
   }
 
   const onSubmit = async (ev: FormEvent<HTMLFormElement>) => {
@@ -83,12 +91,10 @@ export default function SubmitProject() {
         name: projectTitleRef.current?.value || "", //
         videoLink: projectLienYoutubeRef.current?.value || "", //
         description: projectDescriptionRef.current?.value || "", //
-        solvedProblem: projectSolutionRef.current?.value || "", //
-        steps: projectEtapeRef.current?.value || "", //
-        expansion: projectExpansionRef.current?.value || "", //
-        callId: selectedCall,
-        impact: projectImpactRef.current?.value || "",
-        thematics: selectedThematics
+        targetedProblem: projectSolutionRef.current?.value || "", //
+        call: selectedCall,
+        thematic: selectedThematic,
+        maturity: selectedMaturity
       };
       await axios.post(SOLUTION_URI, JSON.stringify(payload), {
         headers: {
@@ -143,31 +149,46 @@ export default function SubmitProject() {
             </div>
           </div>
 
-          {
-            isLogged && (
-              <>
-                <div className="flex flex-col gap-3">
-                  <label htmlFor="">Selectionner l&lsquo;appel</label>
-                  <Select
-                    options={calls}
-                    onChange={handleCallChange}
-                    className="h-12 rounded w-full mt-2 basic-select"
-                  />
-                </div>
 
-                <div className="flex flex-col gap-3">
-                  <label htmlFor="">Selectionner une thématique</label>
-                  <Select
-                    isMulti
-                    isClearable
-                    options={thematics}
-                    onChange={handleThematicsChange}
-                    className="h-12 rounded w-full mt-2 basic-multi-select"
-                  />
-                </div>
-              </>
-            )
-          }
+          <div className="flex flex-col gap-3">
+            <label htmlFor="">Selectionner l&lsquo;appel</label>
+            <Select
+              options={calls}
+              onChange={handleCallChange}
+              className="h-12 rounded w-full mt-2 basic-select"
+            />
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <label htmlFor="">Choisir une thématique</label>
+            <Select
+              isClearable
+              options={thematics}
+              onChange={handleThematicsChange}
+              className="h-12 rounded w-full mt-2 basic-multi-select"
+            />
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <label htmlFor="">A quoi votre solution répond elle ?</label>
+            <Select
+              isClearable
+              options={thematics}
+              onChange={handleThematicsChange}
+              className="h-12 rounded w-full mt-2 basic-multi-select"
+            />
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <label htmlFor="">L&apos;étape de votre solution</label>
+            <Select
+              isClearable
+              options={thematics}
+              onChange={handleThematicsChange}
+              className="h-12 rounded w-full mt-2 basic-multi-select"
+            />
+          </div>
+
 
 
 
@@ -180,15 +201,15 @@ export default function SubmitProject() {
               name=""
               id=""
               required
-              className="focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500 lg:text-lg"
-              placeholder={"La description de la solution"}
+              className="focus:outline-none text-sm block w-full rounded-md h-[180px] border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500 lg:text-lg"
+              placeholder={"Decrire la solution ici..."}
             ></textarea>
           </div>
 
           <div className="basis-1/2">
 
             <label htmlFor="illustration" className="text-gray-800 inline-block mb-4">
-              Problème résolu
+              Problème ciblé
             </label>
 
             <textarea
@@ -196,50 +217,12 @@ export default function SubmitProject() {
               name=""
               id=""
               required
-              className=" lg:text-lg focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500"
-              placeholder={"Votre Solution"}
+              className=" lg:text-lg focus:outline-none text-sm block w-full rounded-md h-[180px] border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500"
+              placeholder={"Decrire le problème ici..."}
             ></textarea>
           </div>
 
-          <div className="flex flex-col gap-5">
-            <label htmlFor="illustration" className="text-gray-800 ,b)(">
-              Etapes de votre Solution
-            </label>
-            <div className="basis-1/2 ">
-              <textarea
-                ref={projectEtapeRef}
-                name=""
-                id=""
-                required
-                className="lg:text-lg focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500"
-                placeholder={"Etapes de votre Solution"}
-              ></textarea>
-            </div>
 
-            <label htmlFor="illustration" className="text-gray-800">
-              Impact et fait marquant
-            </label>
-            <textarea
-              ref={projectImpactRef}
-              name=""
-              id=""
-              required
-              className="lg:text-lg focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500"
-              placeholder={"Impacte et fait marquant"}
-            ></textarea>
-          </div>
-
-          <label htmlFor="illustration" className="text-gray-800">
-            Projet d&apos;expansion
-          </label>
-          <textarea
-            ref={projectExpansionRef}
-            name=""
-            id=""
-            required
-            className="lg:text-lg focus:outline-none text-sm block w-full rounded-md h-32 border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500"
-            placeholder={"Projet d'expansion"}
-          ></textarea>
           <Button isLoading={isLoading} label={isLoading ? "Soumission en cours..." : "Soumettre"} />
         </form>
       </AuthCard>
