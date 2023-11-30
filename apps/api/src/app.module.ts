@@ -15,8 +15,9 @@ import { SolutionsModule } from './solutions/solutions.module';
 import { ThematicsModule } from './thematics/thematics.module';
 import { PrismaModule } from './database/prisma.module';
 import { CallsModule } from './calls/calls.module';
-import { GoalsModule } from './goals/goals.module';
 import { JwtModule } from '@nestjs/jwt';
+import { ChallengesModule } from './challenges/challenges.module';
+import { MaturitiesModule } from './maturities/maturities.module';
 
 @Module({
   imports: [
@@ -64,7 +65,8 @@ import { JwtModule } from '@nestjs/jwt';
     ThematicsModule,
     PrismaModule,
     CallsModule,
-    GoalsModule,
+    ChallengesModule,
+    MaturitiesModule
   ],
   providers: [
     {

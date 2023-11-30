@@ -8,7 +8,7 @@ export class SolutionsController {
   constructor(private readonly solutionsService: SolutionsService) { }
 
   @Post()
-  create(@Body() createSolutionDto: Prisma.SolutionCreateInput & { thematics: number[] }) {
+  create(@Body() createSolutionDto: Prisma.SolutionCreateInput & { thematic: number, maturity: number, call: number, challenges: number[] }) {
     return this.solutionsService.create(createSolutionDto);
   }
 
@@ -23,6 +23,21 @@ export class SolutionsController {
   findOne(@Param('id') id: string) {
     return this.solutionsService.findOne(+id);
   }
+
+
+  @Public()
+  @Get('thematic/:id')
+  findByThematic(@Param('id') id: string) {
+    return this.solutionsService.findByThematic(+id);
+  }
+
+  @Public()
+  @Get('challenge/:id')
+  findByCall(@Param('id') id: string) {
+    return this.solutionsService.findByCall(+id);
+  }
+
+
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSolutionDto: Prisma.SolutionUpdateInput) {

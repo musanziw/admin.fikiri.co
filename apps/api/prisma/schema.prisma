@@ -31,17 +31,20 @@ model Role {
 
 model Call {
   id          Int        @id @default(autoincrement())
-  name        String
+  name        String     @db.Text
+  startedAt   DateTime
+  endedAt     DateTime
   description String     @db.Text
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   thematics   Thematic[]
-  Solution    Solution[]
+  solutions   Solution[]
 }
 
 model Thematic {
   id         Int         @id @default(autoincrement())
-  name       String
+  name       String      @db.Text
+  odds       String
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
   solutions  Solution[]
@@ -51,19 +54,30 @@ model Thematic {
 
 model Solution {
   id              Int         @id @default(autoincrement())
-  name            String
+  name            String      @db.Text
   videoLink       String?
   imageLink       String?
   description     String      @db.Text
   call            Call        @relation(fields: [callId], references: [id])
   callId          Int
-  thematics       Thematic[]
+  thematic        Thematic    @relation(fields: [thematicId], references: [id])
+  thematicId      Int
   challenges      Challenge[]
   targetedProblem String      @db.Text
+  status          Status      @relation(fields: [statusId], references: [id])
+  statusId        Int
+  maturity        Maturity    @relation(fields: [maturityId], references: [id])
+  maturityId      Int
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
-  Status          Status      @relation(fields: [statusId], references: [id])
-  statusId        Int
+}
+
+model Maturity {
+  id        Int        @id @default(autoincrement())
+  name      String     @db.Text
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Solution  Solution[]
 }
 
 model Status {
@@ -75,11 +89,10 @@ model Status {
 }
 
 model Challenge {
-  id          Int        @id @default(autoincrement())
-  name        String
-  description String     @db.Text
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  thematics   Thematic[]
-  solutions   Solution[]
+  id        Int        @id @default(autoincrement())
+  name      String     @db.Text
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  thematics Thematic[]
+  solutions Solution[]
 }

@@ -156,7 +156,7 @@ export class UsersService {
     }
 
     async saveResetToken(user: User, password: string): Promise<any> {
-        user.resetToken = password;
+        user.token = password;
         await this.prismaService.user.update({
             data: user,
             where: { id: user.id },
@@ -177,9 +177,9 @@ export class UsersService {
         };
     }
 
-    async findByResetToken(resetToken: string) {
+    async findByResetToken(token: string) {
         const user = await this.prismaService.user.findFirst({
-            where: { resetToken },
+            where: { token },
         })
         if (!user) throw new HttpException("L'utilisateur n'a pas été trouvé", HttpStatus.NOT_FOUND);
         return user;
