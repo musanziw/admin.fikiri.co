@@ -86,9 +86,8 @@ export default function Topbar({ background }: TopbarProps) {
       </div>
 
       <div
-        className={`absolute top-14 z-30 w-screen h-screen ${background} transition-transform shadow-xl duration-500 right-0 text-lg py-20 px-16 flex flex-col items-start gap-4 justify-start lg:hidden ${
-          !isOpen && "-translate-y-[200%]"
-        }`}
+        className={`absolute top-14 z-30 w-screen h-screen ${background} transition-transform shadow-xl duration-500 right-0 text-lg py-20 px-16 flex flex-col items-start gap-4 justify-start lg:hidden ${!isOpen && "-translate-y-[200%]"
+          }`}
       >
         {isLogged && (
           <div className="w-full flex static border border-dashed items-start flex-col">
@@ -110,7 +109,7 @@ export default function Topbar({ background }: TopbarProps) {
                 </p>
               </div>
             </div>
-            <div className="flex mt-5 gap-5">
+            <Link href={'/me'} className="flex mt-5 gap-5">
               <div className="border-b-1 border-black p-4 hover:bg-light-gray cursor-pointer flex">
                 <button
                   type="button"
@@ -126,7 +125,7 @@ export default function Topbar({ background }: TopbarProps) {
                   </p>
                 </div>
               </div>
-            </div>
+            </Link>
           </div>
         )}
 
@@ -134,9 +133,8 @@ export default function Topbar({ background }: TopbarProps) {
           <Link
             href={link.path}
             key={index}
-            className={`${
-              pathname === link.path && "text-blue-800 font-medium"
-            }`}
+            className={`${pathname === link.path && "text-blue-800 font-medium"
+              }`}
             aria-label={link.name}
           >
             {link.isShown && link.name}
@@ -164,12 +162,10 @@ export default function Topbar({ background }: TopbarProps) {
             link.isShown && (
               <Link
                 href={link.path}
-                className={`transition-colors duration-300 ${
-                  link.path === "/register" &&
+                className={`transition-colors duration-300 ${link.path === "/register" &&
                   "border rounded-md px-6 py-2 bg-indigo-500 text-white font-semibold"
-                } mr-3 inline-block ${
-                  pathname === link.path && "text-blue-800 font-medium"
-                }}`}
+                  } mr-3 inline-block ${pathname === link.path && "text-blue-800 font-medium"
+                  }}`}
                 key={index}
               >
                 {link.name}
