@@ -10,11 +10,12 @@ datasource db {
 model User {
   id          Int      @id @default(autoincrement())
   email       String   @unique
-  name        String
-  password    String
-  phoneNumber String
-  address     String
-  resetToken  String?
+  name        String?
+  password    String?
+  phoneNumber String?
+  address     String?
+  token       String?
+  profile     String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   roles       Role[]
@@ -28,16 +29,6 @@ model Role {
   users     User[]
 }
 
-model Thematic {
-  id        Int        @id @default(autoincrement())
-  name      String
-  sdg       Goal[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  solutions Solution[]
-  calls     Call[]
-}
-
 model Call {
   id          Int        @id @default(autoincrement())
   name        String
@@ -45,28 +36,50 @@ model Call {
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   thematics   Thematic[]
+  Solution    Solution[]
+}
+
+model Thematic {
+  id         Int         @id @default(autoincrement())
+  name       String
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  solutions  Solution[]
+  calls      Call[]
+  challenges Challenge[]
 }
 
 model Solution {
-  id            Int        @id @default(autoincrement())
-  name          String
-  videoLink     String?
-  description   String     @db.Text
-  solvedProblem String     @db.Text
-  impact        String     @db.Text
-  expansion     String     @db.Text
-  steps         String     @db.Text
-  thematics     Thematic[]
-  status        String     @default("pending")
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  callId        Int
+  id              Int         @id @default(autoincrement())
+  name            String
+  videoLink       String?
+  imageLink       String?
+  description     String      @db.Text
+  call            Call        @relation(fields: [callId], references: [id])
+  callId          Int
+  thematics       Thematic[]
+  challenges      Challenge[]
+  targetedProblem String      @db.Text
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  Status          Status      @relation(fields: [statusId], references: [id])
+  statusId        Int
 }
 
-model Goal {
+model Status {
   id        Int        @id @default(autoincrement())
   name      String
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  thematics Thematic[]
+  solutions Solution[]
+}
+
+model Challenge {
+  id          Int        @id @default(autoincrement())
+  name        String
+  description String     @db.Text
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  thematics   Thematic[]
+  solutions   Solution[]
 }

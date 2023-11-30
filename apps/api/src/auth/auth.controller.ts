@@ -47,6 +47,12 @@ export class AuthController {
     }
 
     @Public()
+    @Post('login-with-google')
+    loginWithGoogle(@Body() signInDto: { email: string, name: string }): Promise<any> {
+        return this.authService.loginWithGoogle(signInDto);
+    }
+
+    @Public()
     @Post('reset-password-request')
     resetPasswordRequest(@Body('email') email: string) {
         return this.authPasswordService.resetPasswordRequest(email);

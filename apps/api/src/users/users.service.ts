@@ -45,6 +45,20 @@ export class UsersService {
         return await bcrypt.hash(password, salt)
     }
 
+    async registerWithGoogle(registerDto: { name: string, email: string }): Promise<any> {
+        await this.prismaService.user.create({
+            data: {
+                name: registerDto.name,
+                email: registerDto.email,
+            },
+        })
+        return {
+            statusCode: HttpStatus.CREATED,
+            message: "L'inscription est réussie",
+        };
+    }
+
+
     async register(registerDto: Prisma.UserCreateInput): Promise<any> {
         const email: string = registerDto.email as string
         const password: string = registerDto.password as string

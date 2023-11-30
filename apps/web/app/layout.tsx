@@ -3,6 +3,7 @@ import "./globals.css";
 import { ReactNode } from "react";
 import { Roboto } from "next/font/google";
 import { ContextProvider } from "./context/authContext";
+import GoogleContext from "./context/googleContext";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -19,10 +20,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className={`${roboto.className} text-gray-600`}>
-        <ContextProvider>
-          {children}
-        </ContextProvider>
+        <GoogleContext>
+          <ContextProvider>
+            {children}
+          </ContextProvider>
+        </GoogleContext>
       </body>
-    </html>
+    </html >
   );
 }

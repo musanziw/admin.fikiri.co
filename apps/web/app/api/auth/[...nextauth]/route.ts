@@ -6,7 +6,11 @@ export const authOptions = {
         GoogleProvider({
             clientId: process.env.GOOGLE_ID as string,
             clientSecret: process.env.GOOGLE_SECRET as string,
+            redirectUri: process.env.GOOGLE_REDIRECT_URI as string,
         }),
     ],
+    secret: process.env.GOOGLE_SECRET as string,
 }
-export default NextAuth(authOptions)
+
+const handler = NextAuth(authOptions)
+export { handler as GET, handler as POST }

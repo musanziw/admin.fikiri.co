@@ -21,8 +21,8 @@ async function main() {
 
     await prisma.user.create({
         data: {
-            name: "Admin",
-            email: 'admin@admin.com',
+            name: "Berry Numbi",
+            email: 'BerryN@lunnovel.org',
             password: await bcrypt.hash('admin', 10),
             phoneNumber: '+243999999999',
             address: faker.location.streetAddress(),
@@ -33,38 +33,6 @@ async function main() {
             }
         },
     });
-
-    for (let i = 1; i < 31; i++) {
-        await prisma.thematic.create({
-            data: {
-                name: faker.company.buzzPhrase(),
-            }
-        })
-    }
-
-    for (let i = 1; i < 5; i++) {
-        await prisma.call.create({
-            data: {
-                name: faker.commerce.productName(),
-                description: faker.lorem.paragraph(),
-                thematics: {
-                    connect: new Array(faker.number.int({ min: 3, max: 6 })).fill(0).map((_) => {
-                        return {
-                            id: faker.number.int({ min: 1, max: 30 })
-                        }
-                    })
-                }
-            }
-        })
-    }
-
-    for (let i = 1; i < 18; i++) {
-        await prisma.goal.create({
-            data: {
-                name: faker.company.buzzPhrase(),
-            }
-        })
-    }
 
 }
 

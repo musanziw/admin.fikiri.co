@@ -6,6 +6,7 @@ import logo from "@/public/logo.png";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuthContext } from "../context/authContext";
+import { signOut, useSession } from "next-auth/react";
 // import { toast } from "react-toastify";
 
 interface TopbarProps {
@@ -17,6 +18,7 @@ export default function Topbar({ background }: TopbarProps) {
   const { isLogged, setIsLogged, storeToken } = useAuthContext()
   const pathname = usePathname()
   const router = useRouter()
+  const { status } = useSession();
 
   const LINKS = [
     {
@@ -53,6 +55,9 @@ export default function Topbar({ background }: TopbarProps) {
 
   const logOut = () => {
     router.push("/")
+    signOut({
+      redirect: false,
+    })
     setTimeout(() => {
       setIsLogged(false)
       storeToken(null)

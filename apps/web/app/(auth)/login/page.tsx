@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, RefObject, useState, FormEvent } from "react";
+import { useRef, RefObject, useState, FormEvent, useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "@/app/config/axios";
@@ -13,7 +13,7 @@ import { Footer } from "@/app/components/Footer";
 import Image from "next/image";
 import googleLogo from "@/public/googleLogo.svg";
 import { useAuthContext } from "@/app/context/authContext";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 export default function Login() {
   const emailRef: RefObject<HTMLInputElement> = useRef(null);
@@ -25,7 +25,9 @@ export default function Login() {
 
   function googleAuth(e: any) {
     e.preventDefault();
-    signIn('google', { callbackUrl: 'http://localhost:3000/' });
+    signIn('google', {
+      callbackUrl: '/'
+    });
   }
 
   async function onSubmit(ev: FormEvent<HTMLFormElement>) {
@@ -93,13 +95,13 @@ export default function Login() {
             <div className="basis-1/2 h-5 border-t border-gray-300 pt-6 text-sm text-gray-500"></div>
           </div>
 
-          <button className={"py-3 white text-slate-900 text-sm rounded-full transition-colors duration-300 border border-slate-500 hover:boder-4 hover:bg-slate-100 relative"}
+          <button className={"py-3 white text-slate-900 rounded-full transition-colors duration-300 border border-slate-500 hover:boder-4 hover:bg-slate-100 flex items-center justify-center gap-6"}
             onClick={googleAuth}>
-            {"Se connecter Avec Google"}
+            {isLoading ? "Connexion en cours..." : "Se connecter avec Google"}
             <Image
               src={googleLogo}
               alt="logo"
-              className="w-6 h-6 absolute right-3 bottom-3"
+              className="w-6 h-6"
             />
           </button>
 

@@ -14,8 +14,28 @@ export class AuthService {
     private readonly jwtService: JwtService
   ) { }
 
+  async loginWithGoogle(signInDto: { email: string, name: string }): Promise<any> {
+    const user = await this.userService.findByEmail(signInDto.email);
+    if (!user) {
+      await this.userService.register({
+        email: signInDto.email,
+        name: signInDto.name,
+      })
+    }
+    const payload = { sub: user.userId, name: user.name };
+    return {
+      message: 'Connexion réussie',
+      statusCode: HttpStatus.OK,
+      data: {
+        id: user.userId,
+        name: user.name,
+        email: user.email,
+        accessToken: await this.jwtService.signAsync(payload),
+      },
+    };
+  }
+
   async login(email: string, password: string): Promise<any> {
-    console.log(email, password)
     const user = await this.userService.findByEmail(email);
     const passwordMatch: boolean = await this.passworMatch(
       password,
