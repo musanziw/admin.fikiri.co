@@ -13,13 +13,13 @@ import { Footer } from "@/app/components/Footer";
 import Image from "next/image";
 import googleLogo from "@/public/googleLogo.svg";
 import { useAuthContext } from "@/app/context/authContext";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 export default function Login() {
   const emailRef: RefObject<HTMLInputElement> = useRef(null);
   const passwordRef: RefObject<HTMLInputElement> = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { setIsLogged, storeToken } = useAuthContext();
+  const { setIsLogged, storeToken, storeAccount } = useAuthContext();
   const router = useRouter();
   const LOGIN_URI = "/auth/login";
 
@@ -43,12 +43,14 @@ export default function Login() {
         storeToken(apiReponse.data.accessToken);
         setIsLogged(true)
         setIsLoading(false);
+        storeAccount({ email: apiReponse.data.email, name: apiReponse.data.name })
         toast.success("Connexion réussie ");
         setTimeout(() => {
           router.push("/");
         }, 2000)
       }
     } catch (e: any) {
+      console.log(e)
       toast.error(e.response.data.message);
     } finally {
       setIsLoading(false);

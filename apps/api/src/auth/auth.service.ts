@@ -17,7 +17,7 @@ export class AuthService {
   async loginWithGoogle(signInDto: { email: string, name: string }): Promise<any> {
     const user = await this.userService.findByEmail(signInDto.email);
     if (!user) {
-      await this.userService.register({
+      await this.userService.registerWithGoogle({
         email: signInDto.email,
         name: signInDto.name,
       })

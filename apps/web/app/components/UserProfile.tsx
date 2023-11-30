@@ -6,7 +6,7 @@ import avatar from "@/public/noavatar.png";
 import { useAuthContext } from "../context/authContext";
 import { useRouter, usePathname } from "next/navigation";
 
-const UserProfile = () => {
+const UserProfile = ({ userInfo }: { userInfo: any }) => {
   const { handleClicked } = useAuthContext();
   const pathname = usePathname();
   const router = useRouter();
@@ -23,16 +23,15 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="nav-item absolute right-1 top-20 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
+    <div className="nav-item absolute right-1 top-20 bg-white p-8 rounded-lg w-80">
       <div className="flex justify-between items-center">
-        <p className="font-semibold text-lg dark:text-gray-200">
+        <p className="font-semibold text-lg ">
           Profile Utilisateur
         </p>
         <button
           type="button"
           onClick={handleClicked}
-          className={`text-2xl p-3  hover:drop-shadow-xl hover:bg-light-gray`}
-        >
+          className={`text-2xl p-3  hover:drop-shadow-xl`}>
           <MdOutlineCancel />
         </button>
       </div>
@@ -43,21 +42,19 @@ const UserProfile = () => {
           alt="user-profile"
         />
         <div>
-          <p className="font-semibold text-xl dark:text-gray-200">
-            Moses Kalunga
+          <p className="font-semibold text-xl">
+            {userInfo.name}
           </p>
-          <p className="text-gray-500 text-sm dark:text-gray-400">
+          <p className="text-gray-500 text-sm">
             Utilisateur
           </p>
-          <p className="text-gray-500 text-sm font-semibold dark:text-gray-400">
-            mosesziongo@gmail.com
+          <p className="text-gray-500 text-sm font-semibold">
+            {userInfo.email}
           </p>
         </div>
       </div>
       <div>
-        <div
-          className="flex gap-5 border-b-1 border-black p-4 hover:bg-light-gray cursor-pointer  dark:hover:bg-[#42464D]"
-        >
+        <div className="flex gap-5 border-b-1 border-black p-4 hover:bg-light-gray cursor-pointer">
           <button
             type="button"
             className="text-xl rounded-lg p-3 hover:bg-light-gray text-[#03C9D7] bg-[#E5FAFB]"
@@ -66,8 +63,8 @@ const UserProfile = () => {
           </button>
 
           <div>
-            <p className="font-semibold dark:text-gray-200 ">Tableau de bord</p>
-            <p className="text-gray-500 text-sm dark:text-gray-400">
+            <p className="font-semibold">Tableau de bord</p>
+            <p className="text-gray-500 text-sm">
               {"Votre tableau de bord"}
             </p>
           </div>
@@ -77,8 +74,7 @@ const UserProfile = () => {
         <button
           type="button"
           onClick={logOut}
-          className="p-3 w-full hover:drop-shadow-xl bg-indigo-600 text-white rounded"
-        >
+          className="p-3 w-full hover:drop-shadow-xl bg-red-600 hover:bg-red-500 transition-colors duration-300 text-white rounded">
           Se Deconnecter
         </button>
       </div>

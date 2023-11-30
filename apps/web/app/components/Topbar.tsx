@@ -11,15 +11,13 @@ import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import UserProfile from "./UserProfile";
 
-// import { toast } from "react-toastify";
-
 interface TopbarProps {
   background?: string;
 }
 
 export default function Topbar({ background }: TopbarProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const { isLogged, setIsLogged, storeToken, isClicked, handleClicked } =
+  const { isLogged, setIsLogged, storeToken, isClicked, handleClicked, data, account, storeAccount } =
     useAuthContext();
   const pathname = usePathname();
   const router = useRouter();
@@ -49,12 +47,7 @@ export default function Topbar({ background }: TopbarProps) {
       name: "S'inscrire",
       path: "/register",
       isShown: !isLogged,
-    },
-    {
-      name: "Dashboard",
-      path: "/register",
-      isShown: isLogged,
-    },
+    }
   ];
 
   const logOut = () => {
@@ -62,10 +55,10 @@ export default function Topbar({ background }: TopbarProps) {
     setTimeout(() => {
       setIsLogged(false);
       storeToken(null);
+      storeAccount(null)
     }, 1000);
   };
 
-  console.log(isClicked);
 
   return (
     <header
@@ -86,17 +79,15 @@ export default function Topbar({ background }: TopbarProps) {
       </div>
 
       <div
-        className={`absolute top-14 z-30 w-screen h-screen ${background} transition-transform shadow-xl duration-500 right-0 text-lg py-20 px-16 flex flex-col items-start gap-4 justify-start lg:hidden ${
-          !isOpen && "-translate-y-[200%]"
-        }`}
+        className={`absolute top-14 z-30 w-screen h-screen ${background} transition-transform shadow-xl duration-500 right-0 text-lg py-20 px-16 flex flex-col items-start gap-4 justify-start lg:hidden ${!isOpen && "-translate-y-[200%]"
+          }`}
       >
         {LINKS.map((link, index) => (
           <Link
             href={link.path}
             key={index}
-            className={`${
-              pathname === link.path && "text-blue-800 font-medium"
-            }`}
+            className={`${pathname === link.path && "text-blue-800 font-medium"
+              }`}
             aria-label={link.name}
           >
             {link.isShown && link.name}
@@ -112,15 +103,16 @@ export default function Topbar({ background }: TopbarProps) {
 
       <div className={"hidden lg:flex items-center"}>
         {LINKS.map((link, index) => (
-          <Link
-            href={link.path}
-            className={`transition-colors duration-300 mr-3 inline-block ${
-              pathname === link.path && "text-blue-800 font-medium"
-            }}`}
-            key={index}
-          >
-            {link.isShown && link.name}
-          </Link>
+          link.isShown && (
+            <Link
+              href={link.path}
+              className={`transition-colors duration-300 ${link.path === '/register' && 'border rounded-md px-6 py-2 bg-indigo-500 text-white font-semibold'} mr-3 inline-block ${pathname === link.path && "text-blue-800 font-medium"
+                }}`}
+              key={index}
+            >
+              {link.name}
+            </Link>
+          )
         ))}
 
         {isLogged && (
@@ -136,7 +128,7 @@ export default function Topbar({ background }: TopbarProps) {
               />
               <p>
                 <span className="text-gray-400 font-bold ml-1 text-14">
-                  Moses
+                  {account.name || data.name}
                 </span>
               </p>
               <MdKeyboardArrowDown className="text-gray-400 text-14" />
@@ -144,7 +136,7 @@ export default function Topbar({ background }: TopbarProps) {
           </TooltipComponent>
         )}
       </div>
-      {isClicked && <UserProfile />}
+      {isClicked && <UserProfile userInfo={data?.user || account} />}
     </header>
   );
 }
