@@ -9,14 +9,21 @@ import React, {
 } from "react";
 
 import axios from "../config/axios";
-import { signIn, useSession } from "next-auth/react";
 
 interface AuthContextProps {
-  isLogged: boolean,
-  token: string | null,
-  storeToken: (token: string | null) => void
-  setIsLogged: (isLogged: boolean) => void,
+  isLogged: boolean;
+  token: string | null;
+  storeToken: (token: string | null) => void;
+  setIsLogged: (isLogged: boolean) => void;
+  activeMenu: boolean;
+  setIsClicked: (isClicked: boolean) => void;
+  handleClicked: () => any;
+  isClicked: boolean;
 }
+
+const initialState = {
+  userProfile: false,
+};
 
 const AuthProvider = createContext<AuthContextProps | undefined>(undefined);
 
@@ -24,14 +31,16 @@ interface ContextProviderProps {
   children: ReactNode;
 }
 
-export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
-  const [isLogged, setIsLogged] = useState(false)
-  const { status, data } = useSession();
+export const ContextProvider: React.FC<ContextProviderProps> = ({
+  children,
+}) => {
+  const [isLogged, setIsLogged] = useState(false);
   const [token, setToken] = useState<string | null>(
     typeof window !== "undefined" ? localStorage.getItem("token") : null
-  )
-  const LOGIN_URI_WITH_GOOGLE = "/auth/login-with-google";
-
+  );
+  const [activeMenu, setActiveMenu] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+  const [currentColor, setCurrentColor] = useState("#03C9D7");
 
   const storeToken = (token: string | null) => {
     if (typeof window !== "undefined") {
@@ -39,35 +48,38 @@ export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) =>
       if (token === null) localStorage.removeItem("token");
       else localStorage.setItem("token", token);
     }
-  }
+  };
+
+  const handleClicked = () => setIsClicked(!isClicked);
 
   useEffect(() => {
-    if (status === 'authenticated') {
-      const payload = {
-        email: data.user?.email
-      }
-      axios.post(LOGIN_URI_WITH_GOOGLE, JSON.stringify(payload))
-        .then(({ data: res }) => {
-          setIsLogged(true);
-          setToken(res.data.accessToken)
-        }).catch(() => {
-          setIsLogged(false)
-        })
-    }
-
-    axios.get("/auth/profile", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then(({ data: response }) => {
-      setIsLogged(true);
-    }).catch(() => {
-      setIsLogged(false)
-    })
-  }, [isLogged, token, data, status])
+    axios
+      .get("/auth/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(({ data: response }) => {
+        setIsLogged(response.data);
+      })
+      .catch(() => {
+        setIsLogged(false);
+      });
+  }, [isLogged, token]);
 
   return (
-    <AuthProvider.Provider value={{ isLogged, setIsLogged, storeToken, token }}>
+    <AuthProvider.Provider
+      value={{
+        isLogged,
+        setIsLogged,
+        storeToken,
+        token,
+        activeMenu,
+        handleClicked,
+        isClicked,
+        setIsClicked,
+      }}
+    >
       {children}
     </AuthProvider.Provider>
   );
