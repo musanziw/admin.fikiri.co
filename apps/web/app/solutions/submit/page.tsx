@@ -115,7 +115,7 @@ export default function SubmitProject() {
       toast.success("Solution soumis avec succès !");
       setIsLoading(false);
       setTimeout(() => {
-        router.push('/')
+        router.push('/me')
       }, 2000)
     } catch {
       toast.error("Échec survenue lors de la soumission de la solution");
@@ -132,6 +132,41 @@ export default function SubmitProject() {
       <AuthCard title={"Soumettez votre solution"}>
         <form onSubmit={onSubmit} className="space-y-8 flex flex-col justify-center">
           <div className="flex flex-col gap-10">
+
+            {
+              isLogged && (
+                <>
+                  <div className="flex flex-col gap-3">
+                    <label htmlFor="">Selectionner l&lsquo;appel</label>
+                    <Select
+                      options={calls}
+                      onChange={handleCallChange}
+                      className="h-12 rounded w-full mt-2 basic-select"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-3">
+                    <label htmlFor="">Choisir une thématique</label>
+                    <Select
+                      options={thematics}
+                      onChange={handleThematicsChange}
+                      className="h-12 rounded w-full mt-2 basic-multi-select"
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-3">
+                    <label htmlFor="">A quoi votre solution répond elle ?</label>
+                    <Select
+                      isMulti
+                      options={challenges}
+                      onChange={handleChallenge}
+                      className="h-12 rounded w-full mt-2 basic-multi-select"
+                    />
+                  </div>
+                </>
+              )
+            }
+
             <div className="space-y-2">
               <label htmlFor="email" className="text-gray-800">
                 Le titre de la solution
@@ -159,61 +194,11 @@ export default function SubmitProject() {
                 placeholder={"Decrire la solution ici..."}
               ></textarea>
             </div>
-
-            <div className="space-y-2">
-              <label htmlFor="illustration" className="text-gray-800">
-                {"Lien youtube de la vidéo (optionnel)"}
-              </label>
-              <input
-                ref={projectLienYoutubeRef}
-                placeholder="Coller le lien de la vidéo"
-                type="text"
-                name="illustration"
-                className="focus:outline-none text-sm block w-full rounded-md border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500 lg:text-lg"
-              />
-            </div>
           </div>
-
-
-          {
-            isLogged && (
-              <>
-                <div className="flex flex-col gap-3">
-                  <label htmlFor="">Selectionner l&lsquo;appel</label>
-                  <Select
-                    options={calls}
-                    onChange={handleCallChange}
-                    className="h-12 rounded w-full mt-2 basic-select"
-                  />
-                </div>
-
-                <div className="flex flex-col gap-3">
-                  <label htmlFor="">Choisir une thématique</label>
-                  <Select
-                    options={thematics}
-                    onChange={handleThematicsChange}
-                    className="h-12 rounded w-full mt-2 basic-multi-select"
-                  />
-                </div>
-
-                <div className="flex flex-col gap-3">
-                  <label htmlFor="">A quoi votre solution répond elle ?</label>
-                  <Select
-                    isMulti
-                    options={challenges}
-                    onChange={handleChallenge}
-                    className="h-12 rounded w-full mt-2 basic-multi-select"
-                  />
-                </div>
-              </>
-            )
-          }
-
-
 
           <div className="basis-1/2">
             <label htmlFor="illustration" className="text-gray-800 inline-block mb-4">
-              votre solution resoud quel problème ?
+              Votre solution résoud quel problème ?
             </label>
 
             <textarea
@@ -224,6 +209,19 @@ export default function SubmitProject() {
               className=" lg:text-lg focus:outline-none text-sm block w-full rounded-md h-[180px] border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500"
               placeholder={"Decrire le problème ici..."}
             ></textarea>
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="illustration" className="text-gray-800">
+              {"Lien youtube de la vidéo (optionnel)"}
+            </label>
+            <input
+              ref={projectLienYoutubeRef}
+              placeholder="Coller le lien de la vidéo"
+              type="text"
+              name="illustration"
+              className="focus:outline-none text-sm block w-full rounded-md border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500 lg:text-lg"
+            />
           </div>
 
           <Button isLoading={isLoading} label={isLoading ? "Soumission en cours..." : "Soumettre"} />
