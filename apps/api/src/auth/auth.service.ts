@@ -23,13 +23,13 @@ export class AuthService {
     if (!passwordMatch)
       throw new HttpException("Informations d'identification invalides", HttpStatus.BAD_REQUEST);
 
-    const payload = { sub: user.userId, name: user.name };
+    const payload = { sub: user.id, name: user.name, email: user.email };
 
     return {
       message: 'Connexion réussie',
       statusCode: HttpStatus.OK,
       data: {
-        id: user.userId,
+        id: user.id,
         name: user.name,
         email: user.email,
         accessToken: await this.jwtService.signAsync(payload),
@@ -43,11 +43,23 @@ export class AuthService {
   }
 
 
-  async profile(@CurrentUser() user: SerializedUser): Promise<any> {
+  async profile(@CurrentUser() currentUser: SerializedUser): Promise<any> {
+    const user = await this.userService.findByEmail(currentUser.email);
+    if (user) {
+      return {
+        statusCode: HttpStatus.OK,
+        data: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+        },
+      };
+    }
     return {
-      statusCode: HttpStatus.OK,
-      data: user,
-    };
+      statusCode: HttpStatus.UNAUTHORIZED,
+      message: 'Vous n\'êtes pas connecté',
+    }
+
   }
 
   async updateProfile(

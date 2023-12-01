@@ -16,9 +16,6 @@ interface AuthContextProps {
   token: string | null;
   storeToken: (token: string | null) => void;
   setIsLogged: (isLogged: boolean) => void;
-  setIsClicked: (isClicked: boolean) => void;
-  handleClicked: () => any;
-  isClicked: boolean;
   account: any,
   storeAccount: (account: any) => void,
 }
@@ -57,34 +54,30 @@ export const ContextProvider: React.FC<ContextProviderProps> = ({
     }
   };
 
-
-  const handleClicked = () => setIsClicked(!isClicked);
   useEffect(() => {
-    axios.get("/auth/profile", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then(({ data: response }) => {
-      setIsLogged(true);
-    }).catch(() => {
-      setIsLogged(false)
-    })
+    (() => {
+      axios.get("/auth/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(({ data: response }) => {
+        storeAccount({ email: response.data.email, name: response.data.name })
+        setIsLogged(response.data);
+      }).catch(() => {
+        setIsLogged(false)
+      })
+    })()
   }, [isLogged, token])
 
   return (
-    <AuthProvider.Provider
-      value={{
-        isLogged,
-        setIsLogged,
-        storeToken,
-        token,
-        handleClicked,
-        isClicked,
-        setIsClicked,
-        account,
-        storeAccount
-      }}
-    >
+    <AuthProvider.Provider value={{
+      isLogged,
+      setIsLogged,
+      storeToken,
+      token,
+      account,
+      storeAccount
+    }}>
       {children}
     </AuthProvider.Provider>
   );

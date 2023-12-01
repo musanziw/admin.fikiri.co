@@ -57,16 +57,15 @@ export function Hero() {
   const { isLogged } = useAuthContext();
   return (
     <>
-      <Topbar background={"bg-white"} />
-      <div className={"py-16 bg-indigo-800 text-gray-50"}>
-        <div
-          className={"p-8 h-screen grid grid-cols-1 content-center md:grid-cols-2 md:mx-auto md:max-w-screen-lg"}>
-          <div className={"flex flex-col justify-center items-start"}>
-            <h2 className={`text-3xl text-gray-50 mb-6 font-semibold mt-6 fade-in-1`}>
+      <Topbar background={"bg-white mb-20"} />
+      <div className="bg-hero bg-center bg-cover h-screen">
+        <div className={"p-8 h-full flex flex-col items-center justify-center bg-indigo-800/60 text-gray-50 mx-auto"}>
+          <div className={"flex flex-col justify-center items-start pt-32 mx-auto md:max-w-screen-lg"}>
+            <h2 className={`text-xl md:text-4xl text-gray-50 mb-6 font-semibold mt-6 fade-in-1 md:w-2/3`}>
               Cartographie des solutions innovantes locales pour accélérer
               l&apos;atteinte des ODD en RDC.
             </h2>
-            <p className={"mb-10 fade-in-2"}>
+            <p className={"mb-10 fade-in-2 md:w-2/3 md:text-xl font-medium"}>
               Fikiri est une plateforme web qui vise à cartographier les
               solutions locales en République Démocratique du Congo pour
               accélérer l&apos;atteinte des Objectifs de Développement Durable
@@ -77,13 +76,14 @@ export function Hero() {
             </Link>
           </div>
 
-          <div className={"self-start md:justify-self-end md:w-3/4  relative overflow-hidden"}>
-            <Image
-              src={IMAGES[3].src}
-              alt={IMAGES[3].name}
-              className={"w-full h-full object-cover rounded-md"}
-            />
-          </div>
+          {/* <div className={"self-start md:justify-self-end md:w-2/3  relative overflow-hidden"}>
+              <Image
+                src={IMAGES[3].src}
+                alt={IMAGES[3].name}
+                className={"w-full h-full object-cover rounded-md"}
+              />
+            </div> */}
+
         </div>
       </div>
     </>
