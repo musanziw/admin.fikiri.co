@@ -45,7 +45,7 @@ export default function Topbar({ background }: TopbarProps) {
     },
     {
       icon: <MdOutlineQuestionMark />,
-      name: "À propos",
+      name: "À propos de nous",
       path: "/#about",
       isShown: true,
     },

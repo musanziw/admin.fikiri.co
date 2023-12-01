@@ -38,8 +38,8 @@ export default function Solution() {
                         </div>
                         <div className="flex flex-col gap-4">
                             <h2 className={'text-2xl text-gray-950'}>Mon compte</h2>
-                            <div className="flex items-center gap-2 flex-wrap text-sm">
-                                <h3 className={'text-gray-500 rounded-md bg-gray-200 px-2 text-xs font-bold py-1'}>{account?.email}</h3>
+                            <div className="flex items-center gap-2 flex-wrap">
+                                <h3 className={'text-gray-500 rounded-md bg-gray-200 px-2 font-bold py-1'}>{account?.email}</h3>
                                 <h3 className={'text-gray-500'}>{account?.name}</h3>
                             </div>
                         </div>
@@ -55,7 +55,6 @@ export default function Solution() {
                     </div>
 
                     <div className="px-8 mb-6">
-
                         {
                             active === 'profile' && (
                                 <>
@@ -65,7 +64,6 @@ export default function Solution() {
                                 </>
                             )
                         }
-
                         {
                             active === 'solutions' && (
                                 <>
@@ -83,13 +81,14 @@ export default function Solution() {
                                             </h1>
                                         )
                                     }
-                                    {
-                                        solutions && solutions.map((solution: any) => (
-                                            <>
-                                                <div className="grid grid-cols-1 md:grid-cols-2">
-                                                    <div className="px-6 py-8 rounded-md border">
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                        {
+                                            solutions && solutions.map((solution: any) => (
+                                                <>
+                                                    <div className="px-6 py-8 rounded-md border relative overflow-hidden">
                                                         <h2 className={'text-gray-800 text-lg font-semibold'}>
-                                                            {solution.name} <span className={'bg-orange-400/30 text-sm px-6 py-1 rounded-sm text-dark inline-block ml-2 font-bold'}>{solution.status.name}</span>
+                                                            {solution.name} <span className={'bg-orange-400/30 px-6 py-1 rounded-sm text-dark inline-block ml-2 font-bold absolute top-0 text-xs right-0'}>{solution.status.name}</span>
                                                         </h2>
                                                         <p className={'mt-4'}>
                                                             {solution.description}
@@ -98,15 +97,14 @@ export default function Solution() {
                                                             {solution.targetedProblem}
                                                         </p>
                                                     </div>
-                                                </div>
-                                            </>
-                                        ))
-                                    }
+                                                </>
+                                            ))
+                                        }
+                                    </div>
 
                                 </>
                             )
                         }
-
                     </div>
                 </div>
                 <Footer />
