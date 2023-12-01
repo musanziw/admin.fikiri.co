@@ -25,53 +25,31 @@ export default function SubmitProject() {
   const projectLienYoutubeRef: RefObject<HTMLInputElement> = useRef(null);
   const projectDescriptionRef: RefObject<HTMLTextAreaElement> = useRef(null);
   const projectSolutionRef: RefObject<HTMLTextAreaElement> = useRef(null);
-  const projectEtapeRef: RefObject<HTMLTextAreaElement> = useRef(null);
-  const projectImpactRef: RefObject<HTMLTextAreaElement> = useRef(null);
-  const projectExpansionRef: RefObject<HTMLTextAreaElement> = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const [calls, setCalls] = useState<any[]>();
   const [thematics, setThematics] = useState<any[]>()
   const [selectedCall, setSelectedCall] = useState<any>()
   const [selectedThematic, setSelectedThematic] = useState<string>('')
-  const [maturities, setMaturities] = useState<any[]>()
-  const [selectedMaturity, setSelectedMaturity] = useState<string>('')
   const [challenges, setChallenges] = useState<any[]>()
   const [selectedChallenges, setSelectedChallenges] = useState<any>()
   const { account } = useAuthContext()
   const router = useRouter();
 
   useEffect(() => {
-    if (token) {
-      axios.get(`calls`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }).then(({ data: apiResponse }) => {
-        const options = apiResponse.data
-        setCalls(
-          options.map((option: optionProps) => ({
-            value: option.id,
-            label: option.name,
-          }))
-        );
-      }).catch(() => { })
 
-
-      axios.get(`maturities`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }).then(({ data: apiResponse }) => {
-        const options = apiResponse.data
-        setMaturities(
-          options.map((option: optionProps) => ({
-            value: option.id,
-            label: option.name,
-          }))
-        );
-      }).catch(() => { })
-
-    }
+    axios.get(`calls`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(({ data: apiResponse }) => {
+      const options = apiResponse.data
+      setCalls(
+        options.map((option: optionProps) => ({
+          value: option.id,
+          label: option.name,
+        }))
+      );
+    }).catch(() => { })
   }, [router, token]);
 
   const handleCallChange = (option: any) => {
@@ -82,8 +60,6 @@ export default function SubmitProject() {
       },
     }).then(({ data: apiResponse }) => {
       const { thematics: options } = apiResponse.data
-
-
       setThematics(
         options.map((option: optionProps) => ({
           value: option.id,
@@ -91,8 +67,6 @@ export default function SubmitProject() {
         }))
       );
     }).catch(() => { })
-
-
   };
 
   const handleThematicsChange = (option: any) => {
@@ -119,10 +93,6 @@ export default function SubmitProject() {
     )
   }
 
-  function handleMaturity(option: any) {
-    setSelectedMaturity(option.value)
-  }
-
   const onSubmit = async (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     try {
@@ -134,11 +104,9 @@ export default function SubmitProject() {
         targetedProblem: projectSolutionRef.current?.value || "", //
         call: selectedCall,
         thematic: selectedThematic,
-        maturity: selectedMaturity,
         user: account?.email,
         challenges: selectedChallenges
       };
-      console.log(payload)
       await axios.post(SOLUTION_URI, JSON.stringify(payload), {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -176,6 +144,20 @@ export default function SubmitProject() {
                 placeholder="Titre du projet"
                 className="focus:outline-none text-sm block w-full rounded-md border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500 lg:text-lg"
               />
+            </div>
+
+            <div className="flex flex-col gap-5">
+              <label htmlFor="illustration" className="text-gray-800">
+                La description de la solution
+              </label>
+              <textarea
+                ref={projectDescriptionRef}
+                name=""
+                id=""
+                required
+                className="focus:outline-none text-sm block w-full rounded-md h-[180px] border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500 lg:text-lg"
+                placeholder={"Decrire la solution ici..."}
+              ></textarea>
             </div>
 
             <div className="space-y-2">
@@ -223,40 +205,15 @@ export default function SubmitProject() {
                     className="h-12 rounded w-full mt-2 basic-multi-select"
                   />
                 </div>
-
-                <div className="flex flex-col gap-3">
-                  <label htmlFor="">L&apos;étape de votre solution</label>
-                  <Select
-                    options={maturities}
-                    onChange={handleMaturity}
-                    className="h-12 rounded w-full mt-2 basic-multi-select"
-                  />
-                </div>
               </>
             )
           }
 
 
 
-
-          <div className="flex flex-col gap-5">
-            <label htmlFor="illustration" className="text-gray-800">
-              La description de la solution
-            </label>
-            <textarea
-              ref={projectDescriptionRef}
-              name=""
-              id=""
-              required
-              className="focus:outline-none text-sm block w-full rounded-md h-[180px] border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500 lg:text-lg"
-              placeholder={"Decrire la solution ici..."}
-            ></textarea>
-          </div>
-
           <div className="basis-1/2">
-
             <label htmlFor="illustration" className="text-gray-800 inline-block mb-4">
-              Problème ciblé
+              votre solution resoud quel problème ?
             </label>
 
             <textarea
@@ -268,7 +225,6 @@ export default function SubmitProject() {
               placeholder={"Decrire le problème ici..."}
             ></textarea>
           </div>
-
 
           <Button isLoading={isLoading} label={isLoading ? "Soumission en cours..." : "Soumettre"} />
         </form>
