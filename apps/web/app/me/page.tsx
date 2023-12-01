@@ -9,24 +9,33 @@ import { useAuthContext } from "../context/authContext";
 export default function Solution() {
     const { account, token } = useAuthContext()
     const [solutions, setSolutions] = useState<any>()
-    useEffect(() => {
-        axios.get(`solutions/user/${account.email}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        }).then(({ data: apiResponse }) => {
-            setSolutions(apiResponse.data)
-        })
-    }, [account, token])
 
+    useEffect(() => {
+        (() => {
+            if (account.id) {
+                axios.get(`solutions/user/${account.id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                }).then(({ data: apiResponse }) => {
+                    setSolutions(apiResponse.data)
+                }).catch(() => { })
+            }
+        })()
+    }, [account?.id, token])
 
     return (
         <>
             <div className={'relative'}>
                 <Topbar background={'bg-white'} />
                 <div className="flex flex-col mx-6 justify-center max-w-screen-md md:mx-auto border-x border-dashed">
-                    <div className="p-4 pt-24">
-                        <h2>Votre tableau de bord avec votre(vos) solution.s</h2>
+                    <div className="p-4 pt-24 flex flex-col items-center gap-3">
+                        <div className="rounded-full h-20 w-20 bg-gray-200 flex items-center justify-center">
+                            <h1 className={'text-center text-gray-800 font-bold'}>
+                                {account?.name?.split(' ')[0][0]}{account?.name?.split(' ')[1][0]}
+                            </h1>
+                        </div>
+                        <p className={'text-lg'}>Mon compte</p>
                     </div>
 
                     <div className="p-8">

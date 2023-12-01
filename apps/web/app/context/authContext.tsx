@@ -61,7 +61,7 @@ export const ContextProvider: React.FC<ContextProviderProps> = ({
           Authorization: `Bearer ${token}`,
         },
       }).then(({ data: response }) => {
-        storeAccount({ email: response.data.email, name: response.data.name })
+        storeAccount({ email: response.data.email, name: response.data.name, id: response.data.id })
         setIsLogged(response.data);
       }).catch(() => {
         setIsLogged(false)

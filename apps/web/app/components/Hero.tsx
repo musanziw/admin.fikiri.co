@@ -60,7 +60,7 @@ export function Hero() {
       <Topbar background={"bg-white mb-20"} />
       <div className="bg-hero bg-center bg-cover h-screen">
         <div className={"p-8 h-full flex flex-col items-center justify-center bg-indigo-800/60 text-gray-50 mx-auto"}>
-          <div className={"flex flex-col justify-center items-start pt-32 mx-auto md:max-w-screen-lg"}>
+          <div className={"flex flex-col justify-center items-start md:pt-32 mx-auto md:max-w-screen-lg"}>
             <h2 className={`text-xl md:text-4xl text-gray-50 mb-6 font-semibold mt-6 fade-in-1 md:w-2/3`}>
               Cartographie des solutions innovantes locales pour accélérer
               l&apos;atteinte des ODD en RDC.

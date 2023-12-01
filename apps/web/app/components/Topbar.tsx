@@ -56,7 +56,7 @@ export default function Topbar({ background }: TopbarProps) {
       isShown: !isLogged,
     },
     {
-      icon: <span className={'-ml-2 mr-1 text-gray-600'}>•</span>,
+      icon: <span className={'lg:-ml-2 ml-2 mr-1 text-gray-600'}>•</span>,
       name: "S'inscrire",
       path: "/register",
       isShown: !isLogged,

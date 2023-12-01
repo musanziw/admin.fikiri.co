@@ -33,7 +33,7 @@ export default function Login() {
         storeToken(apiReponse.data.accessToken);
         setIsLogged(true)
         setIsLoading(false);
-        storeAccount({ email: apiReponse.data.email, name: apiReponse.data.name })
+        storeAccount({ email: apiReponse.data.email, name: apiReponse.data.name, id: apiReponse.data.id })
         toast.success("Connexion réussie ");
         setTimeout(() => {
           router.push("/");
@@ -80,7 +80,7 @@ export default function Login() {
             <Link href={"forgot-password"}>Mot de passe oublié ?</Link>
           </p>
           <Button isLoading={isLoading} label={isLoading ? "Connexion en cours..." : "Se connecter"} />
-          
+
           <p className="border-t border-gray-300 pt-6 text-sm text-gray-500">
             Vous n&lsquo;avez pas de compte ?
             <Link href={"register"} className="text-gray-950">
