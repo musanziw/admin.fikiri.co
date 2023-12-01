@@ -13,11 +13,6 @@ async function main() {
         data: [{ name: 'En attente' }, { name: 'Cartographiée' }, { name: 'Explorée' }, { name: 'Experimentée' }]
     })
 
-    await prisma.maturity.createMany({
-        data: [{ name: 'Idée' }, { name: 'Prototype' }, { name: 'MVP(Produit minimum viable)' }, { name: 'Produit fini' }]
-    })
-
-
     await prisma.user.create({
         data: {
             name: "Berry Numbi",

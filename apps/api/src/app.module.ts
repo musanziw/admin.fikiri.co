@@ -17,7 +17,6 @@ import { PrismaModule } from './database/prisma.module';
 import { CallsModule } from './calls/calls.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ChallengesModule } from './challenges/challenges.module';
-import { MaturitiesModule } from './maturities/maturities.module';
 
 @Module({
   imports: [
@@ -65,8 +64,7 @@ import { MaturitiesModule } from './maturities/maturities.module';
     ThematicsModule,
     PrismaModule,
     CallsModule,
-    ChallengesModule,
-    MaturitiesModule
+    ChallengesModule
   ],
   providers: [
     {

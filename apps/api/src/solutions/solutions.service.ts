@@ -9,7 +9,7 @@ export class SolutionsService {
     ) {
     }
 
-    async create(createSolutionDto: Prisma.SolutionCreateInput & { thematic: number, call: number, maturity: number, challenges: number[], user: string }) {
+    async create(createSolutionDto: Prisma.SolutionCreateInput & { thematic: number, call: number, challenges: number[], user: string }) {
         try {
             await this.prismaService.solution.create({
                 data: {
@@ -34,18 +34,12 @@ export class SolutionsService {
                             id: 1
                         }
                     },
-                    maturity: {
-                        connect: {
-                            id: createSolutionDto.maturity
-                        }
-                    },
                     challenges: {
                         connect: createSolutionDto.challenges.map((id) => ({ id }))
                     }
                 },
             });
-        } catch (e) {
-            console.log(e)
+        } catch {
             throw new HttpException(
                 'Mauvaise demande, essayez à nouveau',
                 HttpStatus.BAD_REQUEST,

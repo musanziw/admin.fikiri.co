@@ -8,7 +8,7 @@ export class SolutionsController {
   constructor(private readonly solutionsService: SolutionsService) { }
 
   @Post()
-  create(@Body() createSolutionDto: Prisma.SolutionCreateInput & { thematic: number, maturity: number, call: number, challenges: number[], user: string }) {
+  create(@Body() createSolutionDto: Prisma.SolutionCreateInput & { thematic: number, call: number, challenges: number[], user: string }) {
     return this.solutionsService.create(createSolutionDto);
   }
 
