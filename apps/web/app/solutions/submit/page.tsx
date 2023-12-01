@@ -36,7 +36,6 @@ export default function SubmitProject() {
   const router = useRouter();
 
   useEffect(() => {
-
     axios.get(`calls`, {
       headers: {
         Authorization: `Bearer ${token}`,

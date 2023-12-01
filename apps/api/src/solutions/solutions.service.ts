@@ -53,18 +53,15 @@ export class SolutionsService {
 
     async findAll() {
         const solutions = await this.prismaService.solution.findMany({
-            where: {
-                status: {
-                    id: 2
-                }
-            },
+            where: { status: { id: 2 } },
             include: {
                 thematic: true,
             }
         })
+        const solutionsToDisplay = solutions.filter((solution) => solution.id !== 1)
         return {
             statusCode: HttpStatus.OK,
-            data: solutions,
+            data: solutionsToDisplay,
         };
     }
 
@@ -84,12 +81,8 @@ export class SolutionsService {
     }
 
     async findbyUser(id: number) {
-        console.log(id)
-
         const solutions = await this.prismaService.solution.findMany({
-            where: {
-                userId: id
-            },
+            where: { userId: id },
             include: {
                 status: true
             }
@@ -103,9 +96,7 @@ export class SolutionsService {
     async findByCall(callId: number) {
         const solutions = await this.prismaService.solution.findMany({
             where: { callId },
-            include: {
-                thematic: true,
-            }
+            include: { thematic: true }
         })
         return {
             statusCode: HttpStatus.OK,
