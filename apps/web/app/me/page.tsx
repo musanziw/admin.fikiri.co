@@ -30,7 +30,7 @@ export default function Solution() {
             <div className={'relative'}>
                 <Topbar background={'bg-white'} />
                 <div className="flex flex-col mx-6 justify-center max-w-screen-md md:mx-auto border-x border-dashed">
-                    <div className="p-8 pt-24 flex flex-col items-center md:items-start gap-5">
+                    <div className="p-8 pt-24 flex flex-col items-start gap-5">
                         <div className="rounded-full h-20 w-20 md:h-32 md:w-32 bg-gray-100 flex items-center justify-center">
                             <h1 className={'text-center text-gray-800 font-bold text-xl'}>
                                 {account?.name?.split(' ')[0][0]}{account?.name?.split(' ')[1][0]}
@@ -38,14 +38,14 @@ export default function Solution() {
                         </div>
                         <div className="flex flex-col gap-4">
                             <h2 className={'text-2xl text-gray-950'}>Mon compte</h2>
-                            <div className="flex items-center gap-2">
-                                <h3 className={'text-gray-500 rounded-md bg-gray-200 px-4 py-1'}>{account?.email}</h3>
+                            <div className="flex items-center gap-2 flex-wrap text-sm">
+                                <h3 className={'text-gray-500 rounded-md bg-gray-200 px-2 text-xs font-bold py-1'}>{account?.email}</h3>
                                 <h3 className={'text-gray-500'}>{account?.name}</h3>
                             </div>
                         </div>
                     </div>
 
-                    <div className="p-8 flex gap-5 text-lg">
+                    <div className="p-8 flex gap-5">
                         <button className={`pb-1 after:block after:h-[2px]  ${active === 'profile' && 'after:bg-indigo-400'}`} onClick={() => setActive('profile')}>
                             Mon profil
                         </button>
