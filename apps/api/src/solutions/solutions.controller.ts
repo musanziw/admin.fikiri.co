@@ -24,9 +24,9 @@ export class SolutionsController {
     return this.solutionsService.findOne(+id);
   }
 
-  @Get('user/:email')
-  findByUser(@Param('email') email: string) {
-    return this.solutionsService.findUserSolution(email);
+  @Get('user/:id')
+  findByUser(@Param('id') id: string) {
+    return this.solutionsService.findbyUser(+id);
   }
 
   @Public()

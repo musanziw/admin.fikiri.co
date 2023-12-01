@@ -83,13 +83,12 @@ export class SolutionsService {
         };
     }
 
-    async findUserSolution(email: string) {
-        const user = await this.prismaService.user.findFirst({
-            where: { email }
-        })
+    async findbyUser(id: number) {
+        console.log(id)
+
         const solutions = await this.prismaService.solution.findMany({
             where: {
-                userId: user.id
+                userId: id
             },
             include: {
                 status: true
