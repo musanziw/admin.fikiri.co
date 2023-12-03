@@ -9,7 +9,7 @@ const SOLUTION_URI = "/solutions";
 export function MappedSolutions() {
   const [solutions, setSolutions] = useState([]);
   useEffect(() => {
-    axios.get(`solutions`).then(({ data: apiResponse }) => {
+    axios.get(`solutions/approved`).then(({ data: apiResponse }) => {
       const data = apiResponse.data
       setSolutions(data);
     }).catch(() => { })
