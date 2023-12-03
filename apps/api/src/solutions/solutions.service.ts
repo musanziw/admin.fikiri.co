@@ -80,16 +80,21 @@ export class SolutionsService {
         };
     }
 
-    async findbyUser(id: number) {
-        const solutions = await this.prismaService.solution.findMany({
-            where: { userId: id },
-            include: {
-                status: true
+    async findbyUser(email: string) {
+        const user = await this.prismaService.user.findUnique({
+            where: { email }
+        });
+        if (user) {
+            const solutions = await this.prismaService.solution.findMany({
+                where: { userId: user.id },
+                include: {
+                    status: true
+                }
+            })
+            return {
+                statusCode: HttpStatus.OK,
+                data: solutions
             }
-        })
-        return {
-            statusCode: HttpStatus.OK,
-            data: solutions
         }
     }
 

@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { SolutionsService } from './solutions.service';
 import { Prisma } from '@prisma/client';
-import { Public } from 'src/auth/decorators/public.decorator';
 
 @Controller('solutions')
 export class SolutionsController {
@@ -12,7 +11,6 @@ export class SolutionsController {
     return this.solutionsService.create(createSolutionDto);
   }
 
-  @Public()
   @Get()
   findAll() {
     return this.solutionsService.findAll();
@@ -24,18 +22,15 @@ export class SolutionsController {
     return this.solutionsService.findOne(+id);
   }
 
-  @Get('user/:id')
-  findByUser(@Param('id') id: string) {
-    return this.solutionsService.findbyUser(+id);
+  @Get('user/:email')
+  findByUser(@Param('email') email: string) {
+    return this.solutionsService.findbyUser(email);
   }
 
-  @Public()
   @Get('challenge/:id')
   findByCall(@Param('id') id: string) {
     return this.solutionsService.findByCall(+id);
   }
-
-
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSolutionDto: Prisma.SolutionUpdateInput) {

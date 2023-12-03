@@ -30,9 +30,9 @@ export class UsersController {
         return this.userService.findById(+id);
     }
 
-    @Get('email/:email')
-    findByMail(@Param('email') email: string) {
-        this.userService.findByEmail(email)
+    @Post('create')
+    findOrCreate(@Body() userDto: Prisma.UserCreateInput) {
+        this.userService.findOrCreate(userDto.email, userDto.name)
     }
 
     @Patch(':id')

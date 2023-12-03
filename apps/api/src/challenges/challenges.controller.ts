@@ -1,8 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ChallengesService } from './challenges.service';
-import { Public } from 'src/auth/decorators/public.decorator';
 
-@Public()
 @Controller('challenges')
 export class ChallengesController {
   constructor(private readonly ChallengesService: ChallengesService) { }

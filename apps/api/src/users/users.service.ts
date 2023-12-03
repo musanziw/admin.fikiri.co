@@ -1,7 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { EventEmitter2 } from '@nestjs/event-emitter';
 import { randomPassword } from '../helpers/random-password';
-import { EmailPayload } from '../types/email-payload';
 import { PrismaService } from "../database/prisma.service";
 import { Prisma, User } from '@prisma/client';
 import * as bcrypt from 'bcrypt'
@@ -10,8 +8,10 @@ import * as bcrypt from 'bcrypt'
 export class UsersService {
     constructor(
         private readonly prismaService: PrismaService,
-        private readonly eventEmitter: EventEmitter2,
     ) { }
+
+
+    // async registerWithGoogle(nema)
 
     async create(createUserDto: Prisma.UserCreateInput): Promise<any> {
         const { email } = createUserDto;
@@ -29,8 +29,6 @@ export class UsersService {
                     password: hash,
                 },
             })
-            const payload: EmailPayload = { email, password };
-            this.eventEmitter.emit('user.created', { payload });
         } catch {
             throw new HttpException('Mauvaise demande, essayez à nouveau', HttpStatus.BAD_REQUEST);
         }
@@ -105,7 +103,32 @@ export class UsersService {
         };
     }
 
-    async findByEmail(email: string): Promise<User> {
+    async findOrCreate(email: string, name: string): Promise<any> {
+        const user = await this.prismaService.user.findUnique({
+            where: { email }
+        })
+        if (user) {
+            return {
+                statusCode: HttpStatus.OK,
+                data: user
+            };
+        }
+        else {
+            await this.prismaService.user.create({
+                data: {
+                    email,
+                    name,
+                    roles: {
+                        connect: {
+                            id: 3
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+    async findByEmail(email: string): Promise<any> {
         const user = await this.prismaService.user.findUnique({
             where: { email },
             include: {
@@ -136,21 +159,7 @@ export class UsersService {
         };
     }
 
-    async updatePassword(user: User, password: string): Promise<void> {
-        user.password = password;
-        await this.prismaService.user.update({
-            data: user,
-            where: { id: user.id },
-        });
-    }
 
-    async saveResetToken(user: User, password: string): Promise<any> {
-        user.token = password;
-        await this.prismaService.user.update({
-            data: user,
-            where: { id: user.id },
-        });
-    }
 
     async remove(id: number): Promise<any> {
         const user = await this.prismaService.user.findUnique({
@@ -166,16 +175,4 @@ export class UsersService {
         };
     }
 
-    async findByResetToken(token: string) {
-        const user = await this.prismaService.user.findFirst({
-            where: { token },
-        })
-        if (!user) throw new HttpException("L'utilisateur n'a pas été trouvé", HttpStatus.NOT_FOUND);
-        return user;
-    }
-
-    async removeResetToken(user: any) {
-        user.reset_token = null;
-        await this.prismaService.user.update(user);
-    }
 }

@@ -1,8 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, } from '@nestjs/common';
 import { RolesService } from './roles.service';
-import { Public } from "../auth/decorators/public.decorator";
 import { Prisma } from '@prisma/client';
-
 
 @Controller('roles')
 export class RolesController {
