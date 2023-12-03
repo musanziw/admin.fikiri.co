@@ -114,7 +114,7 @@ export default function SubmitProject() {
     <>
       <Topbar background={"bg-white"} />
       <AuthCard title={"Soumettez votre solution"}>
-        <form onSubmit={onSubmit} className="space-y-8 flex flex-col justify-center">
+        <form className="space-y-8 flex flex-col justify-center">
           <div className="flex flex-col gap-10">
 
             {
@@ -208,7 +208,7 @@ export default function SubmitProject() {
             />
           </div>
 
-          <Button isLoading={isLoading} label={isLoading ? "Soumission en cours..." : "Soumettre"} />
+          <Button isLoading={isLoading} label={isLoading ? "Soumission en cours..." : "Soumettre"} onclick={onSubmit} />
         </form>
       </AuthCard>
       <Footer />
