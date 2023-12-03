@@ -12,7 +12,7 @@ A platform where innovators can connect and upload their projects in relation to
 
 ### Clone 
 ```bash
-$ gh repo clone musanziw/sdg
+$ gh repo clone musanziw/fikiri
 ```
 
 ### Installation
