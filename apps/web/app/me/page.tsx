@@ -65,7 +65,7 @@ export default function Solution() {
                     {
                         account?.user?.image ? (
                             <>
-                                <div className="rounded-full h-20 w-20 mt-20 md:h-32 md:w-32 bg-gray-100 flex items-center justify-center">
+                                <div className="rounded-full mb-5 h-20 w-20 mt-20 md:h-32 md:w-32 bg-gray-100 flex items-center justify-center">
                                     <Image src={account?.user?.image} alt={account?.user?.name || 'User image'} width={100} height={100} className={'rounded-full object-cover'} />
                                 </div>
                             </>
@@ -104,7 +104,7 @@ export default function Solution() {
                         {
                             active === 'profile' && (
                                 <>
-                                    <form action="" className={'flex flex-col gap-5 w-2/3'}>
+                                    <form action="" className={'flex flex-col gap-5 w-full md:w-2/3'}>
                                         <Input name={'name'} label={'Nom'} placeholder={''} type={'name'} value={name} onChange={(e) => setName(e.target.value)} />
                                         <Input name={'address'} label={'Adresse'} placeholder={''} type={'text'} value={address} onChange={(e) => setAddress(e.target.value)} />
                                         <Input name={'phoneNumber'} label={'Téléphone'} placeholder={''} type={'text'} value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />

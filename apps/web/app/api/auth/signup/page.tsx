@@ -141,16 +141,16 @@ export default function Register() {
           </div>
           <Button
             label={isLoading ? "Inscription en cours ..." : "S'inscire"}
-            onclick={() => { }}
+            onclick={onSubmit}
           />
           <div className="flex flex-row gap-5 justify-center items-center">
             <div className="basis-1/2 h-5 border-t border-gray-300 pt-6 text-sm text-gray-500"></div>
             <div className="pb-5">OU</div>
             <div className="basis-1/2 h-5 border-t border-gray-300 pt-6 text-sm text-gray-500"></div>
           </div>
-          <button className={'rounded-full px-3 py-2 border  flex items-center justify-center gap-8 hover:bg-gray-100 transition-colors duration-200'} onClick={loginWithGoogle}>
+          <button className={'rounded-full px-3 py-2 border gap-8 hover:bg-gray-100 transition-colors duration-200 relative'} onClick={loginWithGoogle}>
             S&apos;inscrire avec google
-            <Image src={googleLogo} alt={'google logo'} className={'w-6 h-auto'} />
+            <Image src={googleLogo} alt={'google logo'} className={'w-6 h-auto absolute -top-3 right-1/2'} />
           </button>
           <p className="border-t border-gray-300 pt-6 text-sm text-gray-500 dark:text-gray-400">
             Vous avez un compte ?{" "}

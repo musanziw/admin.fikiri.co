@@ -56,9 +56,9 @@ export default function Login() {
                     <Input name={'email'} label={'Email'} placeholder={'Entrez votre email'} type={'email'} value={email} onChange={(e) => setEmail(e.target.value)} />
                     <Input name={'password'} label={'Mot de passe'} placeholder={'Entrez votre mot de passe'} type={'password'} value={password} onChange={(e) => setPassword(e.target.value)} />
                     <Button isLoading={pending} label={pending ? "Connexion en cours..." : "Se connecter"} onclick={loginWithCredentials} />
-                    <button className={'rounded-full px-3 py-2 border  flex items-center justify-center gap-8 hover:bg-gray-100 transition-colors duration-200'} onClick={loginWithGoogle}>
+                    <button className={'rounded-full px-3 py-2 border gap-8 hover:bg-gray-100 transition-colors duration-200 relative'} onClick={loginWithGoogle}>
                         Se connecter avec google
-                        <Image src={googleLogo} alt={'google logo'} className={'w-6 h-auto'} />
+                        <Image src={googleLogo} alt={'google logo'} className={'w-6 h-auto absolute -top-3 right-1/2'} />
                     </button>
                     <p className="border-t border-gray-300 pt-6 text-sm text-gray-500">
                         Vous n&lsquo;avez pas de compte ?
