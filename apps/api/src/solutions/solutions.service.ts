@@ -51,7 +51,7 @@ export class SolutionsService {
         };
     }
 
-    async findAll() {
+    async findApproved() {
         const solutions = await this.prismaService.solution.findMany({
             where: { status: { id: 2 } },
             include: {
@@ -62,6 +62,18 @@ export class SolutionsService {
         return {
             statusCode: HttpStatus.OK,
             data: solutionsToDisplay,
+        };
+    }
+
+    async findAll() {
+        const solutions = await this.prismaService.solution.findMany({
+            include: {
+                thematic: true,
+            }
+        })
+        return {
+            statusCode: HttpStatus.OK,
+            data: solutions,
         };
     }
 

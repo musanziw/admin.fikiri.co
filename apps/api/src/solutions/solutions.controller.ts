@@ -11,10 +11,16 @@ export class SolutionsController {
     return this.solutionsService.create(createSolutionDto);
   }
 
+  @Get('approved')
+  findApproved() {
+    return this.solutionsService.findApproved();
+  }
+
   @Get()
   findAll() {
     return this.solutionsService.findAll();
   }
+
 
 
   @Get(':id')
