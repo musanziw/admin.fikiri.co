@@ -5,11 +5,13 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import axios from "@/app/config/axios";
-import { AuthCard } from "@/app/(auth)/components/AuthCard";
-import { Button } from "@/app/(auth)/components/Button";
+import { AuthCard } from "@/app/utils/AuthCard";
+import { Button } from "@/app/utils/Button";
 import Topbar from "@/app/components/Topbar";
-import { Footer } from "@/app/components/Footer";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import googleLogo from "@/public/googleLogo.svg"
+import { signIn } from "next-auth/react";
 
 const REGISTER_URI = "/auth/register";
 
@@ -26,7 +28,6 @@ export default function Register() {
   const onSubmit = async (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     try {
-      setIsLoading(true);
       const payload = {
         name: nomRef.current?.value || "",
         email: emailRef.current?.value || "",
@@ -48,9 +49,17 @@ export default function Register() {
     }
   };
 
+  function loginWithGoogle(e: FormEvent) {
+    e.preventDefault();
+    signIn('google', {
+      redirect: false,
+      callbackUrl: '/me'
+    })
+  }
+
   return (
     <>
-      <Topbar background="bg-white" />
+      <Topbar background={'bg-white'} />
       <AuthCard title={"Inscrivez-vous"}>
         <form onSubmit={onSubmit} className="space-y-8 flex flex-col justify-center">
           <div className="space-y-2">
@@ -132,23 +141,25 @@ export default function Register() {
           </div>
           <Button
             label={isLoading ? "Inscription en cours ..." : "S'inscire"}
+            onclick={() => { }}
           />
           <div className="flex flex-row gap-5 justify-center items-center">
             <div className="basis-1/2 h-5 border-t border-gray-300 pt-6 text-sm text-gray-500"></div>
             <div className="pb-5">OU</div>
             <div className="basis-1/2 h-5 border-t border-gray-300 pt-6 text-sm text-gray-500"></div>
           </div>
-
+          <button className={'rounded-full px-3 py-2 border  flex items-center justify-center gap-8 hover:bg-gray-100 transition-colors duration-200'} onClick={loginWithGoogle}>
+            S&apos;inscrire avec google
+            <Image src={googleLogo} alt={'google logo'} className={'w-6 h-auto'} />
+          </button>
           <p className="border-t border-gray-300 pt-6 text-sm text-gray-500 dark:text-gray-400">
             Vous avez un compte ?{" "}
-            <Link href={"login"} className="text-gray-950">
+            <Link href={"/api/auth/signin"} className="text-gray-950">
               Connectez-vous
             </Link>
           </p>
         </form>
       </AuthCard>
-      <Footer />
-      <ToastContainer />
     </>
   );
 }

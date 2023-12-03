@@ -8,9 +8,9 @@ import Select from "react-select";
 import axios from "@/app/config/axios";
 import Topbar from "@/app/components/Topbar";
 import { Footer } from "@/app/components/Footer";
-import { Button } from "@/app/(auth)/components/Button";
-import { useAuthContext } from "@/app/context/authContext";
-import { AuthCard } from "@/app/(auth)/components/AuthCard";
+import { Button } from "@/app/utils/Button";
+import { AuthCard } from "@/app/utils/AuthCard";
+import { useSession } from "next-auth/react";
 
 const SOLUTION_URI = "/solutions";
 
@@ -20,7 +20,6 @@ interface optionProps {
 }
 
 export default function SubmitProject() {
-  const { isLogged, token } = useAuthContext();
   const projectTitleRef: RefObject<HTMLInputElement> = useRef(null);
   const projectLienYoutubeRef: RefObject<HTMLInputElement> = useRef(null);
   const projectDescriptionRef: RefObject<HTMLTextAreaElement> = useRef(null);
@@ -32,15 +31,13 @@ export default function SubmitProject() {
   const [selectedThematic, setSelectedThematic] = useState<string>('')
   const [challenges, setChallenges] = useState<any[]>()
   const [selectedChallenges, setSelectedChallenges] = useState<any>()
-  const { account } = useAuthContext()
   const router = useRouter();
+  const { status, data } = useSession()
+  const isLogged = status === 'authenticated'
+  const account = data?.user
 
   useEffect(() => {
-    axios.get(`calls`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then(({ data: apiResponse }) => {
+    axios.get(`calls`).then(({ data: apiResponse }) => {
       const options = apiResponse.data
       setCalls(
         options.map((option: optionProps) => ({
@@ -49,15 +46,11 @@ export default function SubmitProject() {
         }))
       );
     }).catch(() => { })
-  }, [router, token]);
+  }, [router]);
 
   const handleCallChange = (option: any) => {
     setSelectedCall(option.value)
-    axios.get(`calls/${option.value}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then(({ data: apiResponse }) => {
+    axios.get(`calls/${option.value}`).then(({ data: apiResponse }) => {
       const { thematics: options } = apiResponse.data
       setThematics(
         options.map((option: optionProps) => ({
@@ -70,11 +63,7 @@ export default function SubmitProject() {
 
   const handleThematicsChange = (option: any) => {
     setSelectedThematic(option.value)
-    axios.get(`thematics/${option.value}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then(({ data: apiResponse }) => {
+    axios.get(`thematics/${option.value}`).then(({ data: apiResponse }) => {
       console.log(apiResponse.data)
       const { challenges: options } = apiResponse.data
       setChallenges(
@@ -106,11 +95,7 @@ export default function SubmitProject() {
         user: account?.email,
         challenges: selectedChallenges
       };
-      await axios.post(SOLUTION_URI, JSON.stringify(payload), {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.post(SOLUTION_URI, JSON.stringify(payload));
       toast.success("Solution soumis avec succès !");
       setIsLoading(false);
       setTimeout(() => {

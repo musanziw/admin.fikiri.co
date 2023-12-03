@@ -10,9 +10,9 @@ import slide6 from "@/public/sliders2/ODD 13 15.png";
 import slide7 from "@/public/sliders2/ODD 2-8.png";
 import slide8 from "@/public/sliders2/ODD 3-8.png";
 import slide9 from "@/public/sliders2/ODD 9.png";
-import Image from "next/image";
+// import Image from "next/image";
 import Topbar from "@/app/components/Topbar";
-import { useAuthContext } from "../context/authContext";
+import { useSession } from "next-auth/react";
 
 const IMAGES = [
   {
@@ -54,7 +54,9 @@ const IMAGES = [
 ];
 
 export function Hero() {
-  const { isLogged } = useAuthContext();
+  const { status } = useSession()
+  const isLoggedIn = status === "authenticated";
+
   return (
     <>
       <Topbar background={"bg-white mb-20"} />
@@ -71,8 +73,8 @@ export function Hero() {
               accélérer l&apos;atteinte des Objectifs de Développement Durable
               (ODD).
             </p>
-            <Link href={isLogged ? '/solutions/submit' : '/login'} className={"px-6 fade-in-3 py-2 inline-block mb-10 rounded-md bg-indigo-500 text-white font-semibold"}>
-              {isLogged ? 'Postulez dès maintenant' : 'Se connecter et postuler'}
+            <Link href={'/solutions/submit'} className={"px-6 fade-in-3 py-2 inline-block mb-10 rounded-md bg-indigo-500 text-white font-semibold"}>
+              Postulez dès maintenant
             </Link>
           </div>
 

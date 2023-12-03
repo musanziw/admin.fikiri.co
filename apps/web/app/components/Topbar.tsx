@@ -1,14 +1,15 @@
 "use client";
 
-import { MdOutlineQuestionMark, MdOutlineManageAccounts } from "react-icons/md";
+import { MdOutlineQuestionMark } from "react-icons/md";
+import { BsFillPersonFill } from "react-icons/bs";
 import { useState } from "react";
 import Link from "next/link";
 import logo from "@/public/logo.png";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
-import { useAuthContext } from "../context/authContext";
 import { BiLogInCircle, BiLogOutCircle } from "react-icons/bi";
 import { HiListBullet } from "react-icons/hi2";
+import { signOut, useSession } from "next-auth/react";
 
 interface TopbarProps {
   background?: string;
@@ -16,24 +17,20 @@ interface TopbarProps {
 
 export default function Topbar({ background }: TopbarProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const {
-    isLogged,
-    setIsLogged,
-    storeToken,
-    storeAccount,
-    account,
-  } = useAuthContext();
+  const { status, data: account } = useSession();
   const pathname = usePathname();
   const router = useRouter();
+
+  const isLogged = status === "authenticated";
 
   const logOut = (e: any) => {
     e.preventDefault()
     router.push("/");
     setTimeout(() => {
-      setIsLogged(false);
-      storeToken(null);
-      storeAccount(null);
-    }, 1000);
+      signOut({
+        redirect: false,
+      })
+    }, 1000)
   };
 
   const LINKS = [
@@ -52,18 +49,18 @@ export default function Topbar({ background }: TopbarProps) {
     {
       icon: <BiLogInCircle />,
       name: "Se connecter",
-      path: "/login",
+      path: "/api/auth/signin",
       isShown: !isLogged,
     },
     {
       icon: <span className={'lg:-ml-2 ml-2 mr-1 text-gray-600'}>•</span>,
       name: "S'inscrire",
-      path: "/register",
+      path: "/api/auth/signup",
       isShown: !isLogged,
     },
     {
-      icon: <MdOutlineManageAccounts />,
-      name: `${account?.name?.slice(0, 10).trimStart().padEnd(13, '...')}`,
+      icon: <BsFillPersonFill />,
+      name: `${account?.user?.name?.slice(0, 10).trimStart().padEnd(13, '...')}`,
       path: "/me",
       isShown: isLogged,
     }

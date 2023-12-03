@@ -4,48 +4,65 @@ import Topbar from "@/app/components/Topbar";
 import { Footer } from "@/app/components/Footer";
 import axios from "@/app/config/axios";
 import { useEffect, useState } from "react";
-import { useAuthContext } from "../context/authContext";
+import { useSession } from "next-auth/react";
+import Image from 'next/image'
 
 export default function Solution() {
-    const { account, token } = useAuthContext()
+    const { data: account, status } = useSession()
     const [solutions, setSolutions] = useState<any>()
     const [active, setActive] = useState<string>('profile')
 
+
     useEffect(() => {
-        (() => {
-            if (account.id) {
-                axios.get(`solutions/user/${account.id}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    }
-                }).then(({ data: apiResponse }) => {
-                    setSolutions(apiResponse.data)
-                }).catch(() => { })
+        if (status === 'authenticated') {
+            const payload = {
+                name: account?.user?.name,
+                email: account?.user?.email,
             }
-        })()
-    }, [account?.id, token])
+            axios.post(`users/create`, JSON.stringify(payload)).then(({ data: apiResponse }) => {
+                console.log(apiResponse)
+            })
+        }
+        axios.get(`solutions/user/${account?.user?.email}`).then(({ data: apiResponse }) => {
+            setSolutions(apiResponse.data)
+        }).catch(() => { })
+    }, [account?.user?.email, status, account?.user?.name])
 
     return (
         <>
             <div className={'relative'}>
                 <Topbar background={'bg-white'} />
-                <div className="flex flex-col mx-6 justify-center max-w-screen-md md:mx-auto border-x border-dashed">
-                    <div className="p-8 pt-24 flex flex-col items-start gap-5">
-                        <div className="rounded-full h-20 w-20 md:h-32 md:w-32 bg-gray-100 flex items-center justify-center">
-                            <h1 className={'text-center text-gray-800 font-bold text-xl'}>
-                                {account?.name?.split(' ')[0][0]}{account?.name?.split(' ')[1][0]}
-                            </h1>
-                        </div>
+                <div className="p-8 flex flex-col mx-6 justify-center max-w-screen-md md:mx-auto border-x border-dashed">
+                    {
+                        account?.user?.image ? (
+                            <>
+                                <div className="rounded-full h-20 w-20 mt-20 md:h-32 md:w-32 bg-gray-100 flex items-center justify-center">
+                                    <Image src={account?.user?.image} alt={account?.user?.name || 'User image'} width={100} height={100} className={'rounded-full object-cover'} />
+                                </div>
+                            </>
+                        ) : <>
+                            <div className="rounded-full mt-20 mb-4 h-20 w-20 md:h-32 md:w-32 bg-gray-100 flex items-center justify-center">
+                                <h1 className={'text-center text-gray-800 font-bold text-xl'}>
+                                    {account?.user?.name?.split(' ')[0][0]}
+                                </h1>
+                            </div>
+                        </>
+                    }
+
+                    <div className="flex flex-col items-start gap-5 mb-5">
+                        <h1 className={'text-4xl font-bold text-gray-950'}>Mon compte</h1>
+                        <h2 className={'text-gray-500'}>Gérez vos solutions et vos informations personnelles</h2>
+
                         <div className="flex flex-col gap-4">
-                            <h2 className={'text-2xl text-gray-950'}>Mon compte</h2>
+                            {/* <h2 className={'text-2xl text-gray-950'}>Mon compte</h2> */}
                             <div className="flex items-center gap-2 flex-wrap">
-                                <h3 className={'text-gray-500 rounded-md bg-gray-200 px-2 font-bold py-1'}>{account?.email}</h3>
-                                <h3 className={'text-gray-500'}>{account?.name}</h3>
+                                <h3 className={'text-gray-500 rounded-md bg-gray-200 px-2 font-bold py-1'}>{account?.user?.email}</h3>
+                                <h3 className={'text-gray-500'}>{account?.user?.name}</h3>
                             </div>
                         </div>
                     </div>
 
-                    <div className="p-8 flex gap-5">
+                    <div className="flex gap-5 mb-6">
                         <button className={`pb-1 after:block after:h-[2px]  ${active === 'profile' && 'after:bg-indigo-400'}`} onClick={() => setActive('profile')}>
                             Mon profil
                         </button>
@@ -54,7 +71,7 @@ export default function Solution() {
                         </button>
                     </div>
 
-                    <div className="px-8 mb-6">
+                    <div className="mb-6">
                         {
                             active === 'profile' && (
                                 <>
@@ -101,12 +118,11 @@ export default function Solution() {
                                             ))
                                         }
                                     </div>
-
                                 </>
                             )
                         }
                     </div>
-                </div>
+                </div >
                 <Footer />
             </div >
         </>
