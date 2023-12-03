@@ -134,7 +134,7 @@ export default function Sdg() {
             className={`flex flex-col gap-4 justify-start items-start transition-colors duration-500 border rounded-lg p-6 hover:border-gray-300`}
             key={index}
           >
-            <div className={"w-32 h-32 relative overflow-hidden"}>
+            <div className={"w-24 h-24 relative overflow-hidden"}>
               <Image
                 src={sdg.oddImage}
                 alt={sdg.oddTitle}

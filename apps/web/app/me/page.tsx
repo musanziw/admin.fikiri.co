@@ -21,7 +21,7 @@ export default function Solution() {
     const [name, setName] = useState<string>('')
     const [address, setAddress] = useState<string>('')
     const [phoneNumber, setPhoneNumber] = useState<string>('')
-    const { pending } = useFormStatus()
+    const [pending, setPending] = useState(false)
     const router = useRouter()
 
     useEffect(() => {
@@ -45,16 +45,22 @@ export default function Solution() {
 
     async function updateProfile(e: any) {
         e.preventDefault()
+        setPending(true)
         const updatedUser = {
             name,
             address,
             phoneNumber
         }
-        axios.patch(`users/${user?.id}`, JSON.stringify(updatedUser))
-        toast.success('Votre profil a été mis à jour')
+        try {
+            axios.patch(`users/${user?.id}`, JSON.stringify(updatedUser))
+            toast.success('Votre profil a été mis à jour')
+        } catch {
+            toast.error('Echec de mis à jour')
+        }
         setTimeout(() => {
-            router.push('/me')
+            router.refresh()
         }, 1000)
+        setPending(false)
     }
 
     return (
@@ -78,7 +84,7 @@ export default function Solution() {
                         </>
                     }
 
-                    <div className="flex flex-col items-start gap-5 mb-5">
+                    <div className="flex flex-col items-start gap-3 mb-5">
                         <h1 className={'text-4xl font-bold text-gray-950'}>Mon compte</h1>
                         <h2 className={'text-gray-500'}>Gérez vos solutions et vos informations personnelles</h2>
 
@@ -104,11 +110,15 @@ export default function Solution() {
                         {
                             active === 'profile' && (
                                 <>
-                                    <form action="" className={'flex flex-col gap-5 w-full md:w-2/3'}>
+                                    <form action="" className={'flex flex-col gap-5 w-full md:w-2/3'} onSubmit={updateProfile}>
                                         <Input name={'name'} label={'Nom'} placeholder={''} type={'name'} value={name} onChange={(e) => setName(e.target.value)} />
                                         <Input name={'address'} label={'Adresse'} placeholder={''} type={'text'} value={address} onChange={(e) => setAddress(e.target.value)} />
                                         <Input name={'phoneNumber'} label={'Téléphone'} placeholder={''} type={'text'} value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
-                                        <Button isLoading={pending} label={pending ? "Mise à jour..." : "Enregistrez les informations"} onclick={updateProfile} />
+                                        {/* <Button isLoading={pending} label={pending ? "Mise à jour..." : "Enregistrez les informations"} onclick={updateProfile} /> */}
+
+                                        <button type="submit" className={`px-3 py-2 rounded-md bg-indigo-600 hover:bg-indigo-500 transition-colors duration-300 disabled:cursor-not-allowed disabled:bg-indigo-500 text-white font-semibold ${pending}`} disabled={pending}>
+                                            {pending ? "Mise à jour..." : "Enregistrez les informations"}
+                                        </button>
                                     </form>
                                 </>
                             )
@@ -118,33 +128,27 @@ export default function Solution() {
                                 <>
                                     {
                                         solutions?.length === 0 && (
-                                            <h1>
-                                                Vous n&apos;avez pas encore de solutions
-                                            </h1>
-                                        )
-                                    }
-                                    {
-                                        !solutions && active === 'solutions' && (
-                                            <h1>
-                                                En cours de chargement...
-                                            </h1>
+                                            <div className={'flex flex-col gap-4'}>
+                                                <h1>
+                                                    Vous n&apos;avez pas encore de solutions
+                                                </h1>
+                                                <h2 className={'text-2xl font-semibold'}>Comment postulez ?</h2>
+                                                <h3 className={'text-lg font-medium'}>1. Allez sur l&apos;acceuil, cliquez sur le boutton postulez</h3>
+                                                <h3 className={'text-lg font-medium'}>2. Remplissez attentivement le formulaire</h3>
+                                                <h3 className={'text-lg font-medium'}>3. Suivez l&apos;évolution de ce dernier dans votre compte, Merci !</h3>
+                                            </div>
                                         )
                                     }
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                         {
-                                            solutions && solutions.map((solution: any) => (
+                                            solutions && solutions.map((solution: any, i: number) => (
                                                 <>
-                                                    <div className="px-6 py-8 rounded-md border relative overflow-hidden">
+                                                    <div className="px-6 overflow-hidden">
                                                         <h2 className={'text-gray-800 text-lg font-semibold'}>
-                                                            {solution.name} <span className={'bg-orange-400/30 px-6 py-1 rounded-sm text-dark inline-block ml-2 font-bold absolute top-0 text-xs right-0'}>{solution.status.name}</span>
+                                                            {i + 1}. {solution.name} <span className={'bg-orange-400/30 px-6 py-1 rounded-full text-dark inline-block ml-2 font-bold text-xs'}>{solution.status.name}</span>
                                                         </h2>
-                                                        <p className={'mt-4'}>
-                                                            {solution.description}
-                                                        </p>
-                                                        <p className={'mt-4'}>
-                                                            {solution.targetedProblem}
-                                                        </p>
+
                                                     </div>
                                                 </>
                                             ))
@@ -155,7 +159,6 @@ export default function Solution() {
                         }
                     </div>
                 </div>
-                {/* <Footer /> */}
                 <ToastContainer />
             </div >
         </>

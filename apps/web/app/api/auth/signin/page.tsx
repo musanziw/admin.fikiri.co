@@ -13,14 +13,12 @@ import Topbar from "@/app/components/Topbar";
 import axios from "@/app/config/axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useRouter } from "next/navigation";
 
 
 export default function Login() {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const { pending } = useFormStatus()
-    const router = useRouter()
 
     async function loginWithCredentials(e: FormEvent) {
         e.preventDefault();
@@ -30,12 +28,9 @@ export default function Login() {
             signIn("credentials", {
                 email: useremail,
                 password: password,
-                redirect: false,
+                callbackUrl: '/me'
             })
             toast.success(`Bienvenue ${name} !`);
-            setTimeout(() => {
-                router.push('/me')
-            }, 1000)
         } catch (e: any) {
             toast.error(e.response?.data?.message);
         }
