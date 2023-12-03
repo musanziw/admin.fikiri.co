@@ -6,12 +6,23 @@ import axios from "@/app/config/axios";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import Image from 'next/image'
+import { Input } from "../utils/Input";
+import { Button } from "../utils/Button";
+import { useFormStatus } from "react-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 export default function Solution() {
     const { data: account, status } = useSession()
     const [solutions, setSolutions] = useState<any>()
+    const [user, setUser] = useState<any>()
     const [active, setActive] = useState<string>('profile')
-
+    const [name, setName] = useState<string>('')
+    const [address, setAddress] = useState<string>('')
+    const [phoneNumber, setPhoneNumber] = useState<string>('')
+    const { pending } = useFormStatus()
+    const router = useRouter()
 
     useEffect(() => {
         if (status === 'authenticated') {
@@ -19,14 +30,32 @@ export default function Solution() {
                 name: account?.user?.name,
                 email: account?.user?.email,
             }
-            axios.post(`users/create`, JSON.stringify(payload)).then(({ data: apiResponse }) => {
-                console.log(apiResponse)
+            axios.post(`users/create`, JSON.stringify(payload)).then(() => { })
+            axios.get(`auth/profile/${account?.user?.email}`).then(({ data: apiResponse }) => {
+                setName(apiResponse.data.name)
+                setAddress(apiResponse.data.address)
+                setPhoneNumber(apiResponse.data.phoneNumber)
+                setUser(apiResponse.data)
             })
         }
         axios.get(`solutions/user/${account?.user?.email}`).then(({ data: apiResponse }) => {
             setSolutions(apiResponse.data)
         }).catch(() => { })
     }, [account?.user?.email, status, account?.user?.name])
+
+    async function updateProfile(e: any) {
+        e.preventDefault()
+        const updatedUser = {
+            name,
+            address,
+            phoneNumber
+        }
+        axios.patch(`users/${user?.id}`, JSON.stringify(updatedUser))
+        toast.success('Votre profil a été mis à jour')
+        setTimeout(() => {
+            router.push('/me')
+        }, 1000)
+    }
 
     return (
         <>
@@ -75,9 +104,12 @@ export default function Solution() {
                         {
                             active === 'profile' && (
                                 <>
-                                    <h1>
-                                        Page en cours de construction...
-                                    </h1>
+                                    <form action="" className={'flex flex-col gap-5 w-2/3'}>
+                                        <Input name={'name'} label={'Nom'} placeholder={''} type={'name'} value={name} onChange={(e) => setName(e.target.value)} />
+                                        <Input name={'address'} label={'Adresse'} placeholder={''} type={'text'} value={address} onChange={(e) => setAddress(e.target.value)} />
+                                        <Input name={'phoneNumber'} label={'Téléphone'} placeholder={''} type={'text'} value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+                                        <Button isLoading={pending} label={pending ? "Mise à jour..." : "Enregistrez les informations"} onclick={updateProfile} />
+                                    </form>
                                 </>
                             )
                         }
@@ -122,8 +154,9 @@ export default function Solution() {
                             )
                         }
                     </div>
-                </div >
-                <Footer />
+                </div>
+                {/* <Footer /> */}
+                <ToastContainer />
             </div >
         </>
     )

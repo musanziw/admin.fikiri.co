@@ -25,10 +25,9 @@ export default function Topbar({ background }: TopbarProps) {
 
   const logOut = (e: any) => {
     e.preventDefault()
-    router.push("/");
     setTimeout(() => {
       signOut({
-        redirect: false,
+        callbackUrl: '/'
       })
     }, 1000)
   };

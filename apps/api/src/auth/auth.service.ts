@@ -29,24 +29,14 @@ export class AuthService {
   }
 
 
-  async loginWithGoogle(email: string): Promise<any> {
-    const user = await this.userService.findByEmail(email);
-
-    // if (!passwordMatch)
-    //   return {
-    //     statusCode: HttpStatus.NOT_FOUND,
-    //     message: "Informations d'identification invalides",
-    //   }
-
-    return {
-      message: 'Connexion réussie',
-      statusCode: HttpStatus.OK,
-      data: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-      },
-    };
+  async profile(email: string): Promise<any> {
+    if (email) {
+      const user = await this.userService.findByEmail(email);
+      return {
+        statusCode: HttpStatus.OK,
+        data: user
+      }
+    }
   }
 
   async passworMatch(password: string, hash: string): Promise<boolean> {
