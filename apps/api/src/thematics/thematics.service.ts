@@ -6,16 +6,9 @@ import { Prisma } from '@prisma/client';
 export class ThematicsService {
     constructor(
         private readonly prismaService: PrismaService
-    ) {
-    }
+    ) { }
 
     async create(createThematicDto: Prisma.ThematicCreateInput) {
-        const name: string = createThematicDto.name as string;
-        const thematic = await this.prismaService.thematic.findFirst({
-            where: { name }
-        })
-        if (thematic)
-            throw new HttpException('La thématique existe déjà', HttpStatus.CONFLICT);
         await this.prismaService.thematic.create({
             data: createThematicDto
         })

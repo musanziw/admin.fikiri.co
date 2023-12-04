@@ -6,10 +6,17 @@ import { Prisma } from '@prisma/client';
 export class ChallengesService {
     constructor(
         private readonly prismaService: PrismaService
-    ) {
+    ) { }
+
+    async create(createDto: Prisma.ChallengeCreateInput) {
+        await this.prismaService.challenge.create({
+            data: createDto
+        })
+        return {
+            statusCode: HttpStatus.CREATED,
+            message: 'Le défi ajouté avec succès',
+        };
     }
-
-
 
     async findAll() {
         const thematics = await this.prismaService.challenge.findMany();
