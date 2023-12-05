@@ -9,7 +9,7 @@ export const SavetableSolutions = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
 
-  const [solutions, setSolutions] = useState();
+  const [solutions, setSolutions] = useState([]);
   const [isLoadingSolution, setIsLoadingSolution] = useState(false);
 
   useEffect(()=>{
@@ -24,7 +24,6 @@ export const SavetableSolutions = () => {
         console.error("Erreur lors de la récupération des données :", error);
       }
     }
-
     fetchSolution();
 
   }, [])
@@ -64,26 +63,26 @@ export const SavetableSolutions = () => {
           >
             Details
           </Button>
-          {/* <Button
+          <Button
             variant=""
             className="btn btn-danger me-1"
             type="button"
             onClick={() => handleDeleteClick(solution.id)}
           >
             Delete
-          </Button> */}
+          </Button>
         </td>
       </tr>
     );
   };
 
   const getSolutionDetails = (solutionId) => {
-    const solution = data.find((s) => s.id === solutionId);
-
+    const solution = solutions.find((s) => s.id === solutionId);
+  
     if (!solution) {
       return <p>Solution not found.</p>;
     }
-
+  
     return (
       <div>
         <p>
@@ -113,12 +112,11 @@ export const SavetableSolutions = () => {
     setSolutions(newSolutions);
   };
 
-  // Calculer l'index de début et de fin pour l'affichage actuel
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = solutions.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Fonction pour changer de page
+  if (solutions) {
+  const currentItems = solutions.slice(indexOfFirstItem, indexOfLastItem);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
@@ -192,4 +190,6 @@ export const SavetableSolutions = () => {
       </Modal>
     </div>
   );
+}
+
 };
