@@ -41,7 +41,7 @@ export const SavetableSolutions = () => {
     setDetailsSolutionId(solutionId);
   };
 
-  const handleDetailsClose = () => {
+  const handleDetailsClose = () => { 
     setDetailsSolutionId(null);
   };
 
