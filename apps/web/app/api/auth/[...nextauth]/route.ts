@@ -21,7 +21,7 @@ const handler = NextAuth({
                         return res.data
                     }
                 } catch {
-                    return credentials
+                    return null
                 }
             }
         })
