@@ -1,22 +1,24 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { randomPassword } from '../helpers/random-password';
-import { PrismaService } from "../database/prisma.service";
-import { Prisma, User } from '@prisma/client';
+import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
+import {randomPassword} from '../helpers/random-password';
+import {PrismaService} from "../database/prisma.service";
+import {Prisma} from '@prisma/client';
 import * as bcrypt from 'bcrypt'
+import {paginate} from "../helpers/paginate";
 
 @Injectable()
 export class UsersService {
     constructor(
         private readonly prismaService: PrismaService,
-    ) { }
+    ) {
+    }
 
 
     // async registerWithGoogle(nema)
 
     async create(createUserDto: Prisma.UserCreateInput): Promise<any> {
-        const { email } = createUserDto;
+        const {email} = createUserDto;
         const user = await this.prismaService.user.findUnique({
-            where: { email },
+            where: {email},
         });
         if (user)
             throw new HttpException("L'utilisateur existe déjà", HttpStatus.CONFLICT);
@@ -48,7 +50,7 @@ export class UsersService {
         const password: string = registerDto.password as string
         const hash = await this.hashPassword(password)
         const user = await this.prismaService.user.findUnique({
-            where: { email },
+            where: {email},
         });
         if (user)
             throw new HttpException("L'utilisateur existe déjà", HttpStatus.CONFLICT);
@@ -69,8 +71,11 @@ export class UsersService {
         };
     }
 
-    async findAll(): Promise<any> {
+    async findAll(page: number): Promise<any> {
+        const { offset, limit } = paginate(page, 12)
         const users = await this.prismaService.user.findMany({
+            skip: offset,
+            take: limit,
             select: {
                 id: true,
                 email: true,
@@ -87,7 +92,7 @@ export class UsersService {
 
     async findById(id: number): Promise<any> {
         const user = await this.prismaService.user.findUnique({
-            where: { id },
+            where: {id},
             include: {
                 roles: {
                     select: {
@@ -105,15 +110,14 @@ export class UsersService {
 
     async findOrCreate(email: string, name: string): Promise<any> {
         const user = await this.prismaService.user.findUnique({
-            where: { email }
+            where: {email}
         })
         if (user) {
             return {
                 statusCode: HttpStatus.OK,
                 data: user
             };
-        }
-        else {
+        } else {
             await this.prismaService.user.create({
                 data: {
                     email,
@@ -130,7 +134,7 @@ export class UsersService {
 
     async findByEmail(email: string): Promise<any> {
         const user = await this.prismaService.user.findUnique({
-            where: { email },
+            where: {email},
             include: {
                 roles: true
             }
@@ -141,13 +145,13 @@ export class UsersService {
 
     async update(id: number, updateUserDto: Prisma.UserUpdateInput): Promise<any> {
         const user = await this.prismaService.user.findUnique({
-            where: { id },
+            where: {id},
         })
         if (!user) throw new HttpException("L'utilisateur n'a pas été trouvé", HttpStatus.NOT_FOUND);
         const updatedUser = Object.assign(user, updateUserDto);
         try {
             await this.prismaService.user.update({
-                where: { id },
+                where: {id},
                 data: updatedUser
             })
         } catch {
@@ -160,14 +164,13 @@ export class UsersService {
     }
 
 
-
     async remove(id: number): Promise<any> {
         const user = await this.prismaService.user.findUnique({
-            where: { id },
+            where: {id},
         })
         if (!user) throw new HttpException("L'utilisateur n'a pas été trouvé", HttpStatus.NOT_FOUND);
         await this.prismaService.user.delete({
-            where: { id },
+            where: {id},
         });
         return {
             statusCode: HttpStatus.OK,
