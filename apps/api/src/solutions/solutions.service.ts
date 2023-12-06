@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from "../database/prisma.service";
 import { Prisma } from '@prisma/client';
+import {paginate} from "../helpers/paginate";
 
 @Injectable()
 export class SolutionsService {
@@ -65,8 +66,11 @@ export class SolutionsService {
         };
     }
 
-    async findAll() {
+    async findAll(page: number) {
+        const {offset, limit} = paginate(page, 12)
         const solutions = await this.prismaService.solution.findMany({
+            skip: offset,
+            take: limit,
             include: {
                 thematic: true,
             }
@@ -121,7 +125,7 @@ export class SolutionsService {
         }
     }
 
-    async update(id: number, updateSolutionDto: Prisma.SolutionUpdateInput) {
+    async update(id: number, updateSolutionDto: Prisma.SolutionUpdateInput & { status: number }) {
         const solution = await this.prismaService.solution.findUnique({
             where: { id }
         });
@@ -130,11 +134,16 @@ export class SolutionsService {
                 "La solution n'a pas été trouvé",
                 HttpStatus.NOT_FOUND,
             );
-        const updatedUser: Prisma.SolutionUpdateInput = Object.assign(solution, updateSolutionDto);
+        const updatedSolution: Prisma.SolutionUpdateInput = Object.assign(solution, updateSolutionDto);
         try {
             await this.prismaService.solution.update({
                 data: {
-                    ...updatedUser
+                    ...updatedSolution,
+                    status: {
+                        connect: {
+                            id: updateSolutionDto.status
+                        }
+                    }
                 },
                 where: { id }
             });
