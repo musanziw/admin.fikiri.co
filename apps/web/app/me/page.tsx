@@ -10,6 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import moment from 'moment';
+import Link from "next/link";
 
 export default function Solution() {
     const { data: account, status } = useSession()
@@ -35,6 +36,7 @@ export default function Solution() {
             const payload = {
                 name: account?.user?.name,
                 email: account?.user?.email,
+                profile: account?.user?.image
             }
             axios.post(`users/create`, JSON.stringify(payload)).then(() => { })
             axios.get(`auth/profile/${account?.user?.email}`).then(({ data: apiResponse }) => {
@@ -58,7 +60,7 @@ export default function Solution() {
             phoneNumber
         }
         try {
-            axios.patch(`users/${user?.id}`, JSON.stringify(updatedUser))
+            await axios.patch(`users/${user?.id}`, JSON.stringify(updatedUser))
             toast.success('Votre profil a été mis à jour')
         } catch {
             toast.error('Echec de mis à jour')
@@ -158,6 +160,9 @@ export default function Solution() {
                                                             <span className={'font-medium ml-2'}>
                                                                 {moment(solution.status.createdAt).locale('fr').fromNow(false)}
                                                             </span>
+                                                            <Link className={'text-indigo-400 inline-block ml-2'} href={`/me/solutions/${solution.id}`}  aria-label={`${solution.name}`}>
+                                                                Modifier la solution
+                                                            </Link>
                                                         </h2>
 
                                                         <>
@@ -192,7 +197,7 @@ export default function Solution() {
                     </div>
                 </div>
                 <ToastContainer />
-            </div >
+            </div>
         </>
     )
 }
