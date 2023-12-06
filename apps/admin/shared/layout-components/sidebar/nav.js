@@ -16,8 +16,8 @@ export const MENUITEMS = [
           </svg>
         ),
         type: "link",
-        selected:false,
-        active:false,
+        selected: false,
+        active: false,
         title: "Dashboard",
       },
     ],
@@ -33,15 +33,17 @@ export const MENUITEMS = [
             className="side-menu__icon"
             width="24"
             height="24"
+            fill="currentColor"
+            class="bi bi-person-lines-fill"
             viewBox="0 0 24 24"
           >
-            <path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm11-6h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm-1 6h-4V5h4v4zm-9 4H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zm-1 6H5v-4h4v4zm8-6c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zm0 6c-1.103 0-2-.897-2-2s.897-2 2-2 2 .897 2 2-.897 2-2 2z" />
+            <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5m.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1z" />
           </svg>
         ),
         type: "link",
-        selected:false,
-        active:false,
-        title: "Utilisateurs",
+        selected: false,
+        active: false,
+        title: "Innovateurs",
       },
       {
         path: `/components/apps/curateurListe`,
@@ -59,11 +61,10 @@ export const MENUITEMS = [
           </svg>
         ),
         type: "link",
-        selected:false,
-        active:false,
+        selected: false,
+        active: false,
         title: "Curateurs",
-      }
-      ,
+      },
       {
         path: `/components/apps/project`,
         icon: (
@@ -80,11 +81,10 @@ export const MENUITEMS = [
           </svg>
         ),
         type: "link",
-        selected:false,
-        active:false,
+        selected: false,
+        active: false,
         title: "Solutions",
-      }
-      ,
+      },
       {
         path: `/components/apps/thematique`,
         icon: (
@@ -101,11 +101,10 @@ export const MENUITEMS = [
           </svg>
         ),
         type: "link",
-        selected:false,
-        active:false,
+        selected: false,
+        active: false,
         title: "Thematiques",
-      }
-      
+      },
     ],
   },
 
@@ -131,10 +130,10 @@ export const MENUITEMS = [
           </svg>
         ),
         type: "link",
-        selected:false,
-        active:false,
+        selected: false,
+        active: false,
         title: "Rapports",
-      }
+      },
     ],
   },
 ];
