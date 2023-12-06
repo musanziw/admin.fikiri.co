@@ -17,14 +17,11 @@ import { Delete } from "../../redux/actions/action";
 import ProductService from "../../services/ProductService";
 import { useRouter } from "next/router";
 
-
 export default function Header() {
-
   let { basePath } = useRouter();
 
   const [Lang, setLang] = React.useState(false);
   const [account, setAccount] = React.useState();
-
 
   function Fullscreen() {
     if (
@@ -74,7 +71,7 @@ export default function Header() {
     document.querySelector(".demo_changer").style.right = "0px";
   };
   const [price, setPrice] = React.useState(0);
-  
+
   // console.log(price);
 
   let getdata = useSelector((state) => state.cartreducer.carts);
@@ -92,7 +89,6 @@ export default function Header() {
 
   // const { id } = useParams();
   const { id } = "";
-
 
   const compare = () => {
     let comparedata = getdata.filter((e) => {
@@ -129,12 +125,9 @@ export default function Header() {
     navigate(path);
   };
 
-  React.useEffect(()=>{
-
-     setAccount(JSON.parse(localStorage.getItem("ACCESS_ACCOUNT")))
-
-  }, [])
-
+  React.useEffect(() => {
+    setAccount(JSON.parse(localStorage.getItem("ACCESS_ACCOUNT")));
+  }, []);
 
   return (
     <Navbar className="main-header side-header sticky nav nav-item">
@@ -242,7 +235,7 @@ export default function Header() {
                       </svg>
                     </span>
                   </a>
-                </li> 
+                </li>
                 {/* <li
                   className="nav-item full-screen fullscreen-button"
                   onClick={Fullscreen}
@@ -331,15 +324,19 @@ export default function Header() {
                             {account ? `${account.name}` : ""}
                           </h6>
                           <span className="dropdown-title-text subtext op-6  tx-12">
-                          {account ? `${account.email}` : ""}
-
+                            {account ? `${account.email}` : ""}
                           </span>
                         </div>
                       </div>
                     </div>
                     <Link
                       className="dropdown-item"
-                      href={`/components/apps/profile/`}
+                      href={
+                        account
+                          ? `/components/apps/profile/?email=${account.email}`
+                          : "/components/apps/profile/"
+                      }
+                      as="/components/apps/profile/"
                     >
                       <i className="far fa-user-circle"></i>Mon profile
                     </Link>
@@ -351,7 +348,8 @@ export default function Header() {
                       <i className="far fa-sun"></i> Paramètres
                     </Link> */}
                     <Link className="dropdown-item" href="/">
-                      <i className="far fa-arrow-alt-circle-left"></i> Se deconnecter
+                      <i className="far fa-arrow-alt-circle-left"></i> Se
+                      deconnecter
                     </Link>
                   </Dropdown.Menu>
                 </Dropdown>
