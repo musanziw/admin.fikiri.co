@@ -2,6 +2,7 @@ import React, { useState, Fragment, useEffect } from "react";
 import { Button, Modal, Table, Pagination } from "react-bootstrap";
 import { nanoid } from "nanoid";
 import axios from "@/pages/api/axios";
+import moment from "moment";
 
 export const SavetableSolutions = () => {
   const [modalShow, setModalShow] = React.useState(false);
@@ -12,23 +13,20 @@ export const SavetableSolutions = () => {
   const [solutions, setSolutions] = useState([]);
   const [isLoadingSolution, setIsLoadingSolution] = useState(false);
 
-  useEffect(()=>{
-    const fetchSolution = async ()=>{
-      try{
+  useEffect(() => {
+    const fetchSolution = async () => {
+      try {
         setIsLoadingSolution(true);
         const responseSolution = await axios.get("/solutions");
         setSolutions(responseSolution.data.data);
-        setIsLoadingSolution(false)
-      } catch(error){
+        setIsLoadingSolution(false);
+      } catch (error) {
         setIsLoadingSolution(false);
         console.error("Erreur lors de la récupération des données :", error);
       }
-    }
+    };
     fetchSolution();
-
-  }, [])
-
-
+  }, []);
 
   const truncateText = (text, maxLength) => {
     if (text.length > maxLength) {
@@ -41,7 +39,7 @@ export const SavetableSolutions = () => {
     setDetailsSolutionId(solutionId);
   };
 
-  const handleDetailsClose = () => { 
+  const handleDetailsClose = () => {
     setDetailsSolutionId(null);
   };
 
@@ -50,9 +48,9 @@ export const SavetableSolutions = () => {
       <tr>
         <td className="wd-5p text-center">{solution.id}</td>
         <td>{truncateText(solution.name, 20)}</td>
-        <td>{truncateText(solution.description, 20)}</td>
+        {/* <td>{truncateText(solution.description, 20)}</td> */}
         <td>{truncateText(solution.targetedProblem, 20)}</td>
-        <td>{solution.createdAt}</td>
+        <td> {moment(solution.createdAt).format("DD MMMM YYYY [à] HH:mm")}</td>
         <td>{solution.thematic.name}</td>
         <td>
           <Button
@@ -78,11 +76,11 @@ export const SavetableSolutions = () => {
 
   const getSolutionDetails = (solutionId) => {
     const solution = solutions.find((s) => s.id === solutionId);
-  
+
     if (!solution) {
       return <p>Solution not found.</p>;
     }
-  
+
     return (
       <div>
         <p>
@@ -116,38 +114,40 @@ export const SavetableSolutions = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
   if (solutions) {
-  const currentItems = solutions.slice(indexOfFirstItem, indexOfLastItem);
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    const currentItems = solutions.slice(indexOfFirstItem, indexOfLastItem);
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  return (
-    <div className="app-container">
-      <Table className="table table-bordered text-nowrap border-bottom">
-        <thead>
-          <tr>
-            <th className="wd-5p text-center">ID</th>
-            <th>Nom</th>
-            <th>Description</th>
-            <th>Target</th>
-            <th>Date création</th>
-            <th>Thématique</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {solutions && currentItems.map((solution) => (
-            <Fragment key={solution.id}>
-              <ReadOnlyRow
-                solution={solution}
-                handleDetailsClick={handleDetailsClick}
-                handleDeleteClick={handleDeleteClick}
-              />
-            </Fragment>
-          ))}
-        </tbody>
-      </Table>
-      <Pagination>
-        {Array.from({ length: Math.ceil(solutions.length / itemsPerPage) }).map(
-          (item, index) => (
+    return (
+      <div className="app-container">
+        <Table className="table table-bordered text-nowrap border-bottom">
+          <thead>
+            <tr>
+              <th className="wd-5p text-center">ID</th>
+              <th>Nom</th>
+              {/* <th>Description</th> */}
+              <th>Target</th>
+              <th>Date création</th>
+              <th>Thématique</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {solutions &&
+              currentItems.map((solution) => (
+                <Fragment key={solution.id}>
+                  <ReadOnlyRow
+                    solution={solution}
+                    handleDetailsClick={handleDetailsClick}
+                    handleDeleteClick={handleDeleteClick}
+                  />
+                </Fragment>
+              ))}
+          </tbody>
+        </Table>
+        <Pagination>
+          {Array.from({
+            length: Math.ceil(solutions.length / itemsPerPage),
+          }).map((item, index) => (
             <Pagination.Item
               key={index + 1}
               active={index + 1 === currentPage}
@@ -155,41 +155,39 @@ export const SavetableSolutions = () => {
             >
               {index + 1}
             </Pagination.Item>
-          )
-        )}
-      </Pagination>
+          ))}
+        </Pagination>
 
-      <Modal
-        show={detailsSolutionId !== null}
-        onHide={handleDetailsClose}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Solution Details
-          </Modal.Title>
-          <Button
-            variant=""
-            className="btn btn-close"
-            onClick={handleDetailsClose}
-          >
-            x
-          </Button>
-        </Modal.Header>
-        <Modal.Body>{getSolutionDetails(detailsSolutionId)}</Modal.Body>
-        <Modal.Footer>
-          <Button
-            className="btn btn-primary wd-20p"
-            onClick={handleDetailsClose}
-          >
-            Fermer
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
-  );
-}
-
+        <Modal
+          show={detailsSolutionId !== null}
+          onHide={handleDetailsClose}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <Modal.Title id="contained-modal-title-vcenter">
+              Solution Details
+            </Modal.Title>
+            <Button
+              variant=""
+              className="btn btn-close"
+              onClick={handleDetailsClose}
+            >
+              x
+            </Button>
+          </Modal.Header>
+          <Modal.Body>{getSolutionDetails(detailsSolutionId)}</Modal.Body>
+          <Modal.Footer>
+            <Button
+              className="btn btn-primary wd-20p"
+              onClick={handleDetailsClose}
+            >
+              Fermer
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    );
+  }
 };
