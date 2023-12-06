@@ -1,6 +1,6 @@
 "use client";
 
-import {useState, FormEvent, use} from "react";
+import {useState, FormEvent} from "react";
 import Link from "next/link";
 import {AuthCard} from "@/app/utils/AuthCard";
 import {Button} from "@/app/utils/Button";
