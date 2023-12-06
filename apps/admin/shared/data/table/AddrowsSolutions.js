@@ -3,12 +3,16 @@ import { Button, Modal, Table, Pagination } from "react-bootstrap";
 import { nanoid } from "nanoid";
 import axios from "@/pages/api/axios";
 import moment from "moment";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 export const SavetableSolutions = () => {
   const [modalShow, setModalShow] = React.useState(false);
   const [detailsSolutionId, setDetailsSolutionId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
+
+  const navigate = useRouter();
 
   const [solutions, setSolutions] = useState([]);
   const [isLoadingSolution, setIsLoadingSolution] = useState(false);
@@ -53,14 +57,23 @@ export const SavetableSolutions = () => {
         <td> {moment(solution.createdAt).format("DD MMMM YYYY [à] HH:mm")}</td>
         <td>{solution.thematic.name}</td>
         <td>
-          <Button
+          {/* <Button
             variant=""
             className="btn btn-primary me-1"
             type="button"
             onClick={() => handleDetailsClick(solution.id)}
           >
             Details
-          </Button>
+          </Button> */}
+
+          <Link
+            className="btn btn-primary me-1"
+            href={`/components/apps/solution?id=${solution.id}`}
+            as="/components/apps/solution"
+          >
+            Details
+          </Link>
+
           <Button
             variant=""
             className="btn btn-danger me-1"

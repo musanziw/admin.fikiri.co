@@ -87,6 +87,8 @@ export default function Header() {
 
   const [Data, setData] = React.useState([]);
 
+
+
   // const { id } = useParams();
   const { id } = "";
 
@@ -118,15 +120,21 @@ export default function Header() {
   React.useEffect(() => {
     total();
   });
-  // let navigate = useNavigate();
-  let navigate;
-  const routeChange = () => {
-    let path = `/`;
-    navigate(path);
-  };
 
   React.useEffect(() => {
-    setAccount(JSON.parse(localStorage.getItem("ACCESS_ACCOUNT")));
+    
+    let navigate;
+    const routeChange = () => {
+      let path = `/`;
+      navigate(path);
+    };
+    const status = JSON.parse(localStorage.getItem("STATUS_ACCOUNT"));
+    if(status.authenticate){
+      setAccount(JSON.parse(localStorage.getItem("ACCESS_ACCOUNT")));
+    }else{
+      routeChange()
+    }
+
   }, []);
 
   return (
