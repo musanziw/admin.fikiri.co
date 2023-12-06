@@ -190,14 +190,14 @@ export default function Header() {
             </Link>
           </div>
           <div className="main-header-center ms-4 d-sm-none d-md-none d-lg-block form-group">
-            <input
+            {/* <input
               className="form-control"
               placeholder="Search..."
               type="search"
             />
             <Button variant="" className="btn">
               <i className="fas fa-search"></i>
-            </Button>
+            </Button> */}
           </div>
         </div>
         <div className="main-header-right">
