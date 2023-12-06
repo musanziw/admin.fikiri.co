@@ -5,7 +5,7 @@ import {
     Get,
     Param,
     Patch,
-    Post,
+    Post, Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { Prisma } from "@prisma/client";
@@ -21,8 +21,8 @@ export class UsersController {
     }
 
     @Get()
-    findAll(): Promise<any> {
-        return this.userService.findAll();
+    findAll(@Query('page') page: string): Promise<any> {
+        return this.userService.findAll(+page);
     }
 
     @Get(':id')
