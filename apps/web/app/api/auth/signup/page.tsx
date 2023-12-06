@@ -150,7 +150,7 @@ export default function Register() {
           </div>
           <button className={'rounded-full px-3 py-2 border gap-8 hover:bg-gray-100 transition-colors duration-200 relative'} onClick={loginWithGoogle}>
             S&apos;inscrire avec google
-            <Image src={googleLogo} alt={'google logo'} className={'w-6 h-auto absolute -top-3 right-1/2'} />
+            <Image src={googleLogo} alt={'google logo'} className={'w-6 h-auto absolute top-2 right-2'}/>
           </button>
           <p className="border-t border-gray-300 pt-6 text-sm text-gray-500 dark:text-gray-400">
             Vous avez un compte ?{" "}
