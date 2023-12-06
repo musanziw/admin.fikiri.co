@@ -339,7 +339,7 @@ export default function Header() {
                     </div>
                     <Link
                       className="dropdown-item"
-                      href={`/components/pages/profile/`}
+                      href={`/components/apps/profile/`}
                     >
                       <i className="far fa-user-circle"></i>Mon profile
                     </Link>
