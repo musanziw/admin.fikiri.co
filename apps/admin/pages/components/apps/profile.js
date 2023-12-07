@@ -20,6 +20,7 @@ import axios from "@/pages/api/axios";
 import { useRouter } from "next/router";
 
 const Profile = () => {
+  
   const [currentImage, setCurrentImage] = useState(0);
   const [isViewerOpen, setIsViewerOpen] = useState(false);
   const [account, setAccount] = useState();
@@ -62,7 +63,6 @@ const Profile = () => {
     }
   }, []);
 
-  console.log(profile);
 
   return (
     <div>

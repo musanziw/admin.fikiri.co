@@ -1,5 +1,5 @@
 import React, { useState, Fragment, useEffect } from "react";
-import { Button, Modal, Table, Pagination } from "react-bootstrap";
+import { Button, Modal, Table, Pagination, Spinner } from "react-bootstrap";
 import { nanoid } from "nanoid";
 import axios from "@/pages/api/axios";
 import moment from "moment";
@@ -68,7 +68,7 @@ export const SavetableSolutions = () => {
 
           <Link
             className="btn btn-primary me-1"
-            href={`/components/apps/solution?id=${solution.id}`}
+            href={`/components/apps/solution?id=${solution.id}&innovateurId=${solution.userId}&thematiqueId=${solution.thematicId}`}
             as="/components/apps/solution"
           >
             Details
@@ -86,6 +86,7 @@ export const SavetableSolutions = () => {
       </tr>
     );
   };
+  
 
   const getSolutionDetails = (solutionId) => {
     const solution = solutions.find((s) => s.id === solutionId);
@@ -126,7 +127,15 @@ export const SavetableSolutions = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-  if (solutions) {
+  if (isLoadingSolution) {
+    return (
+      <div className="app-container mg-b-20 text-center">
+        <Spinner animation="border" role="status" >
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+    );
+  } else {
     const currentItems = solutions.slice(indexOfFirstItem, indexOfLastItem);
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 

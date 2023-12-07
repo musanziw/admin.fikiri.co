@@ -1,115 +1,157 @@
-import React from 'react'
-import { Button, Row, Col, Card, Form, FormGroup, Modal } from "react-bootstrap";
+import React, { useState, useEffect, useCallback } from "react";
+import { Button, Row, Col, Card, Spinner } from "react-bootstrap";
 import DataTable from "react-data-table-component";
-import { data, columns } from './userlist';
+import { columns } from "./userlist";
+import axios from "@/pages/api/axios";
 
 const Userlistcom = () => {
-	function convertArrayOfObjectsToCSV(array) {
-		let result;
+  const [users, setUsers] = useState([]);
+  const [isLoadingUsers, setIsLoadingUsers] = useState(false);
 
-		const columnDelimiter = ",";
-		const lineDelimiter = "\n";
-		const keys = Object.keys(data[0]);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        setIsLoadingUsers(true);
+        const responseUser = await axios.get("/users");
+        const usersWithImages = responseUser.data.data.map((user) => ({
+          ...user,
+          img: (
+            <img
+              src={"../../../assets/img/faces/4.jpg"}
+              className="rounded-circle"
+              alt=""
+            />
+          ),
+          class: "avatar-md rounded-circle",
+        }));
+        setUsers(usersWithImages);
+        setIsLoadingUsers(false);
+      } catch (error) {
+        setIsLoadingUsers(false);
+        console.error("Erreur lors de la récupération des données :", error);
+      }
+    };
+    fetchUser();
+  }, []);
 
-		result = "";
-		result += keys.join(columnDelimiter);
-		result += lineDelimiter;
+  function convertArrayOfObjectsToCSV(array) {
+    if (!array || array.length === 0) {
+      return "";
+    }
+  
+    let result;
+  
+    const columnDelimiter = ",";
+    const lineDelimiter = "\n";
+    const keys = Object.keys(array[0]);
+  
+    result = "";
+    result += keys.join(columnDelimiter);
+    result += lineDelimiter;
+  
+    array.forEach((item) => {
+      let ctr = 0;
+      keys.forEach((key) => {
+        if (ctr > 0) result += columnDelimiter;
+  
+        // Handle case where the value might be a React element
+        const value =
+          typeof item[key] === "object" && item[key] !== null
+            ? item[key].props.alt
+            : item[key];
+  
+        result += value;
+  
+        ctr++;
+      });
+      result += lineDelimiter;
+    });
+  
+    return result;
+  }
 
-		array.forEach((item) => {
-			let ctr = 0;
-			keys.forEach((key) => {
-				if (ctr > 0) result += columnDelimiter;
+  function downloadCSV(array) {
+    const link = document.createElement("a");
+    let csv = convertArrayOfObjectsToCSV(array);
+    if (csv == null) return;
 
-				result += item[key];
+    const filename = "export.csv";
 
-				ctr++;
-			});
-			result += lineDelimiter;
-		});
+    if (!csv.match(/^data:text\/csv/i)) {
+      csv = `data:text/csv;charset=utf-8,${csv}`;
+    }
 
-		return result;
-	}
+    link.setAttribute("href", encodeURI(csv));
+    link.setAttribute("download", filename);
+    link.click();
+  }
 
-	// Blatant "inspiration" from https://codepen.io/Jacqueline34/pen/pyVoWr
-	function downloadCSV(array) {
-		const link = document.createElement("a");
-		let csv = convertArrayOfObjectsToCSV(array);
-		if (csv == null) return;
+  const Export = ({ onExport }) => (
+    <Button onClick={() => onExport()}>
+      Exporter les Innovateurs
+    </Button>
+  );
 
-		const filename = "export.csv";
+  const actionsMemo = React.useMemo(
+    () => <Export onExport={() => downloadCSV(users)} />,
+    [users]
+  );
 
-		if (!csv.match(/^data:text\/csv/i)) {
-			csv = `data:text/csv;charset=utf-8,${csv}`;
-		}
+  const [selectedRows, setSelectedRows] = React.useState([]);
+  const [toggleCleared, setToggleCleared] = React.useState(false);
 
-		link.setAttribute("href", encodeURI(csv));
-		link.setAttribute("download", filename);
-		link.click();
-	}
+  const handleRowSelected = React.useCallback((state) => {
+    setSelectedRows(state.selectedRows);
+  }, []);
 
-	const Export = ({ onExport }) => (
-		<Button onClick={(e) => onExport(e.target.value)}>Export</Button>
-	);
-	const actionsMemo = React.useMemo(
-		() => <Export onExport={() => downloadCSV(data)} />,
-		[]
-	);
-	const [selectedRows, setSelectedRows] = React.useState([]);
-	const [toggleCleared, setToggleCleared] = React.useState(false);
-	let selectdata = [];
-	const handleRowSelected = React.useCallback((state) => {
-		setSelectedRows(state.selectedRows);
-	}, []);
-	const contextActions = React.useMemo(() => {
-		const Selectdata = () => {
-			if (window.confirm(`download:\r ${selectedRows.map((r) => r.SNO)}?`)) {
-				setToggleCleared(!toggleCleared);
-				data.map((e) => {
-					selectedRows.map((sr) => {
-						if (e.SNO === sr.SNO) {
-							selectdata.push(e);
-						}
-						return sr;
-					});
-					return e;
-				});
-				downloadCSV(selectdata);
-			}
-		};
-		return <Export onExport={() => Selectdata()} icon="true" />;
-	}, [data, selectdata, selectedRows]);
+  const contextActions = React.useMemo(() => {
+    const Selectdata = () => {
+      if (window.confirm(`download:\r ${selectedRows.map((r) => r.id)}?`)) {
+        setToggleCleared(!toggleCleared);
+        const selectdata = users.filter((e) => selectedRows.some((sr) => e.id === sr.id));
+        downloadCSV(selectdata);
+      }
+    };
+
+    return <Export onExport={Selectdata} icon="true" />;
+  }, [users, selectedRows, toggleCleared]);
+
   return (
     <div>
-        <Row className=" row-sm">
-				<Col lg={12}>
-					<Card className="custom-card">
-						<Card.Body>
-							<div className="table-responsive ">
-								<span className="datatable">
-									<span className="uselistdata">
-										
-											<DataTable
-												columns={columns}
-												data={data}
-												actions={actionsMemo}
-												contextActions={contextActions}
-												onSelectedRowsChange={handleRowSelected}
-												clearSelectedRows={toggleCleared}
-												defaultSortField="SNO"
-												defaultSortAsc={false}
-												selectableRows
-												pagination
-											/>
-										
-									</span>
-								</span>
-							</div>
-						</Card.Body>
-					</Card>
-				</Col>
-			</Row>
+      <Row className=" row-sm">
+        <Col lg={12}>
+          <Card className="custom-card">
+            <Card.Body>
+              {isLoadingUsers ? (
+                <div className="text-center">
+                  <Spinner animation="border" variant="primary" />
+                </div>
+              ) : (
+                <div className="table-responsive">
+                  <span className="datatable">
+                    <span className="uselistdata">
+                      <DataTable
+                        columns={columns}
+                        data={users}
+                        actions={actionsMemo}
+                        contextActions={contextActions}
+                        onSelectedRowsChange={handleRowSelected}
+                        clearSelectedRows={toggleCleared}
+                        defaultSortField="id"
+                        defaultSortAsc={false}
+                        selectableRows
+                        pagination
+                      />
+                    </span>
+                  </span>
+                </div>
+              )}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
     </div>
-  )
-}
+  );
+};
 
-export default Userlistcom
+export default Userlistcom;
