@@ -86,11 +86,11 @@ export default function Solution() {
                 <div
                     className="p-8 flex flex-col mx-6 justify-center max-w-screen-md md:mx-auto border-x border-dashed">
                     {
-                        (account?.user?.image || user?.profile) ? (
+                        (account?.user?.image ?? user?.profile) ? (
                             <>
                                 <div
                                     className="rounded-full mb-5 mt-20 md:h-32 md:w-32 bg-gray-100 flex items-center justify-center">
-                                    <Image src={user?.profile ? `${API_URL}/uploads/${user?.profile}` : account?.user?.image} alt={user?.name || 'User image'}
+                                    <Image src={user?.profile ? `${API_URL}uploads/${user?.profile}` : account?.user?.image} alt={user?.name || 'User image'}
                                            width={200} height={200} className={'rounded-full object-cover'} priority={false}/>
                                 </div>
                             </>

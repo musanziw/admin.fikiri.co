@@ -9,6 +9,7 @@ import {toast} from "react-toastify";
 import {useRouter} from "next/navigation";
 import {FilePond} from 'react-filepond'
 import 'filepond/dist/filepond.min.css'
+import {API_URL} from "@/app/config/api";
 
 export default function Solution({params}: { params: { id: string } }) {
     const [name, setName] = useState<string>('')
@@ -67,7 +68,7 @@ export default function Solution({params}: { params: { id: string } }) {
                         onupdatefiles={setFiles}
                         allowMultiple={false}
                         server={{
-                            url: `http://localhost:4000/solutions/${solution?.id}/image`
+                            url: `${API_URL}solutions/${solution?.id}/image`
                         }}
                         name="thumb"
                         labelIdle='Selectionnez une image'
