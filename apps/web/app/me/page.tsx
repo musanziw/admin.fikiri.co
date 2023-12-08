@@ -13,6 +13,7 @@ import {moment} from "@/app/config/moment"
 import {FilePond} from 'react-filepond'
 import 'filepond/dist/filepond.min.css'
 import Link from "next/link";
+import {API_URL} from "@/app/config/api";
 
 moment.locale('fr')
 
@@ -26,7 +27,6 @@ export default function Solution() {
     const [phoneNumber, setPhoneNumber] = useState<string>('')
     const [pending, setPending] = useState(false)
     const [files, setFiles] = useState<any>([])
-
     const router = useRouter()
 
     const STATUS = [
@@ -89,14 +89,14 @@ export default function Solution() {
                         account?.user?.image ? (
                             <>
                                 <div
-                                    className="rounded-full mb-5 h-20 w-20 mt-20 md:h-32 md:w-32 bg-gray-100 flex items-center justify-center">
-                                    <Image src={account?.user?.image} alt={account?.user?.name || 'User image'}
-                                           width={100} height={100} className={'rounded-full object-cover'}/>
+                                    className="rounded-full mb-5 mt-20 md:h-32 md:w-32 bg-gray-100 flex items-center justify-center">
+                                    <Image src={user?.profile ? `${API_URL}/uploads/${user?.profile}` : account?.user?.image} alt={account?.user?.name || 'User image'}
+                                           width={200} height={200} className={'rounded-full object-cover'}/>
                                 </div>
                             </>
                         ) : <>
                             <div
-                                className="rounded-full mt-20 mb-4 h-20 w-20 md:h-32 md:w-32 bg-gray-100 flex items-center justify-center">
+                                className="rounded-full mt-20 mb-4 h-16 w-16 md:h-32 md:w-32 bg-gray-100 flex items-center justify-center">
                                 <h1 className={'text-center text-gray-800 font-bold text-xl'}>
                                     {account?.user?.name?.split(' ')[0][0]}
                                 </h1>
@@ -109,7 +109,7 @@ export default function Solution() {
                         <h2 className={'text-gray-500'}>
                             Gérez vos solutions et vos informations personnelles, inscrit
                             <span className="font-semibold ml-2">
-                                {moment(user?.createdAt).locale('fr').fromNow(false)}
+                                {moment(user?.createdAt).fromNow(false)}
                             </span>
                         </h2>
 
@@ -140,18 +140,16 @@ export default function Solution() {
                                 <>
                                     <form action="" className={'flex flex-col gap-5 w-full md:w-2/3'}
                                           onSubmit={updateProfile}>
-
                                         <FilePond
                                             files={files}
                                             onupdatefiles={setFiles}
                                             allowMultiple={false}
                                             server={{
-                                                url: `http://localhost:4000/users/${user?.id}/image`
+                                                url: `${API_URL}/users/${user?.id}/image`
                                             }}
                                             name="thumb"
                                             labelIdle='Selectionnez une image'
                                         />
-
                                         <Input name={'name'} label={'Nom'} placeholder={''} type={'name'} value={name}
                                                onChange={(e) => setName(e.target.value)}/>
                                         <Input name={'address'} label={'Adresse'} placeholder={''} type={'text'}
