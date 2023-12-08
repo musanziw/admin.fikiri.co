@@ -1,5 +1,4 @@
 import {HttpException, HttpStatus, Injectable, NotFoundException} from '@nestjs/common';
-import {randomPassword} from '../helpers/random-password';
 import {PrismaService} from "../database/prisma.service";
 import {Prisma} from '@prisma/client';
 import * as bcrypt from 'bcrypt'
@@ -16,7 +15,7 @@ export class UsersService {
     ) {
     }
 
-    async create(createUserDto: Prisma.UserCreateInput): Promise<any> {
+    async create(createUserDto: Prisma.UserCreateInput & { roles: number[] }): Promise<any> {
         const {email} = createUserDto;
         const user = await this.prismaService.user.findUnique({
             where: {email},
@@ -24,15 +23,21 @@ export class UsersService {
         if (user)
             throw new HttpException("L'utilisateur existe déjà", HttpStatus.CONFLICT);
         try {
-            const password: string = randomPassword();
+            const password: string = 'admin1234';
             const hash = await this.hashPassword(password)
             await this.prismaService.user.create({
                 data: {
                     ...createUserDto,
                     password: hash,
+                    roles: {
+                        connect: createUserDto.roles.map((id) => ({
+                            id
+                        }))
+                    }
                 },
             })
-        } catch {
+        } catch (e) {
+            console.log(e)
             throw new HttpException('Mauvaise demande, essayez à nouveau', HttpStatus.BAD_REQUEST);
         }
         return {
@@ -141,15 +146,10 @@ export class UsersService {
     }
 
     async update(id: number, updateUserDto: Prisma.UserUpdateInput): Promise<any> {
-        const user = await this.prismaService.user.findUnique({
-            where: {id},
-        })
-        if (!user) throw new HttpException("L'utilisateur n'a pas été trouvé", HttpStatus.NOT_FOUND);
-        const updatedUser = Object.assign(user, updateUserDto);
         try {
             await this.prismaService.user.update({
                 where: {id},
-                data: updatedUser
+                data: updateUserDto
             })
         } catch {
             throw new HttpException('Rôles non valides', HttpStatus.BAD_REQUEST);
@@ -180,11 +180,14 @@ export class UsersService {
         const user = await this.prismaService.user.findUnique({
             where: {id}
         })
+        if (user.profile) {
+            await unlinkAsync(`./uploads/${user.profile}`);
+        }
         await this.prismaService.user.update({
             where: {id},
             data: {
                 ...user,
-                profile: image.fieldname
+                profile: image.filename
             }
         })
         return {
