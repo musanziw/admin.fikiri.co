@@ -36,8 +36,7 @@ export class UsersService {
                     }
                 },
             })
-        } catch (e) {
-            console.log(e)
+        } catch {
             throw new HttpException('Mauvaise demande, essayez à nouveau', HttpStatus.BAD_REQUEST);
         }
         return {
@@ -66,7 +65,7 @@ export class UsersService {
                 password: hash,
                 roles: {
                     connect: {
-                        id: 3
+                        name: 'USER'
                     }
                 }
             },
