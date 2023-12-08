@@ -1,13 +1,11 @@
 "use client";
 
-import { MdLogout, MdOutlineAccountBox, MdOutlineQuestionMark } from "react-icons/md";
+import { MdLogout, } from "react-icons/md";
 import { useState } from "react";
 import Link from "next/link";
 import logo from "@/public/logo.png";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { BiLogInCircle } from "react-icons/bi";
-import { HiListBullet } from "react-icons/hi2";
 import { signOut, useSession } from "next-auth/react";
 
 interface TopbarProps {
