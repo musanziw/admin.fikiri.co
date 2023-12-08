@@ -9,11 +9,17 @@ import {PrismaModule} from './database/prisma.module';
 import {CallsModule} from './calls/calls.module';
 import {ChallengesModule} from './challenges/challenges.module';
 import {StatusModule} from './status/status.module';
+import {ServeStaticModule} from "@nestjs/serve-static";
+import { join } from 'path';
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             isGlobal: true,
+        }),
+        ServeStaticModule.forRoot({
+            rootPath: join(__dirname, '../../'),
+            renderPath: '/uploads',
         }),
         AuthModule,
         UsersModule,
