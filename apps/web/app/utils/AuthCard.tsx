@@ -15,7 +15,6 @@ export function AuthCard({title, children}: AuthCardProps) {
                         className="rounded-md border border-gray-100 bg-white shadow-sm shadow-gray-600/30 backdrop-blur-2xl">
                         <div className="p-8 py-12 sm:p-16">
                             <div className="flex items-start flex-col gap-3 mb-6">
-                                <BackArrow width={'5'} height={'5'} color={'black'} />
                                 <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
                             </div>
                             {children}
