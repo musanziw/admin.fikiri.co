@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Button, Row, Col, Card, Spinner } from "react-bootstrap";
 import DataTable from "react-data-table-component";
-import { columns } from "./userlist";
+import { columns } from "./thematiquelist ";
 import axios from "@/pages/api/axios";
 
-const Userlistcom = () => {
-  const [users, setUsers] = useState([]);
-  const [isLoadingUsers, setIsLoadingUsers] = useState(false);
+const Thematiquecom = () => {
+  const [thematiques, setThematiques] = useState();
+  const [isLoadingThematique, setIsLoadingThematique] = useState(false);
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchData = async () => {
       try {
-        setIsLoadingUsers(true);
-        const responseUser = await axios.get("/users");
-        const usersWithImages = responseUser.data.data.map((user) => ({
-          ...user,
+        setIsLoadingThematique(true);
+        const response = await axios.get("/thematics");
+        const thematiqueWithImages = response.data.data.map((thematique)=>({
+          ...thematique,
           img: (
             <img
               src={"../../../assets/img/faces/4.jpg"}
@@ -23,15 +23,16 @@ const Userlistcom = () => {
             />
           ),
           class: "avatar-md rounded-circle",
-        }));
-        setUsers(usersWithImages);
-        setIsLoadingUsers(false);
+        }))
+        setThematiques(thematiqueWithImages);
+        setIsLoadingThematique(false);
       } catch (error) {
-        setIsLoadingUsers(false);
+        setIsLoadingThematique(false);
         console.error("Erreur lors de la récupération des données :", error);
       }
     };
-    fetchUser();
+
+    fetchData();
   }, []);
 
   function convertArrayOfObjectsToCSV(array) {
@@ -93,8 +94,8 @@ const Userlistcom = () => {
   );
 
   const actionsMemo = React.useMemo(
-    () => <Export onExport={() => downloadCSV(users)} />,
-    [users]
+    () => <Export onExport={() => downloadCSV(thematiques)} />,
+    [thematiques]
   );
 
   const [selectedRows, setSelectedRows] = React.useState([]);
@@ -114,7 +115,7 @@ const Userlistcom = () => {
     };
 
     return <Export onExport={Selectdata} icon="true" />;
-  }, [users, selectedRows, toggleCleared]);
+  }, [thematiques, selectedRows, toggleCleared]);
 
   return (
     <div>
@@ -122,7 +123,7 @@ const Userlistcom = () => {
         <Col lg={12}>
           <Card className="custom-card">
             <Card.Body>
-              {isLoadingUsers ? (
+              {isLoadingThematique ? ( // Afficher le spinner si isLoadingUsers est true
                 <div className="text-center">
                   <Spinner animation="border" variant="primary" />
                 </div>
@@ -132,7 +133,7 @@ const Userlistcom = () => {
                     <span className="uselistdata">
                       <DataTable
                         columns={columns}
-                        data={users}
+                        data={thematiques}
                         actions={actionsMemo}
                         contextActions={contextActions}
                         onSelectedRowsChange={handleRowSelected}
@@ -154,4 +155,4 @@ const Userlistcom = () => {
   );
 };
 
-export default Userlistcom;
+export default Thematiquecom;

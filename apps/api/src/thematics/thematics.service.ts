@@ -10,7 +10,10 @@ export class ThematicsService {
 
     async create(createThematicDto: Prisma.ThematicCreateInput) {
         await this.prismaService.thematic.create({
-            data: createThematicDto
+            data: {
+                ...createThematicDto
+            },
+
         })
         return {
             statusCode: HttpStatus.CREATED,

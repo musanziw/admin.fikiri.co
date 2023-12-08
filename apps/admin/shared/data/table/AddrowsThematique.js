@@ -1,5 +1,5 @@
 import React, { useState, Fragment, useEffect } from "react";
-import { Button, Form, Modal, Table } from "react-bootstrap";
+import { Button, Form, Modal, Table, Spinner } from "react-bootstrap";
 import { nanoid } from "nanoid";
 import axios from "@/pages/api/axios";
 
@@ -25,9 +25,7 @@ export const Savetable = () => {
     fetchData();
   }, []);
 
-  useEffect(()=>{
-    
-  }, [thematiques])
+  useEffect(() => {}, [thematiques]);
 
   const [addFormData, setAddFormData] = useState({
     sno: "",
@@ -145,52 +143,62 @@ export const Savetable = () => {
   };
 
   return (
-    <div className="app-container">
-      <Form
-        onSubmit={editThematiqueId ? handleEditFormSubmit : handleAddFormSubmit}
-      >
-        <Button
-          variant=""
-          className="btn btn-primary mb-3"
-          onClick={() => setModalShow(true)}
+    <div className="app-container mg-b-20 ">
+      {isLoadingThematique ? (
+        <div className="text-center">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      ) : (
+        <Form
+          onSubmit={
+            editThematiqueId ? handleEditFormSubmit : handleAddFormSubmit
+          }
         >
-          Ajouter
-        </Button>
-        <Table
-          id="delete-datatable"
-          className="table table-bordered text-nowrap border-bottom"
-        >
-          <thead>
-            <tr>
-              <th className="wd-5p text-center">ID</th>
-              <th>Nom</th>
-              <th>ODD</th>
-              <th>Date de création</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {thematiques &&
-              thematiques.map((thematique) => (
-                <Fragment key={thematique.id}>
-                  {editThematiqueId === thematique.id ? (
-                    <EditableRow
-                      editFormData={editFormData}
-                      handleEditFormChange={handleEditFormChange}
-                      handleCancelClick={handleCancelClick}
-                    />
-                  ) : (
-                    <ReadOnlyRow
-                      thematique={thematique}
-                      handleEditClick={handleEditClick}
-                      handleDeleteClick={handleDeleteClick}
-                    />
-                  )}
-                </Fragment>
-              ))}
-          </tbody>
-        </Table>
-      </Form>
+          <Button
+            variant=""
+            className="btn btn-primary mb-3"
+            onClick={() => setModalShow(true)}
+          >
+            Ajouter
+          </Button>
+          <Table
+            id="delete-datatable"
+            className="table table-bordered text-nowrap border-bottom"
+          >
+            <thead>
+              <tr>
+                <th className="wd-5p text-center">ID</th>
+                <th>Nom</th>
+                <th>ODD</th>
+                <th>Date de création</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {thematiques &&
+                thematiques.map((thematique) => (
+                  <Fragment key={thematique.id}>
+                    {editThematiqueId === thematique.id ? (
+                      <EditableRow
+                        editFormData={editFormData}
+                        handleEditFormChange={handleEditFormChange}
+                        handleCancelClick={handleCancelClick}
+                      />
+                    ) : (
+                      <ReadOnlyRow
+                        thematique={thematique}
+                        handleEditClick={handleEditClick}
+                        handleDeleteClick={handleDeleteClick}
+                      />
+                    )}
+                  </Fragment>
+                ))}
+            </tbody>
+          </Table>
+        </Form>
+      )}
 
       <Modal
         show={modalShow}

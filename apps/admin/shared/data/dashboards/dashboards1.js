@@ -12,11 +12,11 @@ export class Statistics1 extends React.Component {
     this.state = {
       series: [
         {
-          name: "Projets Cartographiés",
+          name: "Solutions Cartographiés",
           data: [44, 42, 57, 86, 58, 55, 70, 43, 23, 54, 77, 34],
         },
         {
-          name: "Projects en attente",
+          name: "Solutions en attente",
           data: [34, 22, 37, 56, 21, 35, 60, 34, 56, 78, 89, 53],
         },
       ],
