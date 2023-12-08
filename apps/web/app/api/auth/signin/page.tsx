@@ -5,7 +5,6 @@ import Link from "next/link";
 import {AuthCard} from "@/app/utils/AuthCard";
 import {Button} from "@/app/utils/Button";
 import {signIn} from "next-auth/react";
-import {useFormStatus} from "react-dom";
 import {Input} from "@/app/utils/Input";
 import googleLogo from "@/public/googleLogo.svg"
 import Image from "next/image";
@@ -13,26 +12,38 @@ import Topbar from "@/app/components/Topbar";
 import axios from "@/app/config/axios";
 import {toast, ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {postData} from "@/requests/_postData";
 
 
 export default function Login() {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const {pending} = useFormStatus()
+    const [pending, setPending] = useState<boolean>(false)
 
     async function loginWithCredentials(e: FormEvent) {
         e.preventDefault();
-        try {
-            const {data: res} = await axios.post('auth/login', JSON.stringify({email, password}))
-            const {email: useremail, name} = res.data
+        setPending(true)
+        if (!password && !email) {
+            setPending(false)
+            return toast.error('Veuillez remplir les champs')
+        }
+        const payload = {
+            email,
+            password
+        }
+        const {data, error} = await postData('auth/login', payload)
+        if (data) {
             await signIn("credentials", {
-                email: useremail,
+                email: email,
                 password: password,
                 callbackUrl: '/me'
             })
-            toast.success(`Bienvenue ${name} !`);
-        } catch (e: any) {
-            toast.error(e.response?.data?.message);
+            setPending(false)
+            toast.success(`Bienvenue ${data.name} !`);
+        }
+        if (error) {
+            setPending(false)
+            toast.error(error);
         }
     }
 
@@ -55,7 +66,7 @@ export default function Login() {
                     <Button isLoading={pending} label={pending ? "Connexion en cours..." : "Se connecter"}
                             onclick={loginWithCredentials}/>
                     <button
-                        className={'rounded-full px-3 py-2 border gap-8 hover:bg-gray-100 transition-colors duration-200 relative'}
+                        className={'rounded-full text-sm md:text-base px-3 py-2 border gap-8 hover:bg-gray-100 transition-colors duration-200 relative'}
                         onClick={loginWithGoogle}>
                         Se connecter avec google
                         <Image src={googleLogo} alt={'google logo'} className={'w-6 h-auto absolute top-2 right-2'}/>
