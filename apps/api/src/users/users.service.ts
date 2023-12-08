@@ -185,7 +185,6 @@ export class UsersService {
         await this.prismaService.user.update({
             where: {id},
             data: {
-                ...user,
                 profile: image.filename
             }
         })
@@ -205,7 +204,6 @@ export class UsersService {
         await this.prismaService.user.update({
             where: {id},
             data: {
-                ...user,
                 profile: null,
             }
         })
