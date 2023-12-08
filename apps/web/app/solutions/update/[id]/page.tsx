@@ -7,21 +7,28 @@ import Topbar from "@/app/components/Topbar";
 import axios from "@/app/config/axios";
 import {toast} from "react-toastify";
 import {useRouter} from "next/navigation";
+import {FilePond} from 'react-filepond'
+import 'filepond/dist/filepond.min.css'
 
 export default function Solution({params}: { params: { id: string } }) {
     const [name, setName] = useState<string>('')
     const [description, setDescription] = useState<string>('')
     const [targetedProblem, setTargetedProblem] = useState<string>('')
     const [pending, setPending] = useState<boolean>(false)
+    const [status, setStatus] = useState<number>()
+    const [solution, setSolution] = useState<any>()
     const router = useRouter()
+    const [files, setFiles] = useState<any>([])
 
     useEffect(() => {
         axios.get(`solutions/${params.id}`)
             .then(({data: apiResponse}) => {
-                const solution = apiResponse.data
-                setTargetedProblem(solution.targetedProblem)
-                setName(solution.name)
-                setDescription(solution.description)
+                const data = apiResponse.data
+                setTargetedProblem(data.targetedProblem)
+                setName(data.name)
+                setDescription(data.description)
+                setStatus(data.status.id)
+                setSolution(data)
             })
     }, [params.id]);
 
@@ -31,17 +38,21 @@ export default function Solution({params}: { params: { id: string } }) {
         const updatedSolution = {
             name,
             description,
-            targetedProblem
+            targetedProblem,
+            status
         }
         try {
             await axios.patch(`solutions/${params.id}`, JSON.stringify(updatedSolution))
             toast.success('La solution a été mis à jour')
+            setTimeout(() => {
+                router.push('/me')
+            }, 1000)
         } catch {
             toast.error('Echec de mis à jour')
+            setTimeout(() => {
+                router.refresh()
+            }, 1000)
         }
-        setTimeout(() => {
-            router.back()
-        }, 1000)
         setPending(false)
     }
 
@@ -50,13 +61,25 @@ export default function Solution({params}: { params: { id: string } }) {
             <Topbar background={'bg-white'}/>
             <AuthCard title={'Modifier la solution'}>
                 <form action="" className={'flex flex-col gap-5'}>
+
+                    <FilePond
+                        files={files}
+                        onupdatefiles={setFiles}
+                        allowMultiple={false}
+                        server={{
+                            url: `http://localhost:4000/solutions/${solution?.id}/image`
+                        }}
+                        name="thumb"
+                        labelIdle='Selectionnez une image'
+                    />
+
                     <Input name={'name'} label={'Nom de la solution'}
                            placeholder={''} type={'text'} value={name}
                            onChange={(e) => setName(e.target.value)}
                     />
 
                     <div className="flex flex-col gap-5">
-                        <label htmlFor="illustration" className="text-gray-800">
+                        <label className="text-gray-800">
                             La description de la solution
                         </label>
                         <textarea
