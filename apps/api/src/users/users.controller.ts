@@ -21,7 +21,7 @@ export class UsersController {
     }
 
     @Post()
-    create(@Body() createUserDto: Prisma.UserCreateInput): Promise<any> {
+    create(@Body() createUserDto: Prisma.UserCreateInput & {roles: number[]}): Promise<any> {
         return this.userService.create(createUserDto);
     }
 
