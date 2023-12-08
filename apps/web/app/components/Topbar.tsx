@@ -96,19 +96,15 @@ export default function Topbar({ background }: TopbarProps) {
     }
   ];
 
-
-
   return (
     <header className={`fixed w-full ${background} text-gray-800 shadow-lg px-10 py-4 z-10 flex items-center justify-between`}>
       <Link href={"/"} className={"inline-block"} aria-label="logo">
-        <Image src={logo} alt={"Logo"} className={"cursor-pointer w-24"} />
+        <Image src={logo} alt={"Logo"} className={"cursor-pointer w-24"} priority={true}/>
       </Link>
-
       <div className={`flex flex-col gap-2 lg:hidden ${isOpen && "active"}`} onClick={() => { setIsOpen(!isOpen) }}>
         <div className="h-[1px] w-6 bg-black transition-transform duration-300"></div>
         <div className="h-[1px] w-6 bg-black transition-transform duration-300"></div>
       </div>
-
       <div className={`absolute top-14 z-30 w-screen h-screen ${background} transition-transform shadow-xl duration-500 right-0 text-lg py-20 px-16 flex flex-col items-start gap-6 justify-start lg:hidden ${!isOpen && "-translate-y-[200%]"}`}>
         {LINKS.map((link, index) => (
           link.isShown && (
@@ -148,7 +144,6 @@ export default function Topbar({ background }: TopbarProps) {
           )
         }
       </div>
-
     </header>
   );
 }
