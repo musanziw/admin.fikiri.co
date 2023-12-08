@@ -1,7 +1,11 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { PrismaService } from "../database/prisma.service";
-import { Prisma } from '@prisma/client';
+import {HttpException, HttpStatus, Injectable, NotFoundException} from '@nestjs/common';
+import {PrismaService} from "../database/prisma.service";
+import {Prisma} from '@prisma/client';
 import {paginate} from "../helpers/paginate";
+import * as fs from 'fs';
+import {promisify} from 'util';
+
+const unlinkAsync = promisify(fs.unlink);
 
 @Injectable()
 export class SolutionsService {
@@ -10,7 +14,12 @@ export class SolutionsService {
     ) {
     }
 
-    async create(createSolutionDto: Prisma.SolutionCreateInput & { thematic: number, call: number, challenges: number[], user: string }) {
+    async create(createSolutionDto: Prisma.SolutionCreateInput & {
+        thematic: number,
+        call: number,
+        challenges: number[],
+        user: string
+    }) {
         try {
             await this.prismaService.solution.create({
                 data: {
@@ -36,7 +45,7 @@ export class SolutionsService {
                         }
                     },
                     challenges: {
-                        connect: createSolutionDto.challenges.map((id) => ({ id }))
+                        connect: createSolutionDto.challenges.map((id) => ({id}))
                     }
                 },
             });
@@ -54,12 +63,12 @@ export class SolutionsService {
 
     async findApproved() {
         const solutions = await this.prismaService.solution.findMany({
-            where: { status: { id: 2 } },
             include: {
                 thematic: true,
+                status: true
             }
         })
-        const solutionsToDisplay = solutions.filter((solution) => solution.id !== 1)
+        const solutionsToDisplay = solutions.filter((solution) => solution.status.id > 1)
         return {
             statusCode: HttpStatus.OK,
             data: solutionsToDisplay,
@@ -73,6 +82,7 @@ export class SolutionsService {
             take: limit,
             include: {
                 thematic: true,
+                status: true
             }
         })
         return {
@@ -83,7 +93,10 @@ export class SolutionsService {
 
     async findOne(id: number) {
         const solution = await this.prismaService.solution.findUnique({
-            where: { id }
+            where: {id},
+            include: {
+                thematic: true
+            }
         });
         if (!solution)
             throw new HttpException(
@@ -98,11 +111,11 @@ export class SolutionsService {
 
     async findbyUser(email: string) {
         const user = await this.prismaService.user.findUnique({
-            where: { email }
+            where: {email}
         });
         if (user) {
             const solutions = await this.prismaService.solution.findMany({
-                where: { userId: user.id },
+                where: {userId: user.id},
                 include: {
                     status: true
                 }
@@ -116,8 +129,8 @@ export class SolutionsService {
 
     async findByCall(callId: number) {
         const solutions = await this.prismaService.solution.findMany({
-            where: { callId },
-            include: { thematic: true }
+            where: {callId},
+            include: {thematic: true}
         })
         return {
             statusCode: HttpStatus.OK,
@@ -126,26 +139,17 @@ export class SolutionsService {
     }
 
     async update(id: number, updateSolutionDto: Prisma.SolutionUpdateInput & { status: number }) {
-        const solution = await this.prismaService.solution.findUnique({
-            where: { id }
-        });
-        if (!solution)
-            throw new HttpException(
-                "La solution n'a pas été trouvé",
-                HttpStatus.NOT_FOUND,
-            );
-        const updatedSolution: Prisma.SolutionUpdateInput = Object.assign(solution, updateSolutionDto);
         try {
             await this.prismaService.solution.update({
                 data: {
-                    ...updatedSolution,
+                    ...updateSolutionDto,
                     status: {
                         connect: {
                             id: updateSolutionDto.status
                         }
                     }
                 },
-                where: { id }
+                where: {id}
             });
         } catch {
             throw new HttpException(
@@ -161,7 +165,7 @@ export class SolutionsService {
 
     async remove(id: number) {
         const solution = await this.prismaService.solution.findUnique({
-            where: { id }
+            where: {id}
         });
         if (!solution)
             throw new HttpException(
@@ -169,11 +173,47 @@ export class SolutionsService {
                 HttpStatus.NOT_FOUND,
             );
         await this.prismaService.solution.delete({
-            where: { id }
+            where: {id}
         });
         return {
             statusCode: HttpStatus.OK,
             message: 'La solution est supprimé avec succès',
+        };
+    }
+
+    async uploadImage(id: number, image: Express.Multer.File): Promise<any> {
+        const solution = await this.prismaService.solution.findUnique({
+            where: {id}
+        })
+        await this.prismaService.solution.update({
+            where: {id},
+            data: {
+                ...solution,
+                imageLink: image.fieldname
+            }
+        })
+        return {
+            statusCode: HttpStatus.CREATED,
+            message: "L'upload a réussi",
+        };
+    }
+
+    async deleteImage(id: number): Promise<any> {
+        const solution = await this.prismaService.solution.findUnique({
+            where: {id}
+        })
+        if (!solution) throw new NotFoundException("L'utilisateur n'existe pas");
+        await unlinkAsync(`./uploads/${solution.imageLink}`);
+        await this.prismaService.solution.update({
+            where: {id},
+            data: {
+                ...solution,
+                imageLink: null,
+            }
+        })
+        return {
+            statusCode: HttpStatus.OK,
+            message: "L'image a été suppimé",
         };
     }
 }
