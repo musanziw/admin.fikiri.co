@@ -39,7 +39,7 @@ export default function Register() {
             toast.success("Inscription reussie");
             setIsLoading(false);
             setTimeout(() => {
-                router.push("/login");
+                router.push("/api/auth/signin");
             }, 2000)
         } catch (e: any) {
             toast.error(e.response.data.message);
@@ -49,9 +49,9 @@ export default function Register() {
         }
     };
 
-    function loginWithGoogle(e: FormEvent) {
+    async function loginWithGoogle(e: FormEvent) {
         e.preventDefault();
-        signIn('google', {
+       await signIn('google', {
             redirect: false,
             callbackUrl: '/me'
         })
