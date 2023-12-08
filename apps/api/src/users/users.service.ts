@@ -1,9 +1,13 @@
-import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
+import {HttpException, HttpStatus, Injectable, NotFoundException} from '@nestjs/common';
 import {randomPassword} from '../helpers/random-password';
 import {PrismaService} from "../database/prisma.service";
 import {Prisma} from '@prisma/client';
 import * as bcrypt from 'bcrypt'
 import {paginate} from "../helpers/paginate";
+import * as fs from 'fs';
+import {promisify} from 'util';
+
+const unlinkAsync = promisify(fs.unlink);
 
 @Injectable()
 export class UsersService {
@@ -11,9 +15,6 @@ export class UsersService {
         private readonly prismaService: PrismaService,
     ) {
     }
-
-
-    // async registerWithGoogle(nema)
 
     async create(createUserDto: Prisma.UserCreateInput): Promise<any> {
         const {email} = createUserDto;
@@ -72,16 +73,12 @@ export class UsersService {
     }
 
     async findAll(page: number): Promise<any> {
-        const { offset, limit } = paginate(page, 12)
+        const {offset, limit} = paginate(page, 12)
         const users = await this.prismaService.user.findMany({
             skip: offset,
             take: limit,
-            select: {
-                id: true,
-                email: true,
-                phoneNumber: true,
-                address: true,
-                name: true,
+            include: {
+                roles: true
             },
         })
         return {
@@ -175,6 +172,44 @@ export class UsersService {
         return {
             statusCode: HttpStatus.OK,
             message: "L'utilisateur est supprimé avec succès",
+        };
+    }
+
+
+    async uploadImage(id: number, image: Express.Multer.File): Promise<any> {
+        const user = await this.prismaService.user.findUnique({
+            where: {id}
+        })
+        await this.prismaService.user.update({
+            where: {id},
+            data: {
+                ...user,
+                profile: image.fieldname
+            }
+        })
+        return {
+            statusCode: HttpStatus.CREATED,
+            message: "L'upload a réussi",
+        };
+    }
+
+
+    async deleteImage(id: number): Promise<any> {
+        const user = await this.prismaService.user.findUnique({
+            where: {id}
+        })
+        if (!user) throw new NotFoundException("L'utilisateur n'existe pas");
+        await unlinkAsync(`./uploads/${user.profile}`);
+        await this.prismaService.user.update({
+            where: {id},
+            data: {
+                ...user,
+                profile: null,
+            }
+        })
+        return {
+            statusCode: HttpStatus.OK,
+            message: "L'image a été suppimé",
         };
     }
 
