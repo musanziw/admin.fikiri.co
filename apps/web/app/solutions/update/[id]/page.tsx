@@ -8,7 +8,7 @@ import axios from "@/app/config/axios";
 import {toast} from "react-toastify";
 import {useRouter} from "next/navigation";
 
-export default async function Solution({params}: { params: { id: string } }) {
+export default function Solution({params}: { params: { id: string } }) {
     const [name, setName] = useState<string>('')
     const [description, setDescription] = useState<string>('')
     const [targetedProblem, setTargetedProblem] = useState<string>('')
@@ -16,15 +16,14 @@ export default async function Solution({params}: { params: { id: string } }) {
     const router = useRouter()
 
     useEffect(() => {
-        (async () => {
-            const {data: apiResponse} = await axios.get(`solutions/${params.id}`)
-            const solution = apiResponse.data
-            setTargetedProblem(solution.targetedProblem)
-            setName(solution.name)
-            setDescription(solution.description)
-        })()
-    }, []);
-
+        axios.get(`solutions/${params.id}`)
+            .then(({data: apiResponse}) => {
+                const solution = apiResponse.data
+                setTargetedProblem(solution.targetedProblem)
+                setName(solution.name)
+                setDescription(solution.description)
+            })
+    }, [params.id]);
 
     async function updateSolution(e: any) {
         e.preventDefault()
@@ -41,11 +40,10 @@ export default async function Solution({params}: { params: { id: string } }) {
             toast.error('Echec de mis à jour')
         }
         setTimeout(() => {
-            router.refresh()
+            router.back()
         }, 1000)
         setPending(false)
     }
-
 
     return (
         <>
@@ -56,17 +54,6 @@ export default async function Solution({params}: { params: { id: string } }) {
                            placeholder={''} type={'text'} value={name}
                            onChange={(e) => setName(e.target.value)}
                     />
-                    <div className="flex flex-col gap-5">
-                        <label htmlFor="illustration" className="text-gray-800">
-                            La description de la solution
-                        </label>
-                        <textarea
-                            name={'description'}
-                            onChange={(e) => setDescription(e.target.value)}
-                            className="focus:outline-none text-sm block w-full rounded-md h-[180px] border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500 lg:text-lg"
-                            placeholder={"Decrire la solution ici..."}>
-                    </textarea>
-                    </div>
 
                     <div className="flex flex-col gap-5">
                         <label htmlFor="illustration" className="text-gray-800">
@@ -77,7 +64,7 @@ export default async function Solution({params}: { params: { id: string } }) {
                             onChange={(e) => setDescription(e.target.value)}
                             className="focus:outline-none text-sm block w-full rounded-md h-[180px] border border-gray-200 px-4 py-3 transition duration-300 invalid:ring-3 placeholder:text-gray-600 ring-inset invalid:ring-red-400 focus:ring-2 focus:ring-indigo-500 lg:text-lg"
                             placeholder={"Decrire la solution ici..."}>
-                    </textarea>
+                        </textarea>
                     </div>
 
                     <div className="basis-1/2">
