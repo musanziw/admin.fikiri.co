@@ -95,7 +95,8 @@ export class SolutionsService {
         const solution = await this.prismaService.solution.findUnique({
             where: {id},
             include: {
-                thematic: true
+                thematic: true,
+                status: true
             }
         });
         if (!solution)
@@ -185,11 +186,13 @@ export class SolutionsService {
         const solution = await this.prismaService.solution.findUnique({
             where: {id}
         })
+        if (solution.imageLink) {
+            await unlinkAsync(`./uploads/${solution.imageLink}`);
+        }
         await this.prismaService.solution.update({
             where: {id},
             data: {
-                ...solution,
-                imageLink: image.fieldname
+                imageLink: image.filename
             }
         })
         return {
