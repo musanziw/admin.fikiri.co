@@ -11,6 +11,11 @@ import {
   FormGroup,
   Form,
 } from "react-bootstrap";
+
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Select from "react-select";
+
 import Link from "next/link";
 import ImageViewer from "react-simple-image-viewer";
 import { images } from "../../../shared/data/pages/profile";
@@ -26,6 +31,7 @@ const Solution = () => {
   const [profileInnovateur, setProfileInnovateur] = useState();
   const [solution, setSolution] = useState();
   const [thematique, setThematique] = useState();
+  const [status, setStatus] = useState();
 
   const [domLoaded, setDomLoaded] = useState(false);
   const [parametreId, setParametreId] = useState(null);
@@ -35,6 +41,10 @@ const Solution = () => {
   const id = navigate.query.id;
   const innovateurId = navigate.query.innovateurId;
   const thematiqueId = navigate.query.thematiqueId;
+
+  const [options, setOptions] = useState();
+  const [selectedOptions, setSelectedOptions] = useState();
+  const [optionId, setOptionId] = useState([]);
 
   const openImageViewer = useCallback((index) => {
     setCurrentImage(index);
@@ -84,9 +94,27 @@ const Solution = () => {
         }
       };
 
+      const fetchStatus = async () => {
+        let data;
+        try {
+          const statusResponse = await axios.get("/status");
+          data = statusResponse.data.data;
+
+          setOptions(
+            data.map((option) => ({
+              value: option.id,
+              label: option.name,
+            }))
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
       fetchInnovateur();
       fetchSolution();
       fetchThematique();
+      fetchStatus();
     } else {
       navigate.push("/");
     }
@@ -96,6 +124,10 @@ const Solution = () => {
     navigate.query.thematiqueId,
   ]);
 
+  const handleSelectChange = async (selectedOptions) => {
+    setSelectedOptions(selectedOptions);
+    setOptionId([...optionId, selectedOptions.value]);
+  };
 
   return (
     <div>
@@ -302,154 +334,7 @@ const Solution = () => {
                                     </div>
                                   </div>
                                 </div>
-                                {/* <div className="border-top"></div>
-                                <div className="p-4">
-                                  <label className="main-content-label tx-13 mg-b-20">
-                                    Statistics
-                                  </label>
-                                  <div className="profile-cover__info ms-4 ms-auto p-0">
-                                    <ul className="nav p-0 border-bottom-0 mb-0">
-                                      <li className="border p-2 br-5 bg-light wd-100 ht-70">
-                                        <span className="border-0 mb-0 pb-0">
-                                          113
-                                        </span>
-                                        Projects
-                                      </li>
-                                      <li className="border p-2 br-5 bg-light wd-100 ht-70">
-                                        <span className="border-0 mb-0 pb-0">
-                                          245
-                                        </span>
-                                        Followers
-                                      </li>
-                                      <li className="border p-2 br-5 bg-light wd-100 ht-70">
-                                        <span className="border-0 mb-0 pb-0">
-                                          128
-                                        </span>
-                                        Following
-                                      </li>
-                                    </ul>
-                                  </div>
-                                </div>
-                                <div className="border-top"></div>
-                                <div className="p-4">
-                                  <label className="main-content-label tx-13 mg-b-20">
-                                    Contact
-                                  </label>
-                                  <div className="d-sm-flex">
-                                    <div className="mg-sm-r-20 mg-b-10">
-                                      <div className="main-profile-contact-list">
-                                        <div className="media">
-                                          <div className="media-icon bg-primary-transparent text-primary">
-                                            <i className="icon ion-md-phone-portrait"></i>
-                                          </div>
-                                          <div className="media-body">
-                                            {" "}
-                                            <span>Mobile</span>
-                                            <div> +245 354 654 </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="mg-sm-r-20 mg-b-10">
-                                      <div className="main-profile-contact-list">
-                                        <div className="media">
-                                          <div className="media-icon bg-success-transparent text-success">
-                                            <i className="icon ion-logo-slack"></i>
-                                          </div>
-                                          <div className="media-body">
-                                            {" "}
-                                            <span>Slack</span>
-                                            <div> @spruko.w </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="">
-                                      <div className="main-profile-contact-list">
-                                        <div className="media">
-                                          <div className="media-icon bg-info-transparent text-info">
-                                            <i className="icon ion-md-locate"></i>
-                                          </div>
-                                          <div className="media-body">
-                                            {" "}
-                                            <span>Current Address</span>
-                                            <div> San Francisco, CA </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="border-top"></div>
-                                <div className="p-4">
-                                  <label className="main-content-label tx-13 mg-b-20">
-                                    Social
-                                  </label>
-                                  <div className="d-lg-flex">
-                                    <div className="mg-md-r-20 mg-b-10">
-                                      <div className="main-profile-social-list">
-                                        <div className="media">
-                                          <div className="media-icon bg-primary-transparent text-primary">
-                                            <i className="icon ion-logo-github"></i>
-                                          </div>
-                                          <div className="media-body">
-                                            {" "}
-                                            <span>Github</span>{" "}
-                                            <Link href="#!">
-                                              github.com/spruko
-                                            </Link>{" "}
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="mg-md-r-20 mg-b-10">
-                                      <div className="main-profile-social-list">
-                                        <div className="media">
-                                          <div className="media-icon bg-success-transparent text-success">
-                                            <i className="icon ion-logo-twitter"></i>
-                                          </div>
-                                          <div className="media-body">
-                                            {" "}
-                                            <span>Twitter</span>{" "}
-                                            <Link href="#!">
-                                              twitter.com/spruko.me
-                                            </Link>{" "}
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="mg-md-r-20 mg-b-10">
-                                      <div className="main-profile-social-list">
-                                        <div className="media">
-                                          <div className="media-icon bg-info-transparent text-info">
-                                            <i className="icon ion-logo-linkedin"></i>
-                                          </div>
-                                          <div className="media-body">
-                                            {" "}
-                                            <span>Linkedin</span>{" "}
-                                            <Link href="#!">
-                                              linkedin.com/in/spruko
-                                            </Link>{" "}
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div className="mg-md-r-20 mg-b-10">
-                                      <div className="main-profile-social-list">
-                                        <div className="media">
-                                          <div className="media-icon bg-danger-transparent text-danger">
-                                            <i className="icon ion-md-link"></i>
-                                          </div>
-                                          <div className="media-body">
-                                            {" "}
-                                            <span>My Portfolio</span>{" "}
-                                            <Link href="#!">spruko.com/</Link>{" "}
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div> */}
+
                               </Card.Body>
                             </Card>
                           </div>
@@ -459,82 +344,20 @@ const Solution = () => {
                             className="main-content-body tab-pane border-top-0"
                             id="edit"
                           >
-                            <Card>
+                            <Card style={{height: "300px"}}>
                               <Card.Body className=" border-0">
                                 <div className="mb-4 main-content-label">
                                   Solution
                                 </div>
-                                <Form className="form-horizontal">
-                                  <FormGroup className="form-group ">
-                                    <Row className=" row-sm">
-                                      <Col md={3}>
-                                        <Form.Label className="form-label">
-                                          Description de la solution
-                                        </Form.Label>
-                                      </Col>
-                                      <Col md={9}>
-                                        <textarea
-                                          className="form-control"
-                                          name="example-textarea-input"
-                                          rows="5"
-                                          placeholder="Address"
-                                          defaultValue={
-                                            solution
-                                              ? `${solution.description}`
-                                              : ""
-                                          }
-                                          disabled
-                                        ></textarea>
-                                      </Col>
-                                    </Row>
-                                  </FormGroup>
-
-                                  <FormGroup className="form-group ">
-                                    <Row className=" row-sm">
-                                      <Col md={3}>
-                                        <Form.Label className="form-label">
-                                          Targert de la solution
-                                        </Form.Label>
-                                      </Col>
-                                      <Col md={9}>
-                                        <textarea
-                                          className="form-control"
-                                          name="example-textarea-input"
-                                          rows="4"
-                                          defaultValue={
-                                            solution
-                                              ? `${solution.targetedProblem}`
-                                              : ""
-                                          }
-                                          disabled
-                                        ></textarea>
-                                      </Col>
-                                    </Row>
-                                  </FormGroup>
-
-                                  <FormGroup className="form-group ">
-                                    <Row className=" row-sm">
-                                      <Col md={3}>
-                                        <Form.Label className="form-label">
-                                          Lien youtube
-                                        </Form.Label>
-                                      </Col>
-                                      <Col md={9}>
-                                        <Form.Control
-                                          type="text"
-                                          className="form-control"
-                                          placeholder="lien video"
-                                          defaultValue={
-                                            solution
-                                              ? `${solution.videoLink}`
-                                              : "pas de lien"
-                                          }
-                                          disabled
-                                        />
-                                      </Col>
-                                    </Row>
-                                  </FormGroup>
-                                </Form>
+                                <Row className="row">
+                                  <Col md={3}>Status de la Solution</Col>
+                                  <Col md={9}>
+                                    <Select
+                                      options={options}
+                                      onChange={handleSelectChange}
+                                    />
+                                  </Col>
+                                </Row>
                               </Card.Body>
                             </Card>
                           </div>

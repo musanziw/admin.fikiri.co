@@ -59,7 +59,7 @@ export const columns = [
           href={`/components/apps/solution`}
           as="/components/apps/solution"
         >
-          Detail sur le curateur
+          Detail
         </Link>
 
         <Link

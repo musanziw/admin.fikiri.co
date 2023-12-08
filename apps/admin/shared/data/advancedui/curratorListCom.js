@@ -24,7 +24,7 @@ const CurratorList = () => {
           ),
           class: "avatar-md rounded-circle",
         }));
-        setUsers(usersWithImages);
+        setUsers(usersWithImages.filter(user=>{return user.roles.some(role=>role.name === "CURATOR")}));
         setIsLoadingUsers(false);
       } catch (error) {
         setIsLoadingUsers(false);
