@@ -230,6 +230,9 @@ importers:
       '@nestjs/platform-express':
         specifier: ^10.2.10
         version: 10.2.10(@nestjs/common@10.2.10)(@nestjs/core@10.2.10)
+      '@nestjs/serve-static':
+        specifier: ^4.0.0
+        version: 4.0.0(@nestjs/common@10.2.10)(@nestjs/core@10.2.10)
       '@prisma/client':
         specifier: ^5.6.0
         version: 5.6.0(prisma@5.6.0)
@@ -348,12 +351,6 @@ importers:
       filepond:
         specifier: ^4.30.4
         version: 4.30.4
-      filepond-plugin-image-exif-orientation:
-        specifier: ^1.0.11
-        version: 1.0.11(filepond@4.30.4)
-      filepond-plugin-image-preview:
-        specifier: ^4.6.11
-        version: 4.6.11(filepond@4.30.4)
       moment:
         specifier: ^2.29.4
         version: 2.29.4
@@ -2462,6 +2459,27 @@ packages:
     transitivePeerDependencies:
       - chokidar
     dev: true
+
+  /@nestjs/serve-static@4.0.0(@nestjs/common@10.2.10)(@nestjs/core@10.2.10):
+    resolution: {integrity: sha512-8cTrNV2ngdHIjiLNsXePnw0+KY1ThrZGz/WeyAG5gIvmZNDbnZBOrPoYlKL+MOzlXlQStxR5jKLYmn+nJeoncQ==}
+    peerDependencies:
+      '@fastify/static': ^6.5.0
+      '@nestjs/common': ^9.0.0 || ^10.0.0
+      '@nestjs/core': ^9.0.0 || ^10.0.0
+      express: ^4.18.1
+      fastify: ^4.7.0
+    peerDependenciesMeta:
+      '@fastify/static':
+        optional: true
+      express:
+        optional: true
+      fastify:
+        optional: true
+    dependencies:
+      '@nestjs/common': 10.2.10(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      '@nestjs/core': 10.2.10(@nestjs/common@10.2.10)(@nestjs/platform-express@10.2.10)(reflect-metadata@0.1.13)(rxjs@7.8.1)
+      path-to-regexp: 0.2.5
+    dev: false
 
   /@nestjs/testing@10.2.10(@nestjs/common@10.2.10)(@nestjs/core@10.2.10)(@nestjs/platform-express@10.2.10):
     resolution: {integrity: sha512-IVLUnPz/+fkBtPATYfqTIP+phN9yjkXejmj+JyhmcfPJZpxBmD1i9VSMqa4u54l37j0xkGPscQ0IXpbhqMYUKw==}
@@ -5865,22 +5883,6 @@ packages:
     resolution: {integrity: sha512-2lGfU4gymmhXRUiPLeQlnlkMaSY8azJB9W8e/vFp44AlAOEvzf6XiBUoTHO9NBM4OVlehybxDM9B4SwLBh42mw==}
     dev: false
 
-  /filepond-plugin-image-exif-orientation@1.0.11(filepond@4.30.4):
-    resolution: {integrity: sha512-hLBc12Fk6Zkj3L8mSAn+elugHOqT5rLUbgVXQQIQjMe0FsGjtpoxqeVR6jt4IWHGat2L9sFAgU2TGmd1mqosCg==}
-    peerDependencies:
-      filepond: '>=3.x <5.x'
-    dependencies:
-      filepond: 4.30.4
-    dev: false
-
-  /filepond-plugin-image-preview@4.6.11(filepond@4.30.4):
-    resolution: {integrity: sha512-0EmQ9HnOb/X0xc5rLcNRhhmdUbp7oiicRwQrcr90ZfVmPJOOZoX3ZGUEsEPj7luMI55huguhcVozdESxtqnuRw==}
-    peerDependencies:
-      filepond: '>=4.x <5.x'
-    dependencies:
-      filepond: 4.30.4
-    dev: false
-
   /filepond@4.30.4:
     resolution: {integrity: sha512-FCwsMvG9iiEs6uobdDrTaKsCgsqys0NuLgPPD8n37AYVYBiiDkrPkk9MSIU5rT2FahYcL1bScYI9huIPtlzqyA==}
     dev: false
@@ -8485,6 +8487,10 @@ packages:
 
   /path-to-regexp@0.1.7:
     resolution: {integrity: sha512-5DFkuoqlv1uYQKxy8omFBeJPQcdoE07Kv2sferDCrAq1ohOU+MSDswDIbnx3YAM60qIOnYa53wBhXW0EbMonrQ==}
+
+  /path-to-regexp@0.2.5:
+    resolution: {integrity: sha512-l6qtdDPIkmAmzEO6egquYDfqQGPMRNGjYtrU13HAXb3YSRrt7HSb1sJY0pKp6o2bAa86tSB6iwaW2JbthPKr7Q==}
+    dev: false
 
   /path-to-regexp@3.2.0:
     resolution: {integrity: sha512-jczvQbCUS7XmS7o+y1aEO9OBVFeZBQ1MDSEqmO7xSoPgOPoowY/SxLpZ6Vh97/8qHZOteiCKb7gkG9gA2ZUxJA==}
