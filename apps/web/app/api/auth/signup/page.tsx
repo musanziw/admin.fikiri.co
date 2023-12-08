@@ -161,8 +161,8 @@ export default function Register() {
                         </Link>
                     </p>
                 </form>
-                <ToastContainer/>
             </AuthCard>
+            <ToastContainer/>
         </>
     );
 }

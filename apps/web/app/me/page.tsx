@@ -86,11 +86,24 @@ export default function Solution() {
                 <div
                     className="p-8 flex flex-col mx-6 justify-center max-w-screen-md md:mx-auto border-x border-dashed">
                     {
-                        (account?.user?.image ?? user?.profile) ? (
+                        user?.profile && (
+                            <div
+                                className="rounded-full mb-5 mt-20 md:h-32 md:w-32 bg-gray-100 flex items-center justify-center">
+                                <Image src={`${API_URL}uploads/${user?.profile}`}
+                                       alt={user?.name || 'User image'}
+                                       width={200} height={200} className={'rounded-full object-cover'} priority={false}/>
+                            </div>
+                        )
+                    }
+
+                    {
+                        (account?.user?.image) ? (
                             <>
                                 <div
                                     className="rounded-full mb-5 mt-20 md:h-32 md:w-32 bg-gray-100 flex items-center justify-center">
-                                    <Image src={user?.profile ? `${API_URL}uploads/${user?.profile}` : account?.user?.image} alt={user?.name || 'User image'}
+                                    <Image
+                                        src={user?.profile ? `${API_URL}uploads/${user?.profile}` : account?.user?.image}
+                                        alt={user?.name || 'User image'}
                                            width={200} height={200} className={'rounded-full object-cover'} priority={false}/>
                                 </div>
                             </>
@@ -186,7 +199,7 @@ export default function Solution() {
                                                         <h2 className={'text-gray-800 text-lg font-semibold mb-4'}>
                                                             {solution.name}, soumis
                                                             <span className={'font-medium ml-2'}>
-                                                                {moment(solution.status.createdAt).locale('fr').fromNow(false)}
+                                                                {moment(solution.createdAt).fromNow(false)}
                                                             </span>
                                                             <Link className={'text-indigo-400 inline-block ml-2'}
                                                                   href={`/solutions/update/${solution.id}`}
