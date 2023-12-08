@@ -178,7 +178,7 @@ const Solution = () => {
                     <i class="bi bi-calendar-check me-2"></i>
                   </span>
                   <span className="font-weight-semibold me-2">
-                    Date d'inscription sur la plateforme:
+                    {"Date d'inscription sur la plateforme:"}
                   </span>
                   <span>
                     {profileInnovateur
