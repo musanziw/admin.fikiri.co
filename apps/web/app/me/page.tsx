@@ -154,7 +154,7 @@ export default function Solution() {
                                         {
                                             solutions && solutions.map((solution: any, i: number) => (
                                                 <>
-                                                    <div className="overflow-hidden">
+                                                    <div className="overflow-hidden" key={i}>
                                                         <h2 className={'text-gray-800 text-lg font-semibold mb-4'}>
                                                             {solution.name}, soumis
                                                             <span className={'font-medium ml-2'}>
