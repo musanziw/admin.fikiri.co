@@ -1,6 +1,20 @@
-import {Controller, Get, Post, Body, Patch, Param, Delete, Query} from '@nestjs/common';
+import {
+    Controller,
+    Get,
+    Post,
+    Body,
+    Patch,
+    Param,
+    Delete,
+    Query,
+    UseInterceptors,
+    UploadedFile
+} from '@nestjs/common';
 import {SolutionsService} from './solutions.service';
 import {Prisma} from '@prisma/client';
+import {FileInterceptor} from "@nestjs/platform-express";
+import {diskStorage} from "multer";
+import {v4 as uuidv4} from 'uuid';
 
 @Controller('solutions')
 export class SolutionsController {
@@ -27,7 +41,6 @@ export class SolutionsController {
         return this.solutionsService.findAll(+page);
     }
 
-
     @Get(':id')
     findOne(@Param('id') id: string) {
         return this.solutionsService.findOne(+id);
@@ -51,5 +64,28 @@ export class SolutionsController {
     @Delete(':id')
     remove(@Param('id') id: string) {
         return this.solutionsService.remove(+id);
+    }
+
+    @UseInterceptors(
+        FileInterceptor('thumb', {
+            storage: diskStorage({
+                destination: './uploads',
+                filename: function (_req, file, cb) {
+                    cb(null, `${uuidv4()}.${file.mimetype.split('/')[1]}`);
+                },
+            }),
+        }),
+    )
+    @Post(':id/image')
+    uploadImage(
+        @Param('id') id: string,
+        @UploadedFile() file: Express.Multer.File,
+    ) {
+        return this.solutionsService.uploadImage(+id, file);
+    }
+
+    @Delete(':id/image/delete')
+    removeImage(@Param('id') id: string) {
+        return this.solutionsService.deleteImage(+id);
     }
 }
