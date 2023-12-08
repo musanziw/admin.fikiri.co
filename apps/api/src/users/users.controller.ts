@@ -6,9 +6,14 @@ import {
     Param,
     Patch,
     Post, Query,
+    UploadedFile,
+    UseInterceptors
 } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { Prisma } from "@prisma/client";
+import {UsersService} from './users.service';
+import {Prisma} from "@prisma/client";
+import {FileInterceptor} from '@nestjs/platform-express';
+import {diskStorage} from 'multer';
+import {v4 as uuidv4} from 'uuid';
 
 @Controller('users')
 export class UsersController {
@@ -41,6 +46,29 @@ export class UsersController {
         @Body() updateUserDto: Prisma.UserUpdateInput,
     ): Promise<any> {
         return this.userService.update(+id, updateUserDto);
+    }
+
+    @UseInterceptors(
+        FileInterceptor('thumb', {
+            storage: diskStorage({
+                destination: './uploads',
+                filename: function (_req, file, cb) {
+                    cb(null, `${uuidv4()}.${file.mimetype.split('/')[1]}`);
+                },
+            }),
+        }),
+    )
+    @Post(':id/image')
+    uploadImage(
+        @Param('id') id: string,
+        @UploadedFile() file: Express.Multer.File,
+    ) {
+        return this.userService.uploadImage(+id, file);
+    }
+
+    @Delete(':id/image/delete')
+    removeImage(@Param('id') id: string) {
+        return this.userService.deleteImage(+id);
     }
 
 
