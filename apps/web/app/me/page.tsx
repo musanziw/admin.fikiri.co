@@ -160,7 +160,7 @@ export default function Solution() {
                                                             <span className={'font-medium ml-2'}>
                                                                 {moment(solution.status.createdAt).locale('fr').fromNow(false)}
                                                             </span>
-                                                            <Link className={'text-indigo-400 inline-block ml-2'} href={`/me/solutions/${solution.id}`}  aria-label={`${solution.name}`}>
+                                                            <Link className={'text-indigo-400 inline-block ml-2'} href={`/solutions/update/${solution.id}`}  aria-label={`${solution.name}`}>
                                                                 Modifier la solution
                                                             </Link>
                                                         </h2>
@@ -168,7 +168,6 @@ export default function Solution() {
                                                         <>
                                                             {
                                                                 STATUS.map((status: string, i: number) => {
-
                                                                     return (
                                                                         <>
                                                                             <div className="flex items-center gap-3 mb-4">
