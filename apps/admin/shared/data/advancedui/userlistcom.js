@@ -13,6 +13,7 @@ const Userlistcom = () => {
       try {
         setIsLoadingUsers(true);
         const responseUser = await axios.get("/users");
+
         const usersWithImages = responseUser.data.data.map((user) => ({
           ...user,
           img: (
@@ -24,8 +25,10 @@ const Userlistcom = () => {
           ),
           class: "avatar-md rounded-circle",
         }));
-        setUsers(usersWithImages);
+
+        setUsers(usersWithImages.filter(user=>{return user.roles.some(role=>role.name === "USER")}));
         setIsLoadingUsers(false);
+
       } catch (error) {
         setIsLoadingUsers(false);
         console.error("Erreur lors de la récupération des données :", error);
@@ -33,6 +36,9 @@ const Userlistcom = () => {
     };
     fetchUser();
   }, []);
+
+  console.log(users)
+
 
   function convertArrayOfObjectsToCSV(array) {
     if (!array || array.length === 0) {

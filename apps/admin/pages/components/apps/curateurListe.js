@@ -1,13 +1,5 @@
-import React from "react";
-import {
-  Button,
-  Row,
-  Col,
-  Card,
-  Form,
-  FormGroup,
-  Modal,
-} from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Button, Form, FormGroup, Modal } from "react-bootstrap";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import Seo from "@/shared/layout-components/seo/seo";
@@ -15,11 +7,72 @@ const CurratorList = dynamic(
   () => import("@/shared/data/advancedui/curratorListCom"),
   { ssr: false }
 );
+import axios from "@/pages/api/axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import { set } from "immutable";
+import { setOptions } from "filepond";
+import Select from "react-select";
 
 const CurrateurList = () => {
   const [show, setShow] = React.useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [name, setName] = useState();
+  const [email, setEmail] = useState();
+
+  const [options, setOptions] = useState();
+  const [selectedOptions, setSelectedOptions] = useState();
+  const [optionId, setOptionId] = useState([]);
+  const [isLoadingCreating, setIsLoadingCreating] = useState(false);
+
+  useEffect(() => {
+    const fetchRole = async () => {
+      let data;
+      try {
+        const roleResponse = await axios.get("/roles");
+        data = roleResponse.data.data;
+        setOptions(
+          data.map((option) => ({
+            value: option.id,
+            label: option.name,
+          }))
+        );
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    fetchRole();
+  }, []);
+
+  const handleSelectChange = async (selectedOptions) => {
+    setSelectedOptions(selectedOptions);
+    setOptionId([...optionId, selectedOptions.value]);
+  };
+
+  const hanleCreateCurrateur = async (e) => {
+    e.preventDefault();
+    try {
+      setIsLoadingCreating(true);
+      const payload = {
+        name,
+        email,
+        roles: optionId,
+      };
+
+      await axios.post("/users", JSON.stringify(payload));
+      toast.success("Curateur créé avec succès !");
+      setIsLoadingCreating(false)
+    } catch (e) {
+      toast.error(e.response.data.message)
+      setIsLoadingCreating(false);
+    }finally{
+      setIsLoadingCreating(false);
+    }
+  };
 
   return (
     <div>
@@ -58,14 +111,7 @@ const CurrateurList = () => {
                       className="form-control"
                       id="inputName"
                       placeholder="Nom"
-                    />
-                  </FormGroup>
-                  <FormGroup className="form-group">
-                    <Form.Control
-                      type="text"
-                      className="form-control"
-                      id="inputName1"
-                      placeholder="Role"
+                      onChange={(e) => setName(e.target.value)}
                     />
                   </FormGroup>
                   <FormGroup className="form-group">
@@ -74,8 +120,14 @@ const CurrateurList = () => {
                       className="form-control"
                       id="inputEmail3"
                       placeholder="Email"
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
                     />
                   </FormGroup>
+                  <FormGroup className="form-group">
+                    <Select options={options} onChange={handleSelectChange} />
+                  </FormGroup>
+
                   <FormGroup className="form-group mb-0 justify-content-end">
                     <div className="checkbox">
                       <div className="custom-checkbox custom-control">
@@ -102,8 +154,9 @@ const CurrateurList = () => {
                 variant=""
                 className="btn ripple btn-primary"
                 type="button"
+                onClick={hanleCreateCurrateur}
               >
-                Ajouter
+               {isLoadingCreating ? "Ajouter en cour..." :"Ajouter"}
               </Button>
               <Button
                 variant=""
@@ -120,6 +173,7 @@ const CurrateurList = () => {
 			<!--Row-->
 			<!-- Row --> */}
       <CurratorList />
+      <ToastContainer/>
     </div>
   );
 };
