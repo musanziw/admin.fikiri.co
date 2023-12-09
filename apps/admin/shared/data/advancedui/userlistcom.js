@@ -61,12 +61,16 @@ const Userlistcom = () => {
         if (ctr > 0) result += columnDelimiter;
   
         // Handle case where the value might be a React element
-        const value =
-          typeof item[key] === "object" && item[key] !== null
-            ? item[key].props.alt
-            : item[key];
-  
-        result += value;
+        try {
+          const value =
+              typeof item[key] === "object" && item[key] !== null
+                  ? item[key]?.props?.alt
+                  : item[key];
+
+          result += value;
+        }catch (e) {
+
+        }
   
         ctr++;
       });

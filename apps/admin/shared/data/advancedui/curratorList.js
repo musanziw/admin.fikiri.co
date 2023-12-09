@@ -3,9 +3,14 @@ import React from "react";
 import Link from "next/link";
 
 const truncateText = (text, maxLength) => {
-  if (text.length > maxLength) {
-    return text.substring(0, maxLength) + "...";
+  try{
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + "...";
+    }
+  }catch (e) {
+
   }
+
   return text;
 };
 
