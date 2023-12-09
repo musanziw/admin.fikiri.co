@@ -26,7 +26,7 @@ export class UsersController {
     }
 
     @Get()
-    findAll(@Query('page') page: string): Promise<any> {
+    findAll(@Query('page') page: string = '1'): Promise<any> {
         return this.userService.findAll(+page);
     }
 
