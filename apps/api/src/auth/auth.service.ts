@@ -1,7 +1,7 @@
-import {BadRequestException, HttpStatus, Injectable, Req} from '@nestjs/common';
-import {UsersService} from '../users/users.service';
+import { BadRequestException, HttpStatus, Injectable, Req } from '@nestjs/common';
+import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
-import {Prisma} from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -12,7 +12,7 @@ export class AuthService {
 
     async login(email: string, password: string): Promise<any> {
         const user = await this.userService.findByEmail(email);
-        const passwordMatch: boolean = await this.passworMatch(
+        const passwordMatch: boolean = await this.passwordMatch(
             password,
             user.password,
         );
@@ -41,7 +41,7 @@ export class AuthService {
         }
     }
 
-    async passworMatch(password: string, hash: string): Promise<boolean> {
+    async passwordMatch(password: string, hash: string): Promise<boolean> {
         return await bcrypt.compare(password, hash);
     }
 
