@@ -8,7 +8,7 @@ async function bootstrap() {
     allowedHeaders: ['Content-Type', 'Authorization'],
     methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS', 'PATCH'],
   });
-  await app.listen(8000);
+  await app.listen(4000);
 }
 
 bootstrap().then(() => console.log(`🚀 Application is running on: localhost:8000`));

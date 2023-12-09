@@ -1,50 +1,91 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { SolutionsService } from './solutions.service';
-import { Prisma } from '@prisma/client';
+import {
+    Controller,
+    Get,
+    Post,
+    Body,
+    Patch,
+    Param,
+    Delete,
+    Query,
+    UseInterceptors,
+    UploadedFile
+} from '@nestjs/common';
+import {SolutionsService} from './solutions.service';
+import {Prisma} from '@prisma/client';
+import {FileInterceptor} from "@nestjs/platform-express";
+import {diskStorage} from "multer";
+import {v4 as uuidv4} from 'uuid';
 
 @Controller('solutions')
 export class SolutionsController {
-  constructor(private readonly solutionsService: SolutionsService) { }
+    constructor(private readonly solutionsService: SolutionsService) {
+    }
 
-  @Post()
-  create(@Body() createSolutionDto: Prisma.SolutionCreateInput & { thematic: number, call: number, challenges: number[], user: string }) {
-    return this.solutionsService.create(createSolutionDto);
-  }
+    @Post()
+    create(@Body() createSolutionDto: Prisma.SolutionCreateInput & {
+        thematic: number,
+        call: number,
+        challenges: number[],
+        user: string
+    }) {
+        return this.solutionsService.create(createSolutionDto);
+    }
 
-  @Get('approved')
-  findApproved() {
-    return this.solutionsService.findApproved();
-  }
+    @Get('approved')
+    findApproved() {
+        return this.solutionsService.findApproved();
+    }
 
-  @Get()
-  findAll() {
-    return this.solutionsService.findAll();
-  }
+    @Get()
+    findAll(@Query('page') page: string) {
+        return this.solutionsService.findAll(+page);
+    }
 
+    @Get(':id')
+    findOne(@Param('id') id: string) {
+        return this.solutionsService.findOne(+id);
+    }
 
+    @Get('user/:email')
+    findByUser(@Param('email') email: string) {
+        return this.solutionsService.findbyUser(email);
+    }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.solutionsService.findOne(+id);
-  }
+    @Get('challenge/:id')
+    findByCall(@Param('id') id: string) {
+        return this.solutionsService.findByCall(+id);
+    }
 
-  @Get('user/:email')
-  findByUser(@Param('email') email: string) {
-    return this.solutionsService.findbyUser(email);
-  }
+    @Patch(':id')
+    update(@Param('id') id: string, @Body() updateSolutionDto: Prisma.SolutionUpdateInput & { status: number }) {
+        return this.solutionsService.update(+id, updateSolutionDto);
+    }
 
-  @Get('challenge/:id')
-  findByCall(@Param('id') id: string) {
-    return this.solutionsService.findByCall(+id);
-  }
+    @Delete(':id')
+    remove(@Param('id') id: string) {
+        return this.solutionsService.remove(+id);
+    }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSolutionDto: Prisma.SolutionUpdateInput) {
-    return this.solutionsService.update(+id, updateSolutionDto);
-  }
+    @UseInterceptors(
+        FileInterceptor('thumb', {
+            storage: diskStorage({
+                destination: './uploads',
+                filename: function (_req, file, cb) {
+                    cb(null, `${uuidv4()}.${file.mimetype.split('/')[1]}`);
+                },
+            }),
+        }),
+    )
+    @Post(':id/image')
+    uploadImage(
+        @Param('id') id: string,
+        @UploadedFile() file: Express.Multer.File,
+    ) {
+        return this.solutionsService.uploadImage(+id, file);
+    }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.solutionsService.remove(+id);
-  }
+    @Delete(':id/image/delete')
+    removeImage(@Param('id') id: string) {
+        return this.solutionsService.deleteImage(+id);
+    }
 }

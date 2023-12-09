@@ -42,6 +42,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-compare-image": "^3.4.0",
     "react-countdown": "^2.3.5",
+    "react-data-export": "^0.6.0",
     "react-data-table-component": "^7.5.3",
     "react-data-table-component-extensions": "^1.6.0",
     "react-datepicker": "^4.12.0",

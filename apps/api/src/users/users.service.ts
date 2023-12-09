@@ -1,32 +1,40 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { randomPassword } from '../helpers/random-password';
-import { PrismaService } from "../database/prisma.service";
-import { Prisma, User } from '@prisma/client';
+import {HttpException, HttpStatus, Injectable, NotFoundException} from '@nestjs/common';
+import {PrismaService} from "../database/prisma.service";
+import {Prisma} from '@prisma/client';
 import * as bcrypt from 'bcrypt'
+import {paginate} from "../helpers/paginate";
+import * as fs from 'fs';
+import {promisify} from 'util';
+import {PaginationReturn} from "../types/PaginationReturn";
+
+const unlinkAsync = promisify(fs.unlink);
 
 @Injectable()
 export class UsersService {
     constructor(
         private readonly prismaService: PrismaService,
-    ) { }
+    ) {
+    }
 
-
-    // async registerWithGoogle(nema)
-
-    async create(createUserDto: Prisma.UserCreateInput): Promise<any> {
-        const { email } = createUserDto;
+    async create(createUserDto: Prisma.UserCreateInput & { roles: number[] }): Promise<any> {
+        const {email} = createUserDto;
         const user = await this.prismaService.user.findUnique({
-            where: { email },
+            where: {email},
         });
         if (user)
             throw new HttpException("L'utilisateur existe déjà", HttpStatus.CONFLICT);
         try {
-            const password: string = randomPassword();
+            const password: string = 'admin1234';
             const hash = await this.hashPassword(password)
             await this.prismaService.user.create({
                 data: {
                     ...createUserDto,
                     password: hash,
+                    roles: {
+                        connect: createUserDto.roles.map((id) => ({
+                            id
+                        }))
+                    }
                 },
             })
         } catch {
@@ -48,7 +56,7 @@ export class UsersService {
         const password: string = registerDto.password as string
         const hash = await this.hashPassword(password)
         const user = await this.prismaService.user.findUnique({
-            where: { email },
+            where: {email},
         });
         if (user)
             throw new HttpException("L'utilisateur existe déjà", HttpStatus.CONFLICT);
@@ -58,7 +66,7 @@ export class UsersService {
                 password: hash,
                 roles: {
                     connect: {
-                        id: 3
+                        name: 'USER'
                     }
                 }
             },
@@ -69,16 +77,27 @@ export class UsersService {
         };
     }
 
-    async findAll(): Promise<any> {
-        const users = await this.prismaService.user.findMany({
-            select: {
-                id: true,
-                email: true,
-                phoneNumber: true,
-                address: true,
-                name: true,
-            },
-        })
+    async findAll(page: number): Promise<any> {
+        const {offset, limit} = paginate(page, 12)
+        const [total_count,users] = await this.prismaService.$transaction([
+            this.prismaService.user.count(),
+            this.prismaService.user.findMany({
+                // skip: offset,
+                // take: limit,
+                include: {
+                    roles: true
+                },
+            })
+        ])
+
+        const paginateData: PaginationReturn = {
+            data: users,
+            next_page: users.length < limit ? null : ((total_count - offset) > limit ? page + 1 : null),
+            previous_page: page - 1 ? page - 1 : null,
+            current_page: page,
+            total_count: total_count
+        }
+
         return {
             statusCode: HttpStatus.OK,
             data: users,
@@ -87,7 +106,7 @@ export class UsersService {
 
     async findById(id: number): Promise<any> {
         const user = await this.prismaService.user.findUnique({
-            where: { id },
+            where: {id},
             include: {
                 roles: {
                     select: {
@@ -105,15 +124,14 @@ export class UsersService {
 
     async findOrCreate(email: string, name: string): Promise<any> {
         const user = await this.prismaService.user.findUnique({
-            where: { email }
+            where: {email}
         })
         if (user) {
             return {
                 statusCode: HttpStatus.OK,
                 data: user
             };
-        }
-        else {
+        } else {
             await this.prismaService.user.create({
                 data: {
                     email,
@@ -130,7 +148,7 @@ export class UsersService {
 
     async findByEmail(email: string): Promise<any> {
         const user = await this.prismaService.user.findUnique({
-            where: { email },
+            where: {email},
             include: {
                 roles: true
             }
@@ -140,15 +158,10 @@ export class UsersService {
     }
 
     async update(id: number, updateUserDto: Prisma.UserUpdateInput): Promise<any> {
-        const user = await this.prismaService.user.findUnique({
-            where: { id },
-        })
-        if (!user) throw new HttpException("L'utilisateur n'a pas été trouvé", HttpStatus.NOT_FOUND);
-        const updatedUser = Object.assign(user, updateUserDto);
         try {
             await this.prismaService.user.update({
-                where: { id },
-                data: updatedUser
+                where: {id},
+                data: updateUserDto
             })
         } catch {
             throw new HttpException('Rôles non valides', HttpStatus.BAD_REQUEST);
@@ -160,18 +173,56 @@ export class UsersService {
     }
 
 
-
     async remove(id: number): Promise<any> {
         const user = await this.prismaService.user.findUnique({
-            where: { id },
+            where: {id},
         })
         if (!user) throw new HttpException("L'utilisateur n'a pas été trouvé", HttpStatus.NOT_FOUND);
         await this.prismaService.user.delete({
-            where: { id },
+            where: {id},
         });
         return {
             statusCode: HttpStatus.OK,
             message: "L'utilisateur est supprimé avec succès",
+        };
+    }
+
+
+    async uploadImage(id: number, image: Express.Multer.File): Promise<any> {
+        const user = await this.prismaService.user.findUnique({
+            where: {id}
+        })
+        if (user.profile) {
+            await unlinkAsync(`./uploads/${user.profile}`);
+        }
+        await this.prismaService.user.update({
+            where: {id},
+            data: {
+                profile: image.filename
+            }
+        })
+        return {
+            statusCode: HttpStatus.CREATED,
+            message: "L'upload a réussi",
+        };
+    }
+
+
+    async deleteImage(id: number): Promise<any> {
+        const user = await this.prismaService.user.findUnique({
+            where: {id}
+        })
+        if (!user) throw new NotFoundException("L'utilisateur n'existe pas");
+        await unlinkAsync(`./uploads/${user.profile}`);
+        await this.prismaService.user.update({
+            where: {id},
+            data: {
+                profile: null,
+            }
+        })
+        return {
+            statusCode: HttpStatus.OK,
+            message: "L'image a été suppimé",
         };
     }
 

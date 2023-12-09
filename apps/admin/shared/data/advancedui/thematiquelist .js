@@ -1,6 +1,8 @@
 import React from "react";
 
 import Link from "next/link";
+import moment from "moment";
+
 
 const truncateText = (text, maxLength) => {
   if (text.length > maxLength) {
@@ -18,32 +20,32 @@ export const columns = [
   },
   {
     name: "Nom",
-    selector: (row) => [row.Name],
+    selector: (row) => [row.name],
     sortable: false,
     cell: (row) => (
       <span>
-        <p className="tx-14 font-weight-semibold text-dark mb-1">{row.name}</p>
-        <p className="tx-12 text-muted mb-0">{row.email}</p>
+        <p className="tx-14 font-weight-semibold text-dark mb-1">{truncateText(row.name, 45)}</p>
+        <p className="tx-12 text-muted mb-0">ODDS : {row.odds}</p>
       </span>
     ),
   },
   {
-    name: " Num Tel",
-    selector: (row) => [row.phoneNumber],
+    name: " ODD",
+    selector: (row) => [row.odds],
     sortable: false,
     cell: (row) => (
       <span>
-        <span className="text-muted tx-13">{row.phoneNumber}</span>
+        <span className="text-center tx-14">{row.odds}</span>
       </span>
     ),
   },
   {
-    name: "Adresse",
-    selector: (row) => [row.address],
+    name: "Date création",
+    selector: (row) => [row.createdAt],
     sortable: false,
     cell: (row) => (
       <span>
-        <span className="tx-13">{truncateText(row.address, 45)}</span>
+        <span className="tx-13">{moment(row.createdAt).format("DD MMMM YYYY [à] HH:mm")}</span>
       </span>
     ),
   },
