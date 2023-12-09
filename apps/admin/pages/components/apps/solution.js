@@ -46,15 +46,6 @@ const Solution = () => {
   const [selectedOptions, setSelectedOptions] = useState();
   const [optionId, setOptionId] = useState([]);
 
-  const openImageViewer = useCallback((index) => {
-    setCurrentImage(index);
-    setIsViewerOpen(true);
-  }, []);
-
-  const closeImageViewer = () => {
-    setCurrentImage(0);
-    setIsViewerOpen(false);
-  };
 
   useEffect(() => {
     const status = JSON.parse(localStorage.getItem("STATUS_ACCOUNT"));

@@ -54,7 +54,7 @@ export const columns = [
     sortable: false,
     cell: (row) => (
       <div>
-        <Link
+        {/* <Link
           className="btn btn-primary me-1 ms-3"
           href={`/components/apps/solution`}
           as="/components/apps/solution"
@@ -68,7 +68,7 @@ export const columns = [
           as="/components/apps/solution"
         >
           Desactiver
-        </Link>
+        </Link> */}
       </div>
     ),
   },

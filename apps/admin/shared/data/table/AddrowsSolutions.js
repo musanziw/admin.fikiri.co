@@ -55,7 +55,7 @@ export const SavetableSolutions = () => {
         {/* <td>{truncateText(solution.description, 20)}</td> */}
         <td>{truncateText(solution.targetedProblem, 20)}</td>
         <td> {moment(solution.createdAt).format("DD MMMM YYYY [à] HH:mm")}</td>
-        <td>{solution.thematic.name}</td>
+        <td>{truncateText(solution.thematic.name, 30)}</td>
         <td>
           {/* <Button
             variant=""
@@ -74,14 +74,14 @@ export const SavetableSolutions = () => {
             Details
           </Link>
 
-          <Button
+          {/* <Button
             variant=""
             className="btn btn-danger me-1"
             type="button"
             onClick={() => handleDeleteClick(solution.id)}
           >
             Delete
-          </Button>
+          </Button> */}
         </td>
       </tr>
     );
@@ -150,7 +150,7 @@ export const SavetableSolutions = () => {
               <th>Target</th>
               <th>Date création</th>
               <th>Thématique</th>
-              <th>Actions</th>
+              <th>{"Action"}</th>
             </tr>
           </thead>
           <tbody>

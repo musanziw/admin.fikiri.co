@@ -24,7 +24,7 @@ export const columns = [
     sortable: false,
     cell: (row) => (
       <span>
-        <p className="tx-14 font-weight-semibold text-dark mb-1">{row.name}</p>
+        <p className="tx-14 font-weight-semibold text-dark mb-1">{truncateText(row.name, 45)}</p>
         <p className="tx-12 text-muted mb-0">ODDS : {row.odds}</p>
       </span>
     ),
@@ -56,7 +56,7 @@ export const columns = [
     sortable: false,
     cell: (row) => (
       <div>
-        <Link
+        {/* <Link
           className="btn btn-primary me-1 ms-3"
           href={`/components/apps/solution`}
           as="/components/apps/solution"
@@ -70,7 +70,7 @@ export const columns = [
           as="/components/apps/solution"
         >
           Desactiver
-        </Link>
+        </Link> */}
       </div>
     ),
   },
