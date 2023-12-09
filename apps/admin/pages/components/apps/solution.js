@@ -302,7 +302,6 @@ const Solution = () => {
                                           thematique.challenges.map(
                                             (challenge) => (
                                               <p key={challenge.id}>
-                                                {" "}
                                                 → {challenge.name}
                                               </p>
                                             )
