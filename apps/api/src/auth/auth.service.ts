@@ -16,7 +16,7 @@ export class AuthService {
             password,
             user.password,
         );
-        if (!passwordMatch) throw new BadRequestException('Iidentifiants invalides');
+        if (!passwordMatch) throw new BadRequestException('identifiants invalides');
 
         return {
             message: 'Connexion réussie',

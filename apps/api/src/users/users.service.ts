@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt'
 import {paginate} from "../helpers/paginate";
 import * as fs from 'fs';
 import {promisify} from 'util';
+import {PaginationReturn} from "../types/PaginationReturn";
 
 const unlinkAsync = promisify(fs.unlink);
 
@@ -78,13 +79,25 @@ export class UsersService {
 
     async findAll(page: number): Promise<any> {
         const {offset, limit} = paginate(page, 12)
-        const users = await this.prismaService.user.findMany({
-            skip: offset,
-            take: limit,
-            include: {
-                roles: true
-            },
-        })
+        const [total_count,users] = await this.prismaService.$transaction([
+            this.prismaService.user.count(),
+            this.prismaService.user.findMany({
+                // skip: offset,
+                // take: limit,
+                include: {
+                    roles: true
+                },
+            })
+        ])
+
+        const paginateData: PaginationReturn = {
+            data: users,
+            next_page: users.length < limit ? null : ((total_count - offset) > limit ? page + 1 : null),
+            previous_page: page - 1 ? page - 1 : null,
+            current_page: page,
+            total_count: total_count
+        }
+
         return {
             statusCode: HttpStatus.OK,
             data: users,
