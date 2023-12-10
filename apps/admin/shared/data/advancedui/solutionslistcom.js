@@ -1,73 +1,75 @@
-import React, { useState, useEffect } from "react";
-import { Button, Row, Col, Card, Spinner } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  Row,
+  Col,
+  Card,
+  Spinner,
+  Form,
+  FormGroup,
+  Modal,
+} from "react-bootstrap";
 import DataTable from "react-data-table-component";
-import { columns } from "./thematiquelist ";
+import { data, columns } from "./solutionslist";
 import axios from "@/pages/api/axios";
 
-const Thematiquecom = () => {
-  const [thematiques, setThematiques] = useState();
-  const [isLoadingThematique, setIsLoadingThematique] = useState(false);
+const Solutionslistcom = () => {
+  const [solutions, setSolutions] = useState([]);
+  const [isLoadingSolution, setIsLoadingSolution] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchSolution = async () => {
       try {
-        setIsLoadingThematique(true);
-        const response = await axios.get("/thematics");
-        const thematiqueWithImages = response.data.data.map((thematique)=>({
-          ...thematique,
-          img: (
-            <img
-              src={"../../../assets/img/faces/4.jpg"}
-              className="rounded-circle"
-              alt=""
-            />
-          ),
-          class: "avatar-md rounded-circle",
-        }))
-        setThematiques(thematiqueWithImages);
-        setIsLoadingThematique(false);
+        setIsLoadingSolution(true);
+        const responseSolution = await axios.get("/solutions");
+        const solutionWithImages = responseSolution.data.data.map(
+          (solution) => ({
+            ...solution,
+            img: (
+              <img
+                src={"../../../assets/img/faces/4.jpg"}
+                className="rounded-circle"
+                alt=""
+              />
+            ),
+            class: "avatar-md rounded-circle",
+          })
+        );
+        setSolutions(solutionWithImages);
+        setIsLoadingSolution(false);
       } catch (error) {
-        setIsLoadingThematique(false);
+        setIsLoadingSolution(false);
         console.error("Erreur lors de la récupération des données :", error);
       }
     };
-
-    fetchData();
+    fetchSolution();
   }, []);
 
+  console.log(solutions);
+
   function convertArrayOfObjectsToCSV(array) {
-    if (!array || array.length === 0) {
-      return "";
-    }
-  
     let result;
-  
+
     const columnDelimiter = ",";
     const lineDelimiter = "\n";
-    const keys = Object.keys(array[0]);
-  
+    const keys = Object.keys(data[0]);
+
     result = "";
     result += keys.join(columnDelimiter);
     result += lineDelimiter;
-  
+
     array.forEach((item) => {
       let ctr = 0;
       keys.forEach((key) => {
         if (ctr > 0) result += columnDelimiter;
-  
-        // Handle case where the value might be a React element
-        const value =
-          typeof item[key] === "object" && item[key] !== null
-            ? item[key].props.alt
-            : item[key];
-  
-        result += value;
-  
+
+        result += item[key];
+
         ctr++;
       });
       result += lineDelimiter;
     });
-  
+
     return result;
   }
 
@@ -88,34 +90,38 @@ const Thematiquecom = () => {
   }
 
   const Export = ({ onExport }) => (
-    <Button onClick={() => onExport()}>
-      Exporter les Innovateurs
-    </Button>
+    <Button onClick={(e) => onExport(e.target.value)}>Export</Button>
   );
 
   const actionsMemo = React.useMemo(
-    () => <Export onExport={() => downloadCSV(thematiques)} />,
-    [thematiques]
+    () => <Export onExport={() => downloadCSV(data)} />,
+    []
   );
 
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [toggleCleared, setToggleCleared] = React.useState(false);
-
+  let selectdata = [];
   const handleRowSelected = React.useCallback((state) => {
     setSelectedRows(state.selectedRows);
   }, []);
-
   const contextActions = React.useMemo(() => {
     const Selectdata = () => {
-      if (window.confirm(`download:\r ${selectedRows.map((r) => r.id)}?`)) {
+      if (window.confirm(`download:\r ${selectedRows.map((r) => r.SNO)}?`)) {
         setToggleCleared(!toggleCleared);
-        const selectdata = users.filter((e) => selectedRows.some((sr) => e.id === sr.id));
+        data.map((e) => {
+          selectedRows.map((sr) => {
+            if (e.SNO === sr.SNO) {
+              selectdata.push(e);
+            }
+            return sr;
+          });
+          return e;
+        });
         downloadCSV(selectdata);
       }
     };
-
-    return <Export onExport={Selectdata} icon="true" />;
-  }, [thematiques, selectedRows, toggleCleared]);
+    return <Export onExport={() => Selectdata()} icon="true" />;
+  }, [data, selectdata, selectedRows]);
 
   return (
     <div>
@@ -123,17 +129,17 @@ const Thematiquecom = () => {
         <Col lg={12}>
           <Card className="custom-card">
             <Card.Body>
-              {isLoadingThematique ? ( 
+              {isLoadingSolution ? (
                 <div className="text-center">
                   <Spinner animation="border" variant="primary" />
                 </div>
               ) : (
-                <div className="table-responsive">
+                <div className="table-responsive ">
                   <span className="datatable">
                     <span className="uselistdata">
                       <DataTable
                         columns={columns}
-                        data={thematiques}
+                        data={solutions}
                         actions={actionsMemo}
                         contextActions={contextActions}
                         onSelectedRowsChange={handleRowSelected}
@@ -155,4 +161,4 @@ const Thematiquecom = () => {
   );
 };
 
-export default Thematiquecom;
+export default Solutionslistcom;
