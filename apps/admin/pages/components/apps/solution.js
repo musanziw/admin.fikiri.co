@@ -266,6 +266,15 @@ const Solution = () => {
                                 <div className="p-4">
                                   <h4 className="text-primary tx-17 text-uppercase mb-3">
                                     <b className="text-primary m-b-5 tx-17 text-uppercase">
+                                      Titre
+                                    </b>
+                                  </h4>
+                                  <p className="m-b-5 text-justify tx-15 p-10">
+                                    {solution ? solution.name : ""}
+                                  </p>
+
+                                  <h4 className="text-primary tx-17 text-uppercase mb-3">
+                                    <b className="text-primary m-b-5 tx-17 text-uppercase">
                                       Description
                                     </b>
                                   </h4>
