@@ -12,14 +12,17 @@ import axios from "@/pages/api/axios";
 import moment from "moment";
 
 const Solution = () => {
+
   const [profileInnovateur, setProfileInnovateur] = useState();
   const [solution, setSolution] = useState();
+
   const [thematique, setThematique] = useState();
 
   const [domLoaded, setDomLoaded] = useState(false);
   const [parametreId, setParametreId] = useState(null);
   const [parametreUserId, setParametreUserId] = useState(null);
   const [parametreThematiqueId, setParametreThematiqueId] = useState(null);
+  
   const navigate = useRouter();
   const id = navigate.query.id;
   const innovateurId = navigate.query.innovateurId;
@@ -35,6 +38,7 @@ const Solution = () => {
     const status = JSON.parse(localStorage.getItem("STATUS_ACCOUNT"));
 
     if (status.authenticate) {
+
       setDomLoaded(true);
       setParametreId(id);
       setParametreUserId(innovateurId);
@@ -90,6 +94,7 @@ const Solution = () => {
       fetchSolution();
       fetchThematique();
       fetchStatus();
+
     } else {
       navigate.push("/");
     }
@@ -131,7 +136,6 @@ const Solution = () => {
     <div>
       <Seo title={"Profile"} />
 
-      {/* <!-- breadcrumb --> */}
       <div className="breadcrumb-header justify-content-between">
         <div className="left-content">
           <span className="main-content-title mg-b-0 mg-b-lg-1">
@@ -153,7 +157,6 @@ const Solution = () => {
           </Breadcrumb>
         </div>
       </div>
-      {/* <!-- /breadcrumb --> */}
 
       <Row>
         <Col lg={12} md={12}>
@@ -421,7 +424,6 @@ const Solution = () => {
       <Row className=" row-sm">
         <Col lg={12} md={12}>
           <div className="tab-content"></div>
-          {/* </div> */}
         </Col>
       </Row>
 

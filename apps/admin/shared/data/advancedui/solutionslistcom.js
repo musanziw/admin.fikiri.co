@@ -60,15 +60,14 @@ const Solutionslistcom = () => {
       let ctr = 0;
       keys.forEach((key) => {
         if (ctr > 0) result += columnDelimiter;
-  
 
         const value =
           typeof item[key] === "object" && item[key] !== null
             ? item[key].props.alt
             : item[key];
-  
+
         result += value;
-  
+
         ctr++;
       });
       result += lineDelimiter;
@@ -81,37 +80,35 @@ const Solutionslistcom = () => {
     if (!array || array.length === 0) {
       return "";
     }
-  
+
     let result;
-  
+
     const columnDelimiter = ",";
     const lineDelimiter = "\n";
     const keys = Object.keys(array[0]);
-  
+
     result = "";
     result += keys.join(columnDelimiter);
     result += lineDelimiter;
-  
+
     array.forEach((item) => {
       let ctr = 0;
       keys.forEach((key) => {
         if (ctr > 0) result += columnDelimiter;
-  
+
         // Handle case where the value might be a React element
         try {
           const value =
-              typeof item[key] === "object" && item[key] !== null
-                  ? item[key]?.props?.alt
-                  : item[key];
+            typeof item[key] === "object" && item[key] !== null
+              ? item[key]?.props?.alt
+              : item[key];
           result += value;
-        }catch (e) {
-
-        }
+        } catch (e) {}
         ctr++;
       });
       result += lineDelimiter;
     });
-  
+
     return result;
   }
 
@@ -132,9 +129,7 @@ const Solutionslistcom = () => {
   }
 
   const Export = ({ onExport }) => (
-    <Button onClick={() => onExport()}>
-      Exporter les Innovateurs
-    </Button>
+    <Button onClick={() => onExport()}>Exporter les Innovateurs</Button>
   );
 
   const actionsMemo = React.useMemo(
@@ -153,7 +148,9 @@ const Solutionslistcom = () => {
     const Selectdata = () => {
       if (window.confirm(`download:\r ${selectedRows.map((r) => r.id)}?`)) {
         setToggleCleared(!toggleCleared);
-        const selectdata = solutions.filter((e) => selectedRows.some((sr) => e.id === sr.id));
+        const selectdata = solutions.filter((e) =>
+          selectedRows.some((sr) => e.id === sr.id)
+        );
         downloadCSV(selectdata);
       }
     };

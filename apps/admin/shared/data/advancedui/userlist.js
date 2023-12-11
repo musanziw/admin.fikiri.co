@@ -47,16 +47,15 @@ export const columns = [
       </span>
     ),
   },
-
   {
     name: "Action",
     selector: (row) => [row.Action],
     sortable: false,
     cell: (row) => (
       <div>
-        {/* <Link
-          className="btn btn-primary me-1 ms-3"
-          href={`/components/apps/solution`}
+        <Link
+          className="btn btn-primary me-1"
+          href={`/components/apps/detailInnovateur?id=${row.id}`}
           as="/components/apps/solution"
         >
           Detail
@@ -67,8 +66,8 @@ export const columns = [
           href={`/components/apps/solution`}
           as="/components/apps/solution"
         >
-          Desactiver
-        </Link> */}
+          Supprimer
+        </Link>
       </div>
     ),
   },
