@@ -2,7 +2,7 @@
 
 import {Input} from "@/app/utils/Input";
 import {useEffect, useState} from "react";
-import {AuthCard} from "@/app/utils/AuthCard";
+import {FormCard} from "@/app/utils/FormCard";
 import Topbar from "@/app/components/Topbar";
 import axios from "@/app/config/axios";
 import {toast} from "react-toastify";
@@ -60,7 +60,7 @@ export default function Solution({params}: { params: { id: string } }) {
     return (
         <>
             <Topbar background={'bg-white'}/>
-            <AuthCard title={'Modifier la solution'}>
+            <FormCard title={'Modifier la solution'}>
                 <form action="" className={'flex flex-col gap-5'}>
 
                     <FilePond
@@ -109,7 +109,7 @@ export default function Solution({params}: { params: { id: string } }) {
                         {pending ? "Mise à jour..." : "Enregistrez les informations"}
                     </button>
                 </form>
-            </AuthCard>
+            </FormCard>
         </>
     )
 }
