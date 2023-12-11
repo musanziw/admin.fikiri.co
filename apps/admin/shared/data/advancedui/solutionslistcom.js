@@ -1,73 +1,114 @@
-import React, { useState, useEffect } from "react";
-import { Button, Row, Col, Card, Spinner } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  Row,
+  Col,
+  Card,
+  Spinner,
+  Form,
+  FormGroup,
+  Modal,
+} from "react-bootstrap";
 import DataTable from "react-data-table-component";
-import { columns } from "./thematiquelist ";
+import { data, columns } from "./solutionslist";
 import axios from "@/pages/api/axios";
 
-const Thematiquecom = () => {
-  const [thematiques, setThematiques] = useState();
-  const [isLoadingThematique, setIsLoadingThematique] = useState(false);
+const Solutionslistcom = () => {
+  const [solutions, setSolutions] = useState([]);
+  const [isLoadingSolution, setIsLoadingSolution] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchSolution = async () => {
       try {
-        setIsLoadingThematique(true);
-        const response = await axios.get("/thematics");
-        const thematiqueWithImages = response.data.data.map((thematique)=>({
-          ...thematique,
-          img: (
-            <img
-              src={"../../../assets/img/faces/4.jpg"}
-              className="rounded-circle"
-              alt=""
-            />
-          ),
-          class: "avatar-md rounded-circle",
-        }))
-        setThematiques(thematiqueWithImages);
-        setIsLoadingThematique(false);
+        setIsLoadingSolution(true);
+        const responseSolution = await axios.get("/solutions");
+        const solutionWithImages = responseSolution.data.data.map(
+          (solution) => ({
+            ...solution,
+            img: (
+              <img
+                src={"../../../assets/img/faces/4.jpg"}
+                className="rounded-circle"
+                alt=""
+              />
+            ),
+            class: "avatar-md rounded-circle",
+          })
+        );
+        setSolutions(solutionWithImages);
+        setIsLoadingSolution(false);
       } catch (error) {
-        setIsLoadingThematique(false);
+        setIsLoadingSolution(false);
         console.error("Erreur lors de la récupération des données :", error);
       }
     };
-
-    fetchData();
+    fetchSolution();
   }, []);
 
   function convertArrayOfObjectsToCSV(array) {
-    if (!array || array.length === 0) {
-      return "";
-    }
-  
     let result;
-  
+
     const columnDelimiter = ",";
     const lineDelimiter = "\n";
     const keys = Object.keys(array[0]);
-  
+
     result = "";
     result += keys.join(columnDelimiter);
     result += lineDelimiter;
-  
+
     array.forEach((item) => {
       let ctr = 0;
       keys.forEach((key) => {
         if (ctr > 0) result += columnDelimiter;
-  
 
         const value =
           typeof item[key] === "object" && item[key] !== null
             ? item[key].props.alt
             : item[key];
-  
+
         result += value;
-  
+
         ctr++;
       });
       result += lineDelimiter;
     });
-  
+
+    return result;
+  }
+
+  function convertArrayOfObjectsToCSV(array) {
+    if (!array || array.length === 0) {
+      return "";
+    }
+
+    let result;
+
+    const columnDelimiter = ",";
+    const lineDelimiter = "\n";
+    const keys = Object.keys(array[0]);
+
+    result = "";
+    result += keys.join(columnDelimiter);
+    result += lineDelimiter;
+
+    array.forEach((item) => {
+      let ctr = 0;
+      keys.forEach((key) => {
+        if (ctr > 0) result += columnDelimiter;
+
+        // Handle case where the value might be a React element
+        try {
+          const value =
+            typeof item[key] === "object" && item[key] !== null
+              ? item[key]?.props?.alt
+              : item[key];
+          result += value;
+        } catch (e) {}
+        ctr++;
+      });
+      result += lineDelimiter;
+    });
+
     return result;
   }
 
@@ -88,14 +129,12 @@ const Thematiquecom = () => {
   }
 
   const Export = ({ onExport }) => (
-    <Button onClick={() => onExport()}>
-      Exporter les Innovateurs
-    </Button>
+    <Button onClick={() => onExport()}>Exporter les Innovateurs</Button>
   );
 
   const actionsMemo = React.useMemo(
-    () => <Export onExport={() => downloadCSV(thematiques)} />,
-    [thematiques]
+    () => <Export onExport={() => downloadCSV(solutions)} />,
+    [solutions]
   );
 
   const [selectedRows, setSelectedRows] = React.useState([]);
@@ -109,13 +148,15 @@ const Thematiquecom = () => {
     const Selectdata = () => {
       if (window.confirm(`download:\r ${selectedRows.map((r) => r.id)}?`)) {
         setToggleCleared(!toggleCleared);
-        const selectdata = users.filter((e) => selectedRows.some((sr) => e.id === sr.id));
+        const selectdata = solutions.filter((e) =>
+          selectedRows.some((sr) => e.id === sr.id)
+        );
         downloadCSV(selectdata);
       }
     };
 
     return <Export onExport={Selectdata} icon="true" />;
-  }, [thematiques, selectedRows, toggleCleared]);
+  }, [solutions, selectedRows, toggleCleared]);
 
   return (
     <div>
@@ -123,17 +164,17 @@ const Thematiquecom = () => {
         <Col lg={12}>
           <Card className="custom-card">
             <Card.Body>
-              {isLoadingThematique ? ( 
+              {isLoadingSolution ? (
                 <div className="text-center">
                   <Spinner animation="border" variant="primary" />
                 </div>
               ) : (
-                <div className="table-responsive">
+                <div className="table-responsive ">
                   <span className="datatable">
                     <span className="uselistdata">
                       <DataTable
                         columns={columns}
-                        data={thematiques}
+                        data={solutions}
                         actions={actionsMemo}
                         contextActions={contextActions}
                         onSelectedRowsChange={handleRowSelected}
@@ -155,4 +196,4 @@ const Thematiquecom = () => {
   );
 };
 
-export default Thematiquecom;
+export default Solutionslistcom;

@@ -1,48 +1,24 @@
 import React, { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
+
 import Seo from "@/shared/layout-components/seo/seo";
 
-const ReactApexChart = dynamic(() => import("react-apexcharts"), {
-  ssr: false,
-});
 
 import moment from "moment";
 
 import { useRouter } from "next/router";
 
-import axios from "@/pages/api/axios";
+import axios from "@/pages/api/axios"
 
-import {
-  useTable,
-  useSortBy,
-  useGlobalFilter,
-  usePagination,
-} from "react-table";
+import { Breadcrumb, Col, Row, Card } from "react-bootstrap";
 
-import { Breadcrumb, Col, Row, Card, Button, Form } from "react-bootstrap";
-import Link from "next/link";
-import Select from "react-select";
 
 import * as Dashboarddata from "../../../shared/data/dashboards/dashboards1";
-import {
-  SOLUTIONS_COLUMNS,
-  SOLUTIONS,
-  GlobalFilter,
-} from "../../../shared/data/dashboards/dashboards1";
+
 
 moment.locale("fr");
 
 const Dashboard = () => {
-  const tableInstance = useTable(
-    {
-      columns: SOLUTIONS_COLUMNS,
-      data: SOLUTIONS,
-      initialState: { pageSize: 10 },
-    },
-    useGlobalFilter,
-    useSortBy,
-    usePagination
-  );
+
 
   let navigate = useRouter();
   const [users, setUsers] = useState([]);
@@ -51,34 +27,6 @@ const Dashboard = () => {
   const [solutions, setSolution] = useState([]);
   const [isLoadingSolution, setIsLoadingSolution] = useState(false);
 
-  const [thematique, setThematique] = useState([]);
-  const [isLoadingThematique, setIsLoadingThematique] = useState(false);
-
-  const FormSize = [
-    { value: "5", label: "Show 5" },
-    { value: "10", label: "Show 10" },
-    { value: "15", label: "Show 15" },
-  ];
-
-  const {
-    getTableProps, // table props from react-table
-    headerGroups, // headerGroups, if your table has groupings
-    getTableBodyProps, // table body props from react-table
-    prepareRow, // Prepare the row (this function needs to be called for each row before getting the row props)
-    state,
-    setGlobalFilter,
-    page,
-    nextPage,
-    previousPage,
-    canNextPage,
-    canPreviousPage,
-    pageOptions,
-    gotoPage,
-    pageCount,
-    setPageSize,
-  } = tableInstance;
-
-  const { globalFilter, pageIndex, pageSize } = state;
 
   useEffect(() => {
     const status = JSON.parse(localStorage.getItem("STATUS_ACCOUNT"));
@@ -107,25 +55,14 @@ const Dashboard = () => {
         }
       };
 
-      const fetchThematique = async () => {
-        try {
-          setIsLoadingThematique(true);
-          const thematiqueResponse = await axios.get("/thematics");
-          setThematique(thematiqueResponse.data.data);
-          setIsLoadingThematique(false);
-        } catch (error) {
-          console.log(error);
-          setIsLoadingThematique(false);
-        }
-      };
 
       fetchUsers();
       fetchSolutions();
-      fetchThematique();
+
     } else {
       navigate.push("/");
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <>
@@ -167,9 +104,6 @@ const Dashboard = () => {
                           <p className="text-dark tx-14 mb-3 lh-3">
                             Gérez la plateforme en toute simplicité
                           </p>
-                          {/* <Button variant="" className="btn btn-primary shadow">
-                          Upgrade Now
-                        </Button> */}
                         </div>
                       </Col>
                       <Col
@@ -179,17 +113,6 @@ const Dashboard = () => {
                         sm={12}
                         className="d-flex align-items-center justify-content-center upgrade-chart-circle"
                       >
-                        {/* <div className="chart-circle float-md-end mt-4 mt-md-0">
-                        <ReactApexChart
-                          options={Dashboarddata.Radialbar.options}
-                          series={Dashboarddata.Radialbar.series}
-                          type="radialBar"
-                          height={180}
-                        />
-                        <div className="chart-circle-value circle-style">
-                          <div className="tx-18 font-weight-semibold">85%</div>
-                        </div>
-                      </div> */}
                       </Col>
                     </Row>
                   </Card.Body>
@@ -211,19 +134,11 @@ const Dashboard = () => {
                                 : "0"}
                             </h4>
                           </div>
-                          {/* <p className="mb-0 tx-12 text-muted">
-                          Last week
-                          <i className="fa fa-caret-up mx-2 text-success"></i>
-                          <span className="text-success font-weight-semibold">
-                            +427
-                          </span>
-                        </p> */}
                         </div>
                       </div>
                     </div>
                     <div className="col-4">
                       <div className="circle-icon bg-primary-transparent text-center align-self-center overflow-hidden">
-                        {/* <i className="fe fe-shopping-bag tx-16 text-primary"></i> */}
                         <i className="bi bi-people-fill tx-16 text-primary"></i>
                       </div>
                     </div>
@@ -248,13 +163,6 @@ const Dashboard = () => {
                                 : "0"}
                             </h4>
                           </div>
-                          {/* <p className="mb-0 tx-12 text-muted">
-                          Last week
-                          <i className="fa fa-caret-down mx-2 text-danger"></i>
-                          <span className="font-weight-semibold text-danger">
-                            -453
-                          </span>
-                        </p> */}
                         </div>
                       </div>
                     </div>
@@ -273,7 +181,7 @@ const Dashboard = () => {
                       <div className="ps-4 pt-4 pe-3 pb-4">
                         <div className="">
                           <h6 className="mb-2 tx-12">
-                            {"Solutions non validées"}
+                            {"Solutions Explorées"}
                           </h6>
                         </div>
                         <div className="pb-0 mt-0">
@@ -282,13 +190,6 @@ const Dashboard = () => {
                               0
                             </h4>
                           </div>
-                          {/* <p className="mb-0 tx-12 text-muted">
-                          Last week
-                          <i className="fa fa-caret-up mx-2 text-success"></i>
-                          <span className=" text-success font-weight-semibold">
-                            +788
-                          </span>
-                        </p> */}
                         </div>
                       </div>
                     </div>
@@ -327,78 +228,26 @@ const Dashboard = () => {
                   </Row>
                 </Card>
               </Col>
-              <Col xl={12} lg={12} md={12} xs={12}>
-                <Card>
-                  <Card.Header className="pb-1">
-                    <h3 className="card-title mb-2">Solutions récentes</h3>
-                  </Card.Header>
-                  <Card.Body className=" p-0">
-                    {isLoadingSolution === false &&
-                      solutions.slice(-5).map((solution) => (
-                        <div
-                          className="d-flex align-items-center item  border-bottom my-2"
-                          key={solution.id}
-                        >
-                          <div className="d-flex">
-                            <img
-                              src={"../../../assets/img/svgicons/report.svg"}
-                              alt="img"
-                              className="ht-30 wd-30 me-2 ms-3"
-                            />
-                            <div className="">
-                              <h6 className="">
-                                {solution.name.length > 50
-                                  ? `${solution.name.slice(0, "50")}...`
-                                  : solution.name}
-                              </h6>
-                              <span className="text-muted tx-12">
-                                {moment(solution.createdAt).format(
-                                  "DD MMMM YYYY [à] HH:mm"
-                                )}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="ms-auto my-auto">
-                            <div className="d-flex">
-                              <span className="me-3 mt-1 font-weight-semibold tx-16">
-                                {solution.targetedProblem.length > 15
-                                  ? `${solution.targetedProblem.slice(
-                                      0,
-                                      "15"
-                                    )}...`
-                                  : solution.targetedProblem}
-                              </span>
-                              <span className="text-success fs-13 my-auto">
-                                <i className="fe fe-trending-up text-success mx-2 my-auto"></i>
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                  </Card.Body>
-                </Card>
-              </Col>
             </Row>
           </Col>
           <Col xxl={7} xl={12} lg={12} md={12} sm={12}>
             <Card className=" custom-card overflow-hidden">
               <Card.Header className=" border-bottom-0">
                 <div>
-                  <h3 className="card-title mb-2 ">Projets</h3>
+                  <h3 className="card-title mb-2 ">Solutions</h3>
                   <span className="d-block tx-12 mb-0 text-muted"></span>
                 </div>
               </Card.Header>
               <Card.Body>
-                {/* <div id="statistics1"> */}
+                
                 <Dashboarddata.Statistics1 />
 
-                {/* </div> */}
               </Card.Body>
             </Card>
           </Col>
-          {/* <!-- </div> --> */}
+          
         </Row>
-        {/* <!-- row closed --> */}
+        
       </React.Fragment>
     </>
   );

@@ -47,27 +47,26 @@ export const columns = [
       </span>
     ),
   },
-
   {
     name: "Action",
     selector: (row) => [row.Action],
     sortable: false,
     cell: (row) => (
       <div>
-        {/* <Link
-          className="btn btn-primary me-1 ms-3"
-          href={`/components/apps/solution`}
-          as="/components/apps/solution"
+        <Link
+          className="btn btn-primary me-1"
+          href={`/components/apps/detailInnovateur?id=${row.id}`}
+          as="/components/apps/detailInnovateur"
         >
           Detail
         </Link>
 
-        <Link
+        {/* <Link
           className="btn btn-danger me-1 ms-2"
           href={`/components/apps/solution`}
           as="/components/apps/solution"
         >
-          Desactiver
+          Supprimer
         </Link> */}
       </div>
     ),

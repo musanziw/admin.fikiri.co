@@ -1,42 +1,28 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import {
-  Card,
-  Col,
-  Dropdown,
-  Breadcrumb,
-  Nav,
-  Row,
-  Tab,
-  FormGroup,
-  Form,
-} from "react-bootstrap";
+import { Card, Col, Button, Breadcrumb, Nav, Row, Tab } from "react-bootstrap";
 
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Select from "react-select";
 
-import Link from "next/link";
-import ImageViewer from "react-simple-image-viewer";
-import { images } from "../../../shared/data/pages/profile";
 import Seo from "@/shared/layout-components/seo/seo";
 import { useRouter } from "next/router";
 import axios from "@/pages/api/axios";
 import moment from "moment";
 
 const Solution = () => {
-  const [currentImage, setCurrentImage] = useState(0);
-  const [isViewerOpen, setIsViewerOpen] = useState(false);
 
   const [profileInnovateur, setProfileInnovateur] = useState();
   const [solution, setSolution] = useState();
+
   const [thematique, setThematique] = useState();
-  const [status, setStatus] = useState();
 
   const [domLoaded, setDomLoaded] = useState(false);
   const [parametreId, setParametreId] = useState(null);
   const [parametreUserId, setParametreUserId] = useState(null);
   const [parametreThematiqueId, setParametreThematiqueId] = useState(null);
+  
   const navigate = useRouter();
   const id = navigate.query.id;
   const innovateurId = navigate.query.innovateurId;
@@ -44,13 +30,15 @@ const Solution = () => {
 
   const [options, setOptions] = useState();
   const [selectedOptions, setSelectedOptions] = useState();
-  const [optionId, setOptionId] = useState([]);
-
+  const [optionId, setOptionId] = useState();
+  const [newStatus, setNewStatus] = useState(null);
+  const [isLoadingUpdateStatut, setIsLoadingUpdateStatut] = useState(false);
 
   useEffect(() => {
     const status = JSON.parse(localStorage.getItem("STATUS_ACCOUNT"));
 
     if (status.authenticate) {
+
       setDomLoaded(true);
       setParametreId(id);
       setParametreUserId(innovateurId);
@@ -106,10 +94,15 @@ const Solution = () => {
       fetchSolution();
       fetchThematique();
       fetchStatus();
+
     } else {
       navigate.push("/");
     }
   }, [
+    id,
+    innovateurId,
+    navigate,
+    thematiqueId,
     navigate.query.id,
     navigate.query.innovateurId,
     navigate.query.thematiqueId,
@@ -117,14 +110,32 @@ const Solution = () => {
 
   const handleSelectChange = async (selectedOptions) => {
     setSelectedOptions(selectedOptions);
-    setOptionId([...optionId, selectedOptions.value]);
+    setOptionId(selectedOptions.value);
+    setNewStatus(selectedOptions);
+  };
+
+  const handleChangeStatus = async () => {
+    try {
+      setIsLoadingUpdateStatut(true);
+      if (newStatus) {
+        const response = await axios.patch(`/solutions/${id}`, {
+          status: newStatus.value,
+        });
+
+        toast.success("Statut mis à jour avec succès");
+        setIsLoadingUpdateStatut(false);
+      }
+    } catch (error) {
+      setIsLoadingUpdateStatut(false);
+      console.error("Erreur lors de la mise à jour du statut :", error);
+      toast.error("Erreur lors de la mise à jour du statut");
+    }
   };
 
   return (
     <div>
       <Seo title={"Profile"} />
 
-      {/* <!-- breadcrumb --> */}
       <div className="breadcrumb-header justify-content-between">
         <div className="left-content">
           <span className="main-content-title mg-b-0 mg-b-lg-1">
@@ -146,7 +157,6 @@ const Solution = () => {
           </Breadcrumb>
         </div>
       </div>
-      {/* <!-- /breadcrumb --> */}
 
       <Row>
         <Col lg={12} md={12}>
@@ -252,6 +262,15 @@ const Solution = () => {
                                 <div className="p-4">
                                   <h4 className="text-primary tx-17 text-uppercase mb-3">
                                     <b className="text-primary m-b-5 tx-17 text-uppercase">
+                                      Titre
+                                    </b>
+                                  </h4>
+                                  <p className="m-b-5 text-justify tx-15 p-10">
+                                    {solution ? solution.name : ""}
+                                  </p>
+
+                                  <h4 className="text-primary tx-17 text-uppercase mb-3">
+                                    <b className="text-primary m-b-5 tx-17 text-uppercase">
                                       Description
                                     </b>
                                   </h4>
@@ -324,7 +343,6 @@ const Solution = () => {
                                     </div>
                                   </div>
                                 </div>
-
                               </Card.Body>
                             </Card>
                           </div>
@@ -334,603 +352,64 @@ const Solution = () => {
                             className="main-content-body tab-pane border-top-0"
                             id="edit"
                           >
-                            <Card style={{height: "300px"}}>
+                            <Card style={{ height: "350px" }}>
                               <Card.Body className=" border-0">
                                 <div className="mb-4 main-content-label">
                                   Solution
                                 </div>
                                 <Row className="row">
-                                  <Col md={3}>Status de la Solution</Col>
-                                  <Col md={9}>
+                                  <Col md={2}>Status de la Solution actuel</Col>
+
+                                  <Col md={6}>
+                                    <Select
+                                      options={options}
+                                      onChange={handleSelectChange}
+                                      value={
+                                        solution && solution.status
+                                          ? {
+                                              value: solution.status.id,
+                                              label: solution.status.name,
+                                            }
+                                          : null
+                                      }
+                                      isDisabled={true}
+                                    />
+                                  </Col>
+                                  <Col md={4}></Col>
+                                </Row>
+
+                                <Row className="row mt-5">
+                                  <Col md={2}>Changer le statut</Col>
+                                  <Col md={6}>
                                     <Select
                                       options={options}
                                       onChange={handleSelectChange}
                                     />
                                   </Col>
+                                  <Col md={4}></Col>
+                                </Row>
+
+                                <Row className="row mt-5">
+                                  <Col md={2}></Col>
+                                  <Col md={6}>
+                                    <Button
+                                      variant=""
+                                      className="btn btn-primary"
+                                      type="button"
+                                      onClick={handleChangeStatus}
+                                    >
+                                      {isLoadingUpdateStatut
+                                        ? "Changement en cours..."
+                                        : "Changer le statut"}
+                                    </Button>
+                                  </Col>
+                                  <Col md={4}></Col>
                                 </Row>
                               </Card.Body>
                             </Card>
                           </div>
                         </Tab.Pane>
-                        <Tab.Pane eventKey="Timeline">
-                          {/* <div
-                            className="main-content-body  tab-pane border-top-0"
-                            id="timeline"
-                          >
-                            <div className="border-0">
-                              <div className="main-content-body main-content-body-profile">
-                                <div className="main-profile-body p-0">
-                                  <Row className=" row-sm">
-                                    <div className="col-12">
-                                      <Card className=" mg-b-20 border">
-                                        <Card.Header className=" p-4">
-                                          <div className="media">
-                                            <div className="media-user me-2">
-                                              <div className="main-img-user avatar-md">
-                                                <img
-                                                  alt=""
-                                                  className="rounded-circle"
-                                                  src={
-                                                    "../../../assets/img/faces/6.jpg"
-                                                  }
-                                                />
-                                              </div>
-                                            </div>
-                                            <div className="media-body">
-                                              <h6 className="mb-0 mg-t-2 ms-2">
-                                                Mintrona Pechon Pechon
-                                              </h6>
-                                              <span className="text-primary ms-2">
-                                                just now
-                                              </span>
-                                            </div>
-                                            <div className="ms-auto">
-                                              <Dropdown className=" show main-contact-star">
-                                                <Dropdown.Toggle
-                                                  variant=""
-                                                  className="new option-dots2"
-                                                  data-bs-toggle="dropdown"
-                                                >
-                                                  <i className="fe fe-more-vertical  tx-18"></i>
-                                                </Dropdown.Toggle>
-                                                <Dropdown.Menu className="dropdown-menu shadow">
-                                                  {" "}
-                                                  <Dropdown.Item
-                                                    className="dropdown-item"
-                                                    href="#!"
-                                                  >
-                                                    Edit Post
-                                                  </Dropdown.Item>{" "}
-                                                  <Dropdown.Item
-                                                    className="dropdown-item"
-                                                    href="#!"
-                                                  >
-                                                    Delete Post
-                                                  </Dropdown.Item>{" "}
-                                                  <Dropdown.Item
-                                                    className="dropdown-item"
-                                                    href="#!"
-                                                  >
-                                                    Personal Settings
-                                                  </Dropdown.Item>{" "}
-                                                </Dropdown.Menu>
-                                              </Dropdown>
-                                            </div>
-                                          </div>
-                                        </Card.Header>
-                                        <div className="card-body">
-                                          <p className="mg-t-0">
-                                            There are many variations of
-                                            passages of Lorem Ipsum available,
-                                            but the majority have suffered
-                                            alteration in some form, by injected
-                                            humour, or randomised words which{" "}
-                                            {`don't`} look even slightly
-                                            believable.
-                                          </p>
-                                          <Row className=" row-sm">
-                                            <div className="col">
-                                              <Link
-                                                href={`/components/pages/gallery/`}
-                                              >
-                                                <img
-                                                  alt="img"
-                                                  className="wd-200 br-5 mb-2 mt-2 me-4"
-                                                  src={
-                                                    "../../../assets/img/media/1.jpg"
-                                                  }
-                                                />
-                                              </Link>
-                                              <Link
-                                                href={`/components/pages/gallery/`}
-                                              >
-                                                <img
-                                                  alt="img"
-                                                  className="wd-200 br-5"
-                                                  src={
-                                                    "../../../assets/img/media/2.jpg"
-                                                  }
-                                                />
-                                              </Link>
-                                            </div>
-                                          </Row>
-                                          <div className="media mg-t-15 profile-footer">
-                                            <div className="media-user me-2">
-                                              <div className="demo-avatar-group">
-                                                <div className="demo-avatar-group main-avatar-list-stacked">
-                                                  <div className="main-img-user">
-                                                    <img
-                                                      alt=""
-                                                      className="rounded-circle"
-                                                      src={
-                                                        "../../../assets/img/faces/12.jpg"
-                                                      }
-                                                    />
-                                                  </div>
-                                                  <div className="main-img-user">
-                                                    <img
-                                                      alt=""
-                                                      className="rounded-circle"
-                                                      src={
-                                                        "../../../assets/img/faces/12.jpg"
-                                                      }
-                                                    />
-                                                  </div>
-                                                  <div className="main-img-user online">
-                                                    <img
-                                                      alt=""
-                                                      className="rounded-circle"
-                                                      src={
-                                                        "../../../assets/img/faces/5.jpg"
-                                                      }
-                                                    />
-                                                  </div>
-                                                  <div className="main-img-user">
-                                                    <img
-                                                      alt=""
-                                                      className="rounded-circle"
-                                                      src={
-                                                        "../../../assets/img/faces/6.jpg"
-                                                      }
-                                                    />
-                                                  </div>
-                                                  <div className="main-avatar">
-                                                    {" "}
-                                                    +23{" "}
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="media-body">
-                                              <h6 className="mb-0 mg-t-10">
-                                                28 people like your photo
-                                              </h6>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </Card>
-                                      <Card className=" mg-b-20 border">
-                                        <Card.Header className=" p-4">
-                                          <div className="media">
-                                            <div className="media-user me-2">
-                                              <div className="main-img-user avatar-md">
-                                                <img
-                                                  alt=""
-                                                  className="rounded-circle"
-                                                  src={
-                                                    "../../../assets/img/faces/6.jpg"
-                                                  }
-                                                />
-                                              </div>
-                                            </div>
-                                            <div className="media-body">
-                                              <h6 className="mb-0 ms-2 mg-t-3">
-                                                Mintrona Pechon Pechon
-                                              </h6>
-                                              <span className="text-muted ms-2">
-                                                Sep 26 2019, 10:14am
-                                              </span>
-                                            </div>
-                                            <div className="ms-auto">
-                                              <Dropdown className=" show main-contact-star">
-                                                <Dropdown.Toggle
-                                                  variant=""
-                                                  className="new option-dots2"
-                                                  data-bs-toggle="dropdown"
-                                                >
-                                                  <i className="fe fe-more-vertical  tx-18"></i>
-                                                </Dropdown.Toggle>
-                                                <Dropdown.Menu className="dropdown-menu shadow">
-                                                  {" "}
-                                                  <Dropdown.Item
-                                                    className="dropdown-item"
-                                                    href="#!"
-                                                  >
-                                                    Edit Post
-                                                  </Dropdown.Item>{" "}
-                                                  <Dropdown.Item
-                                                    className="dropdown-item"
-                                                    href="#!"
-                                                  >
-                                                    Delete Post
-                                                  </Dropdown.Item>{" "}
-                                                  <Dropdown.Item
-                                                    className="dropdown-item"
-                                                    href="#!"
-                                                  >
-                                                    Personal Settings
-                                                  </Dropdown.Item>{" "}
-                                                </Dropdown.Menu>
-                                              </Dropdown>
-                                            </div>
-                                          </div>
-                                        </Card.Header>
-                                        <Card.Body className=" h-100">
-                                          <p className="mg-t-0">
-                                            There are many variations of
-                                            passages of Lorem Ipsum available,
-                                            but the majority have suffered
-                                            alteration in some form, by injected
-                                            humour, or randomised words which{" "}
-                                            {`don't`} look even slightly
-                                            believable.
-                                          </p>
-                                          <Row className=" row-sm">
-                                            <div className="col">
-                                              <Link
-                                                href={`/components/pages/gallery/`}
-                                              >
-                                                <img
-                                                  alt="img"
-                                                  className="wd-200 br-5 mb-2 mt-2 me-4"
-                                                  src={
-                                                    "../../../assets/img/media/4.jpg"
-                                                  }
-                                                />
-                                              </Link>
-                                              <Link
-                                                href={`/components/pages/gallery/`}
-                                              >
-                                                <img
-                                                  alt="img"
-                                                  className="wd-200 br-5 mb-2 mt-2"
-                                                  src={
-                                                    "../../../assets/img/media/1.jpg"
-                                                  }
-                                                />
-                                              </Link>
-                                            </div>
-                                          </Row>
-                                          <div className="media mg-t-15 profile-footer">
-                                            <div className="media-user me-2">
-                                              <div className="demo-avatar-group">
-                                                <div className="demo-avatar-group main-avatar-list-stacked">
-                                                  <div className="main-img-user">
-                                                    <img
-                                                      alt=""
-                                                      className="rounded-circle"
-                                                      src={
-                                                        "../../../assets/img/faces/12.jpg"
-                                                      }
-                                                    />
-                                                  </div>
-                                                  <div className="main-img-user online">
-                                                    <img
-                                                      alt=""
-                                                      className="rounded-circle"
-                                                      src={
-                                                        "../../../assets/img/faces/7.jpg"
-                                                      }
-                                                    />
-                                                  </div>
-                                                  <div className="main-img-user online">
-                                                    <img
-                                                      alt=""
-                                                      className="rounded-circle"
-                                                      src={
-                                                        "../../../assets/img/faces/5.jpg"
-                                                      }
-                                                    />
-                                                  </div>
-                                                  <div className="main-img-user">
-                                                    <img
-                                                      alt=""
-                                                      className="rounded-circle"
-                                                      src={
-                                                        "../../../assets/img/faces/6.jpg"
-                                                      }
-                                                    />
-                                                  </div>
-                                                  <div className="main-avatar">
-                                                    {" "}
-                                                    +23{" "}
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="media-body">
-                                              <h6 className="mb-0 mg-t-10">
-                                                28 people like your photo
-                                              </h6>
-                                            </div>
-                                          </div>
-                                        </Card.Body>
-                                      </Card>
-                                      <Card className=" mg-b-20 border">
-                                        <Card.Header className=" p-4">
-                                          <div className="media">
-                                            <div className="media-user me-2">
-                                              <div className="main-img-user avatar-md">
-                                                <img
-                                                  alt=""
-                                                  className="rounded-circle"
-                                                  src={
-                                                    "../../../assets/img/faces/6.jpg"
-                                                  }
-                                                />
-                                              </div>
-                                            </div>
-                                            <div className="media-body">
-                                              <h6 className="mb-0 ms-2 mg-t-3">
-                                                Mintrona Pechon Pechon
-                                              </h6>
-                                              <span className="text-muted ms-2">
-                                                Sep 26 2019, 10:14am
-                                              </span>
-                                            </div>
-                                            <div className="ms-auto">
-                                              <Dropdown className=" show main-contact-star">
-                                                <Dropdown.Toggle
-                                                  variant=""
-                                                  className="new option-dots2"
-                                                  data-bs-toggle="dropdown"
-                                                >
-                                                  <i className="fe fe-more-vertical  tx-18"></i>
-                                                </Dropdown.Toggle>
-                                                <Dropdown.Menu className="dropdown-menu shadow">
-                                                  {" "}
-                                                  <Dropdown.Item
-                                                    className="dropdown-item"
-                                                    href="#!"
-                                                  >
-                                                    Edit Post
-                                                  </Dropdown.Item>{" "}
-                                                  <Dropdown.Item
-                                                    className="dropdown-item"
-                                                    href="#!"
-                                                  >
-                                                    Delete Post
-                                                  </Dropdown.Item>{" "}
-                                                  <Dropdown.Item
-                                                    className="dropdown-item"
-                                                    href="#!"
-                                                  >
-                                                    Personal Settings
-                                                  </Dropdown.Item>{" "}
-                                                </Dropdown.Menu>
-                                              </Dropdown>
-                                            </div>
-                                          </div>
-                                        </Card.Header>
-                                        <Card.Body className=" h-100">
-                                          <p className="mg-t-0">
-                                            There are many variations of
-                                            passages of Lorem Ipsum available,
-                                            but the majority have suffered
-                                            alteration in some form, by injected
-                                            humour, or randomised words which{" "}
-                                            {`don't`} look even slightly
-                                            believable.
-                                          </p>
-                                          <div className="media mg-t-15 profile-footer">
-                                            <div className="media-user me-2">
-                                              <div className="demo-avatar-group">
-                                                <div className="demo-avatar-group main-avatar-list-stacked">
-                                                  <div className="main-img-user online">
-                                                    <img
-                                                      alt=""
-                                                      className="rounded-circle"
-                                                      src={
-                                                        "../../../assets/img/faces/12.jpg"
-                                                      }
-                                                    />
-                                                  </div>
-                                                  <div className="main-img-user">
-                                                    <img
-                                                      alt=""
-                                                      className="rounded-circle"
-                                                      src={
-                                                        "../../../assets/img/faces/3.jpg"
-                                                      }
-                                                    />
-                                                  </div>
-                                                  <div className="main-img-user">
-                                                    <img
-                                                      alt=""
-                                                      className="rounded-circle"
-                                                      src={
-                                                        "../../../assets/img/faces/4.jpg"
-                                                      }
-                                                    />
-                                                  </div>
-                                                  <div className="main-img-user online">
-                                                    <img
-                                                      alt=""
-                                                      className="rounded-circle"
-                                                      src={
-                                                        "../../../assets/img/faces/10.jpg"
-                                                      }
-                                                    />
-                                                  </div>
-                                                  <div className="main-avatar">
-                                                    {" "}
-                                                    +23{" "}
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="media-body">
-                                              <h6 className="mb-0 mg-t-10">
-                                                28 people like your photo
-                                              </h6>
-                                            </div>
-                                          </div>
-                                        </Card.Body>
-                                      </Card>
-                                      <Card className=" border">
-                                        <Card.Header className=" p-4">
-                                          <div className="media">
-                                            <div className="media-user me-2">
-                                              <div className="main-img-user avatar-md">
-                                                <img
-                                                  alt=""
-                                                  className="rounded-circle"
-                                                  src={
-                                                    "../../../assets/img/faces/2.jpg"
-                                                  }
-                                                />
-                                              </div>
-                                            </div>
-                                            <div className="media-body">
-                                              <h6 className="mb-0 ms-2 mg-t-3">
-                                                Mintrona Pechon Pechon
-                                              </h6>
-                                              <span className="text-muted ms-2">
-                                                Sep 26 2019, 10:14am
-                                              </span>
-                                            </div>
-                                            <div className="ms-auto">
-                                              <Dropdown className=" show main-contact-star">
-                                                <Dropdown.Toggle
-                                                  variant=""
-                                                  className="new option-dots2"
-                                                  data-bs-toggle="dropdown"
-                                                >
-                                                  <i className="fe fe-more-vertical  tx-18"></i>
-                                                </Dropdown.Toggle>
-                                                <Dropdown.Menu className="dropdown-menu shadow">
-                                                  {" "}
-                                                  <Dropdown.Item
-                                                    className="dropdown-item"
-                                                    href="#!"
-                                                  >
-                                                    Edit Post
-                                                  </Dropdown.Item>{" "}
-                                                  <Dropdown.Item
-                                                    className="dropdown-item"
-                                                    href="#!"
-                                                  >
-                                                    Delete Post
-                                                  </Dropdown.Item>{" "}
-                                                  <Dropdown.Item
-                                                    className="dropdown-item"
-                                                    href="#!"
-                                                  >
-                                                    Personal Settings
-                                                  </Dropdown.Item>{" "}
-                                                </Dropdown.Menu>
-                                              </Dropdown>
-                                            </div>
-                                          </div>
-                                        </Card.Header>
-                                        <Card.Body className=" h-100">
-                                          <p className="mg-t-0">
-                                            There are many variations of
-                                            passages of Lorem Ipsum available,
-                                            but the majority have suffered
-                                            alteration in some form, by injected
-                                            humour, or randomised words which{" "}
-                                            {`don't`} look even slightly
-                                            believable.
-                                          </p>
-                                          <Row className=" row-sm">
-                                            <div className="col">
-                                              <Link
-                                                href={`/components/pages/gallery/`}
-                                              >
-                                                <img
-                                                  alt="img"
-                                                  className="wd-200 br-5 mb-2 mt-2 me-3"
-                                                  src={
-                                                    "../../../assets/img/media/4.jpg"
-                                                  }
-                                                />
-                                              </Link>
-                                              <Link
-                                                href={`/components/pages/gallery/`}
-                                              >
-                                                <img
-                                                  alt="img"
-                                                  className="wd-200 br-5 mb-2 mt-2"
-                                                  src={
-                                                    "../../../assets/img/media/3.jpg"
-                                                  }
-                                                />
-                                              </Link>
-                                            </div>
-                                          </Row>
-                                          <div className="media mg-t-15 profile-footer">
-                                            <div className="media-user me-2">
-                                              <div className="demo-avatar-group">
-                                                <div className="demo-avatar-group main-avatar-list-stacked">
-                                                  <div className="main-img-user online">
-                                                    <img
-                                                      alt=""
-                                                      className="rounded-circle"
-                                                      src={
-                                                        "../../../assets/img/faces/11.jpg"
-                                                      }
-                                                    />
-                                                  </div>
-                                                  <div className="main-img-user">
-                                                    <img
-                                                      alt=""
-                                                      className="rounded-circle"
-                                                      src={
-                                                        "../../../assets/img/faces/12.jpg"
-                                                      }
-                                                    />
-                                                  </div>
-                                                  <div className="main-img-user">
-                                                    <img
-                                                      alt=""
-                                                      className="rounded-circle"
-                                                      src={
-                                                        "../../../assets/img/faces/3.jpg"
-                                                      }
-                                                    />
-                                                  </div>
-                                                  <div className="main-img-user online">
-                                                    <img
-                                                      alt=""
-                                                      className="rounded-circle"
-                                                      src={
-                                                        "../../../assets/img/faces/5.jpg"
-                                                      }
-                                                    />
-                                                  </div>
-                                                  <div className="main-avatar">
-                                                    {" "}
-                                                    +23{" "}
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="media-body">
-                                              <h6 className="mb-0 mg-t-10">
-                                                28 people like your photo
-                                              </h6>
-                                            </div>
-                                          </div>
-                                        </Card.Body>
-                                      </Card>
-                                    </div>
-                                  </Row>
-                                </div>
-                              </div>
-                            </div>
-                          </div> */}
-                        </Tab.Pane>
+                        <Tab.Pane eventKey="Timeline"></Tab.Pane>
                       </Tab.Content>
                     </div>
                   </Col>
@@ -942,14 +421,13 @@ const Solution = () => {
         </Col>
       </Row>
 
-      {/* <!-- Row --> */}
       <Row className=" row-sm">
         <Col lg={12} md={12}>
           <div className="tab-content"></div>
-          {/* </div> */}
         </Col>
       </Row>
-      {/* <!-- row closed --> */}
+
+      <ToastContainer />
     </div>
   );
 };
