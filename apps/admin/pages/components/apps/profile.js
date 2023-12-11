@@ -61,7 +61,7 @@ const Profile = () => {
     } else {
       navigate.push("/");
     }
-  }, []);
+  }, [navigate, parametreEmail]);
 
 
   return (
@@ -109,15 +109,6 @@ const Profile = () => {
                   {profile ? profile.name : ""}
                 </h4>
                 <p className="tx-13 text-muted ms-md-4 ms-0 mb-2 pb-2 ">
-                  {/* <span className="me-3">
-                  <i className="far fa-address-card me-2"></i>Ui/Ux Developer
-                </span>
-                <span className="me-3">
-                  <i className="fa fa-taxi me-2"></i>West fransisco,Alabama
-                </span>
-                <span>
-                  <i className="far fa-flag me-2"></i>New Jersey
-                </span> */}
                 </p>
                 <p className="text-muted ms-md-4 ms-0 mb-2">
                   <span>

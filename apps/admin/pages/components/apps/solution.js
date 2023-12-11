@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  Card,
-  Col,
-  Button,
-  Breadcrumb,
-  Nav,
-  Row,
-  Tab,
-} from "react-bootstrap";
+import { Card, Col, Button, Breadcrumb, Nav, Row, Tab } from "react-bootstrap";
 
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,11 +12,9 @@ import axios from "@/pages/api/axios";
 import moment from "moment";
 
 const Solution = () => {
-
   const [profileInnovateur, setProfileInnovateur] = useState();
   const [solution, setSolution] = useState();
   const [thematique, setThematique] = useState();
-
 
   const [domLoaded, setDomLoaded] = useState(false);
   const [parametreId, setParametreId] = useState(null);
@@ -104,6 +94,10 @@ const Solution = () => {
       navigate.push("/");
     }
   }, [
+    id,
+    innovateurId,
+    navigate,
+    thematiqueId,
     navigate.query.id,
     navigate.query.innovateurId,
     navigate.query.thematiqueId,
@@ -124,11 +118,10 @@ const Solution = () => {
         });
 
         toast.success("Statut mis à jour avec succès");
-        setIsLoadingUpdateStatut(false)
+        setIsLoadingUpdateStatut(false);
       }
     } catch (error) {
-
-      setIsLoadingUpdateStatut(false)
+      setIsLoadingUpdateStatut(false);
       console.error("Erreur lors de la mise à jour du statut :", error);
       toast.error("Erreur lors de la mise à jour du statut");
     }
@@ -363,7 +356,7 @@ const Solution = () => {
                                 </div>
                                 <Row className="row">
                                   <Col md={2}>Status de la Solution actuel</Col>
-                                  
+
                                   <Col md={6}>
                                     <Select
                                       options={options}
@@ -402,7 +395,9 @@ const Solution = () => {
                                       type="button"
                                       onClick={handleChangeStatus}
                                     >
-                                      {isLoadingUpdateStatut ? "Changement en cours...":"Changer le statut"}
+                                      {isLoadingUpdateStatut
+                                        ? "Changement en cours..."
+                                        : "Changer le statut"}
                                     </Button>
                                   </Col>
                                   <Col md={4}></Col>
@@ -423,15 +418,14 @@ const Solution = () => {
         </Col>
       </Row>
 
-      
       <Row className=" row-sm">
         <Col lg={12} md={12}>
           <div className="tab-content"></div>
           {/* </div> */}
         </Col>
       </Row>
-      
-      <ToastContainer/>
+
+      <ToastContainer />
     </div>
   );
 };

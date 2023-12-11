@@ -125,7 +125,7 @@ const Dashboard = () => {
     } else {
       navigate.push("/");
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <>
