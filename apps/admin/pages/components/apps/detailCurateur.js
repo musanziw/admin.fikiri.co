@@ -10,7 +10,7 @@ import axios from "@/pages/api/axios";
 import { useRouter } from "next/router";
 import moment from "moment";
 
-const detailCurateur = () => {
+const DetailCurateur = () => {
 
   const [profileInnovateur, setProfileInnovateur] = useState();
   const [domLoaded, setDomLoaded] = useState(false);
@@ -131,10 +131,10 @@ const detailCurateur = () => {
   );
 };
 
-detailCurateur.propTypes = {};
+DetailCurateur.propTypes = {};
 
-detailCurateur.defaultProps = {};
+DetailCurateur.defaultProps = {};
 
-detailCurateur.layout = "Contentlayout";
+DetailCurateur.layout = "Contentlayout";
 
-export default detailCurateur;
+export default DetailCurateur;
