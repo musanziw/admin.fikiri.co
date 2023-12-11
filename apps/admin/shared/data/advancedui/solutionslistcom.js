@@ -45,14 +45,12 @@ const Solutionslistcom = () => {
     fetchSolution();
   }, []);
 
-  console.log(solutions);
-
   function convertArrayOfObjectsToCSV(array) {
     let result;
 
     const columnDelimiter = ",";
     const lineDelimiter = "\n";
-    const keys = Object.keys(data[0]);
+    const keys = Object.keys(array[0]);
 
     result = "";
     result += keys.join(columnDelimiter);
@@ -62,14 +60,58 @@ const Solutionslistcom = () => {
       let ctr = 0;
       keys.forEach((key) => {
         if (ctr > 0) result += columnDelimiter;
+  
 
-        result += item[key];
-
+        const value =
+          typeof item[key] === "object" && item[key] !== null
+            ? item[key].props.alt
+            : item[key];
+  
+        result += value;
+  
         ctr++;
       });
       result += lineDelimiter;
     });
 
+    return result;
+  }
+
+  function convertArrayOfObjectsToCSV(array) {
+    if (!array || array.length === 0) {
+      return "";
+    }
+  
+    let result;
+  
+    const columnDelimiter = ",";
+    const lineDelimiter = "\n";
+    const keys = Object.keys(array[0]);
+  
+    result = "";
+    result += keys.join(columnDelimiter);
+    result += lineDelimiter;
+  
+    array.forEach((item) => {
+      let ctr = 0;
+      keys.forEach((key) => {
+        if (ctr > 0) result += columnDelimiter;
+  
+        // Handle case where the value might be a React element
+        try {
+          const value =
+              typeof item[key] === "object" && item[key] !== null
+                  ? item[key]?.props?.alt
+                  : item[key];
+          result += value;
+        }catch (e) {
+
+        }
+        ctr++;
+      });
+      result += lineDelimiter;
+    });
+  
     return result;
   }
 
@@ -90,38 +132,34 @@ const Solutionslistcom = () => {
   }
 
   const Export = ({ onExport }) => (
-    <Button onClick={(e) => onExport(e.target.value)}>Export</Button>
+    <Button onClick={() => onExport()}>
+      Exporter les Innovateurs
+    </Button>
   );
 
   const actionsMemo = React.useMemo(
-    () => <Export onExport={() => downloadCSV(data)} />,
-    []
+    () => <Export onExport={() => downloadCSV(solutions)} />,
+    [solutions]
   );
 
   const [selectedRows, setSelectedRows] = React.useState([]);
   const [toggleCleared, setToggleCleared] = React.useState(false);
-  let selectdata = [];
+
   const handleRowSelected = React.useCallback((state) => {
     setSelectedRows(state.selectedRows);
   }, []);
+
   const contextActions = React.useMemo(() => {
     const Selectdata = () => {
-      if (window.confirm(`download:\r ${selectedRows.map((r) => r.SNO)}?`)) {
+      if (window.confirm(`download:\r ${selectedRows.map((r) => r.id)}?`)) {
         setToggleCleared(!toggleCleared);
-        data.map((e) => {
-          selectedRows.map((sr) => {
-            if (e.SNO === sr.SNO) {
-              selectdata.push(e);
-            }
-            return sr;
-          });
-          return e;
-        });
+        const selectdata = solutions.filter((e) => selectedRows.some((sr) => e.id === sr.id));
         downloadCSV(selectdata);
       }
     };
-    return <Export onExport={() => Selectdata()} icon="true" />;
-  }, [data, selectdata, selectedRows]);
+
+    return <Export onExport={Selectdata} icon="true" />;
+  }, [solutions, selectedRows, toggleCleared]);
 
   return (
     <div>

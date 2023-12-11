@@ -47,7 +47,7 @@ export const columns = [
     sortable: false,
     cell: (row) => (
       <span>
-        <span className="badge tx-13">
+        <span className=" tx-13">
           {truncateText(row.targetedProblem, 30)}
         </span>
       </span>

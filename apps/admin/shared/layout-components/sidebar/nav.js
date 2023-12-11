@@ -66,7 +66,7 @@ export const MENUITEMS = [
         title: "Curateurs",
       },
       {
-        path: `/components/apps/project`,
+        path: `/components/apps/solutions`,
         icon: (
           <svg
             xmlns="http://www.w3.org/2000/svg"
