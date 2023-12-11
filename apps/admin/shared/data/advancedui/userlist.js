@@ -56,18 +56,18 @@ export const columns = [
         <Link
           className="btn btn-primary me-1"
           href={`/components/apps/detailInnovateur?id=${row.id}`}
-          as="/components/apps/solution"
+          as="/components/apps/detailInnovateur"
         >
           Detail
         </Link>
 
-        <Link
+        {/* <Link
           className="btn btn-danger me-1 ms-2"
           href={`/components/apps/solution`}
           as="/components/apps/solution"
         >
           Supprimer
-        </Link>
+        </Link> */}
       </div>
     ),
   },

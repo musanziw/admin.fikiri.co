@@ -49,7 +49,7 @@ export default function Home() {
   let navigate = useRouter();
 
   const routeChange = () => {
-    let path = `/components/dashboards/dashboard1`;
+    let path = `/components/dashboards/dashboard`;
     navigate.push(path);
   };
 

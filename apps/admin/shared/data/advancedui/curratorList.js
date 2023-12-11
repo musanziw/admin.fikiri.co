@@ -59,20 +59,20 @@ export const columns = [
     sortable: false,
     cell: (row) => (
       <div>
-        {/* <Link
-          className="btn btn-primary me-1 ms-3"
-          href={`/components/apps/solution`}
-          as="/components/apps/solution"
+        <Link
+          className="btn btn-primary me-1"
+          href={`/components/apps/detailCurateur?id=${row.id}`}
+          as="/components/apps/detailCurateur"
         >
           Detail
         </Link>
 
-        <Link
+        {/* <Link
           className="btn btn-danger me-1 ms-2"
           href={`/components/apps/solution`}
           as="/components/apps/solution"
         >
-          Desactiver
+          Supprimer
         </Link> */}
       </div>
     ),

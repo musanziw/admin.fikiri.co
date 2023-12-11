@@ -79,7 +79,7 @@ const DetailCurateur = () => {
                 </h4>
                 <p className="tx-13 text-muted ms-md-4 ms-0 mb-2 pb-2 ">
                   <span className="me-3">
-                    <i className="far fa-address-card me-2"></i>Innovateur
+                    <i className="far fa-address-card me-2"></i>Curateur
                   </span>
                   <span className="me-3">
                     <i class="bi bi-geo-alt-fill me-2"></i>

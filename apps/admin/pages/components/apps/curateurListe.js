@@ -169,9 +169,7 @@ const CurrateurList = () => {
           </Modal>
         </div>
       </div>
-      {/* <!-- /breadcrumb -->
-			<!--Row-->
-			<!-- Row --> */}
+
       <CurratorList />
       <ToastContainer/>
     </div>
