@@ -3,7 +3,7 @@ export const MENUITEMS = [
     menutitle: "Main",
     Items: [
       {
-        path: `/components/dashboards/dashboard1`,
+        path: `/components/dashboards/dashboard`,
         icon: (
           <svg
             xmlns="http://www.w3.org/2000/svg"
