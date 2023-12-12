@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Button, Row, Col, Card, Spinner } from "react-bootstrap";
+import { Button, Row, Col, Card, Spinner, Modal } from "react-bootstrap";
 import DataTable from "react-data-table-component";
-import { columns } from "./userlist";
+import { columns as configureColumns} from "./userlist";
 import axios from "@/pages/api/axios";
 
 const Userlistcom = () => {
   const [users, setUsers] = useState([]);
   const [isLoadingUsers, setIsLoadingUsers] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -36,7 +38,16 @@ const Userlistcom = () => {
     };
     fetchUser();
   }, []);
+  const handleShowModal = (user) => {
+    setSelectedUser(user);
+    setShowModal(true);
+  };
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedUser(null);
+  };
 
+  const columns = configureColumns(handleShowModal);
 
   function convertArrayOfObjectsToCSV(array) {
     if (!array || array.length === 0) {
@@ -57,8 +68,7 @@ const Userlistcom = () => {
       let ctr = 0;
       keys.forEach((key) => {
         if (ctr > 0) result += columnDelimiter;
-  
-        
+
         try {
           const value =
               typeof item[key] === "object" && item[key] !== null
@@ -158,6 +168,24 @@ const Userlistcom = () => {
           </Card>
         </Col>
       </Row>
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Détails de l'Innovateur</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {selectedUser && (
+              <div>
+                <p>Nom: {selectedUser.name}</p>
+                <p>Email: {selectedUser.email}</p>
+              </div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Fermer
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
