@@ -1,6 +1,6 @@
 import React from "react";
-
 import Link from "next/link";
+import {Button} from "react-bootstrap";
 
 const truncateText = (text, maxLength) => {
   if (text.length > maxLength) {
@@ -37,6 +37,7 @@ export const columns = [
       </span>
     ),
   },
+
   {
     name: "Adresse",
     selector: (row) => [row.address],
@@ -48,26 +49,16 @@ export const columns = [
     ),
   },
   {
-    name: "Action",
+    name: "Actions",
     selector: (row) => [row.Action],
     sortable: false,
     cell: (row) => (
       <div>
-        <Link
-          className="btn btn-primary me-1"
-          href={`/components/apps/detailInnovateur?id=${row.id}`}
-          as="/components/apps/detailInnovateur"
-        >
-          Detail
-        </Link>
-
-        {/* <Link
-          className="btn btn-danger me-1 ms-2"
-          href={`/components/apps/solution`}
-          as="/components/apps/solution"
-        >
-          Supprimer
-        </Link> */}
+        {/*<Link href={`/apps/users/${row.id}`}>*/}
+        {/*  <Button variant="outline-primary" size="sm">*/}
+        {/*    Voir Détails*/}
+        {/*  </Button>*/}
+        {/*</Link>*/}
       </div>
     ),
   },
