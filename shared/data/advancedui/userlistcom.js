@@ -3,8 +3,10 @@ import { Button, Row, Col, Card, Spinner, Modal } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import { columns as configureColumns} from "./userlist";
 import axios from "@/pages/api/axios";
+import moment from "moment";
 
 const Userlistcom = () => {
+
   const [users, setUsers] = useState([]);
   const [isLoadingUsers, setIsLoadingUsers] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -167,17 +169,78 @@ const Userlistcom = () => {
           </Card>
         </Col>
       </Row>
-      <Modal show={showModal} onHide={handleCloseModal}>
+      <Modal size="lg" show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>Détails de l'Innovateur</Modal.Title>
+          {/*<Button className="btn btn-close ms-auto" onClick={handleCloseModal}>X</Button>*/}
         </Modal.Header>
         <Modal.Body>
-          {selectedUser && (
-              <div>
-                <p>Nom: {selectedUser.name}</p>
-                <p>Email: {selectedUser.email}</p>
+            <Col lg={12} md={12}>
+          <Card className="custom-card customs-cards">
+            <Card.Body className=" d-md-flex bg-white">
+              <div className="">
+                <span className="profile-image pos-relative">
+                  <img
+                      className="br-5"
+                      alt=""
+                      src={"../../../assets/img/faces/profile.jpg"}
+                  />
+                  <span className="bg-success text-white wd-1 ht-1 rounded-pill profile-online"></span>
+                </span>
               </div>
-          )}
+              <div className="my-md-auto mt-4 prof-details">
+                <h4 className="font-weight-semibold ms-md-4 ms-0 mb-1 pb-0">
+                  {selectedUser ? selectedUser.name : ""}
+                </h4>
+                <p className="tx-13 text-muted ms-md-4 ms-0 mb-2 pb-2 ">
+                  <span className="me-3">
+                    <i className="far fa-address-card me-2"></i>Curateur
+                  </span>
+                  <span className="me-3">
+                    <i class="bi bi-geo-alt-fill me-2"></i>
+                    {selectedUser ? selectedUser.address : ""}
+                  </span>
+                  <span>
+                    <i className="far fa-flag me-2"></i>RDC
+                  </span>
+                </p>
+                <p className="text-muted ms-md-4 ms-0 mb-2">
+                  <span>
+                    <i className="fa fa-phone me-2"></i>
+                  </span>
+                  <span className="font-weight-semibold me-2">Phone:</span>
+                  <span>
+                    {selectedUser ? selectedUser.phoneNumber : ""}
+                  </span>
+                </p>
+                <p className="text-muted ms-md-4 ms-0 mb-2">
+                  <span>
+                    <i className="fa fa-envelope me-2"></i>
+                  </span>
+                  <span className="font-weight-semibold me-2">Email:</span>
+                  <span>
+                    {selectedUser ? selectedUser.email : ""}
+                  </span>
+                </p>
+                <p className="text-muted ms-md-4 ms-0 mb-2">
+                  <span>
+                    <i class="bi bi-calendar-check me-2"></i>
+                  </span>
+                  <span className="font-weight-semibold me-2">
+                    {"Date d'inscription sur la plateforme:"}
+                  </span>
+                  <span>
+                    {selectedUser
+                        ? moment(selectedUser.createdAt).format(
+                            "DD MMMM YYYY [à] HH:mm"
+                        )
+                        : ""}
+                  </span>
+                </p>
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
