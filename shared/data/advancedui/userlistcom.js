@@ -48,7 +48,6 @@ const Userlistcom = () => {
   };
 
   const columns = configureColumns(handleShowModal);
-
   function convertArrayOfObjectsToCSV(array) {
     if (!array || array.length === 0) {
       return "";
@@ -189,5 +188,4 @@ const Userlistcom = () => {
     </div>
   );
 };
-
 export default Userlistcom;

@@ -8,7 +8,6 @@ const truncateText = (text, maxLength) => {
   }
   return text;
 };
-
 export const columns = (handleShowModal) => [
   {
     name: "Photo",
