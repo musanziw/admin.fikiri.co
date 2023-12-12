@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import Seo from "@/shared/layout-components/seo/seo";
 
-
 import moment from "moment";
 
 import { useRouter } from "next/router";
@@ -11,14 +10,12 @@ import axios from "@/pages/api/axios"
 
 import { Breadcrumb, Col, Row, Card } from "react-bootstrap";
 
-
 import * as Dashboarddata from "../../../shared/data/dashboards/dashboards1";
 
 
 moment.locale("fr");
 
 const Dashboard = () => {
-
 
   let navigate = useRouter();
   const [users, setUsers] = useState([]);
@@ -86,7 +83,6 @@ const Dashboard = () => {
           </div>
         </div>
         {/* <!-- /breadcrumb --> */}
-
         {/* <!-- row --> */}
         <Row>
           <Col xxl={5} xl={12} lg={12} md={12} sm={12}>
@@ -238,16 +234,12 @@ const Dashboard = () => {
                   <span className="d-block tx-12 mb-0 text-muted"></span>
                 </div>
               </Card.Header>
-              <Card.Body>
-                
+              <Card.Body>  
                 <Dashboarddata.Statistics1 />
-
               </Card.Body>
             </Card>
           </Col>
-          
         </Row>
-        
       </React.Fragment>
     </>
   );

@@ -12,6 +12,7 @@ import Seo from "@/shared/layout-components/seo/seo";
 const LOGIN_URI = "/auth/login";
 
 export default function Home() {
+
   useEffect(() => {
     if (document.body) {
       document
@@ -62,21 +63,24 @@ export default function Home() {
       const response = await axios.post(LOGIN_URI, JSON.stringify(data));
 
       if (response.data.data) {
-        toast.success("Connexion réussie ");
-
-        localStorage.setItem(
-          "ACCESS_ACCOUNT",
-          JSON.stringify(response.data.data)
-        );
-        localStorage.setItem(
-          "STATUS_ACCOUNT",
-          JSON.stringify({ authenticate: true })
-        );
-
+          if(response.data.data.roles[0].name === "CURATOR" || response.data.data.roles[0].name === "ADMIN" || response.data.data.roles[0].name === "EXPLORATOR"){
+              toast.success("Connexion réussie ");
+              localStorage.setItem(
+                  "ACCESS_ACCOUNT",
+                  JSON.stringify(response.data.data)
+              );
+              localStorage.setItem(
+                  "STATUS_ACCOUNT",
+                  JSON.stringify({ authenticate: true })
+              );
+              setIsLoading(false);
+              setTimeout(() => {
+                  routeChange();
+              }, 2000);
+          }
+      }else {
+        toast.error("Veuillez vérifier vos identifiants");
         setIsLoading(false);
-        setTimeout(() => {
-          routeChange();
-        }, 2000);
       }
     } catch (e) {
       toast.error(e?.response?.data?.message);
@@ -93,7 +97,9 @@ export default function Home() {
         <meta name="description" content="Spruha" />
         <link rel="icon" href={favicon.src} />
       </Head>
+
       <Seo title={"Login"} />
+
       <div className="square-box">
         <div></div> <div></div> <div></div> <div></div> <div></div> <div></div>
         <div></div> <div></div> <div></div> <div></div> <div></div> <div></div>
@@ -113,7 +119,6 @@ export default function Home() {
                 className="card-sigin-main mx-auto my-auto py-4 justify-content-center"
               >
                 <div className="card-sigin">
-                  {/* <!-- Demo content--> */}
                   <div className="main-card-signin d-md-flex">
                     <div className="wd-100p">
                       <div className="d-flex mb-4">
@@ -166,60 +171,13 @@ export default function Home() {
                                       ? "Connexion en cours..."
                                       : "Se connecter"}
                                   </Button>
-                                  {/* <div className="mt-4 d-flex text-center justify-content-center mb-2">
-                                    <Link
-                                      href="https://www.facebook.com/"
-                                      target="_blank"
-                                      className="btn btn-icon btn-facebook me-2"
-                                      type="button"
-                                    >
-                                      <span className="btn-inner--icon">
-                                        {" "}
-                                        <i className="bx bxl-facebook tx-18 tx-prime"></i>{" "}
-                                      </span>
-                                    </Link>
-                                    <Link
-                                      href="https://www.twitter.com/"
-                                      target="_blank"
-                                      className="btn btn-icon me-2"
-                                      type="button"
-                                    >
-                                      <span className="btn-inner--icon">
-                                        {" "}
-                                        <i className="bx bxl-twitter tx-18 tx-prime"></i>{" "}
-                                      </span>
-                                    </Link>
-                                    <Link
-                                      href="https://www.linkedin.com/"
-                                      target="_blank"
-                                      className="btn btn-icon me-2"
-                                      type="button"
-                                    >
-                                      <span className="btn-inner--icon">
-                                        {" "}
-                                        <i className="bx bxl-linkedin tx-18 tx-prime"></i>{" "}
-                                      </span>
-                                    </Link>
-                                    <Link
-                                      href="https://www.instagram.com/"
-                                      target="_blank"
-                                      className="btn  btn-icon me-2"
-                                      type="button"
-                                    >
-                                      <span className="btn-inner--icon">
-                                        <i className="bx bxl-instagram tx-18 tx-prime"></i>{" "}
-                                      </span>
-                                    </Link>
-                                  </div> */}
                                 </Form>
                               </div>
                             </div>
-
                             <div className="panel-body tabs-menu-body border-0 p-3">
                               <div className="tab-content"></div>
                             </div>
                           </div>
-
                           <div className="main-signin-footer text-center mt-3">
                             <p>
                               <Link href="" className="mb-3">

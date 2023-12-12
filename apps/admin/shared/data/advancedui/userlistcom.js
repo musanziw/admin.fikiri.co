@@ -37,8 +37,6 @@ const Userlistcom = () => {
     fetchUser();
   }, []);
 
-  console.log(users)
-
 
   function convertArrayOfObjectsToCSV(array) {
     if (!array || array.length === 0) {
@@ -60,7 +58,7 @@ const Userlistcom = () => {
       keys.forEach((key) => {
         if (ctr > 0) result += columnDelimiter;
   
-        // Handle case where the value might be a React element
+        
         try {
           const value =
               typeof item[key] === "object" && item[key] !== null
