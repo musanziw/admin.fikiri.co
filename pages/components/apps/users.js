@@ -38,5 +38,4 @@ Userlist.propTypes = {};
 Userlist.defaultProps = {};
 
 Userlist.layout = "Contentlayout"
-
 export default Userlist;
