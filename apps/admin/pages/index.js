@@ -19,7 +19,6 @@ export default function Home() {
         .querySelector("body")
         .classList.add("ltr", "error-page1", "bg-primary");
     }
-
     if (
       localStorage.getItem("ACCESS_ACCOUNT") &&
       localStorage.getItem("STATUS_ACCOUNT")
@@ -27,7 +26,6 @@ export default function Home() {
       localStorage.removeItem("ACCESS_ACCOUNT");
       localStorage.removeItem("STATUS_ACCOUNT");
     }
-
     return () => {
       document.body.classList.remove("ltr", "error-page1", "bg-primary");
     };
@@ -39,46 +37,38 @@ export default function Home() {
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-
   const { email, password } = data;
-
   const changeHandler = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
     setError("");
   };
-
   let navigate = useRouter();
-
   const routeChange = () => {
     let path = `/components/dashboards/dashboard`;
     navigate.push(path);
   };
-
-  const ReactLogin = async (e) => {
+  const Login = async (e) => {
     e.preventDefault();
-
     try {
       setIsLoading(true);
-
       const response = await axios.post(LOGIN_URI, JSON.stringify(data));
 
-      if (response.data.data) {
-          if(response.data.data.roles[0].name === "CURATOR" || response.data.data.roles[0].name === "ADMIN" || response.data.data.roles[0].name === "EXPLORATOR"){
-              toast.success("Connexion réussie ");
-              localStorage.setItem(
-                  "ACCESS_ACCOUNT",
-                  JSON.stringify(response.data.data)
-              );
-              localStorage.setItem(
-                  "STATUS_ACCOUNT",
-                  JSON.stringify({ authenticate: true })
-              );
-              setIsLoading(false);
-              setTimeout(() => {
-                  routeChange();
-              }, 2000);
-          }
-      }else {
+      if(response?.data?.data?.roles[0]?.name === "CURATOR" || response?.data?.data?.roles[0]?.name === "ADMIN" || response?.data?.data?.roles[0]?.name === "EXPLORATOR"){
+          toast.success("Connexion réussie ");
+          localStorage.setItem(
+              "ACCESS_ACCOUNT",
+              JSON.stringify(response.data.data)
+          );
+          localStorage.setItem(
+              "STATUS_ACCOUNT",
+              JSON.stringify({ authenticate: true })
+          );
+          setIsLoading(false);
+          setTimeout(() => {
+              routeChange();
+          }, 2000);
+      }
+      else {
         toast.error("Veuillez vérifier vos identifiants");
         setIsLoading(false);
       }
@@ -90,6 +80,7 @@ export default function Home() {
     }
   };
 
+
   return (
     <>
       <Head>
@@ -97,15 +88,12 @@ export default function Home() {
         <meta name="description" content="Spruha" />
         <link rel="icon" href={favicon.src} />
       </Head>
-
       <Seo title={"Login"} />
-
       <div className="square-box">
         <div></div> <div></div> <div></div> <div></div> <div></div> <div></div>
         <div></div> <div></div> <div></div> <div></div> <div></div> <div></div>
         <div></div> <div></div> <div></div>
       </div>
-
       <div className="page">
         <div className="page-single">
           <div className="container">
@@ -163,7 +151,7 @@ export default function Home() {
                                     />
                                   </Form.Group>
                                   <Button
-                                    onClick={ReactLogin}
+                                    onClick={Login}
                                     variant=""
                                     className="btn btn-primary btn-block"
                                   >
