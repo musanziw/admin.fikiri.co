@@ -7,6 +7,7 @@ const CurratorList = dynamic(
   () => import("@/shared/data/advancedui/curratorListCom"),
   { ssr: false }
 );
+
 import axios from "@/pages/api/axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -44,7 +45,6 @@ const CurrateurList = () => {
         console.log(e);
       }
     };
-
     fetchRole();
   }, []);
 
@@ -77,8 +77,6 @@ const CurrateurList = () => {
   return (
     <div>
       <Seo title={"Curator List"} />
-
-      {/* <!-- breadcrumb --> */}
       <div className="breadcrumb-header justify-content-between">
         <div className="left-content mt-2">
           <Link
@@ -88,7 +86,6 @@ const CurrateurList = () => {
           >
             <i className="fe fe-plus me-2"></i>Nouveau Curateur
           </Link>
-
           <Modal show={show} onHide={handleClose}>
             <Modal.Header className="modal-header">
               <h6 className="modal-title">Ajouter Curateur</h6>
@@ -127,7 +124,6 @@ const CurrateurList = () => {
                   <FormGroup className="form-group">
                     <Select options={options} onChange={handleSelectChange} />
                   </FormGroup>
-
                   <FormGroup className="form-group mb-0 justify-content-end">
                     <div className="checkbox">
                       <div className="custom-checkbox custom-control">
@@ -169,7 +165,6 @@ const CurrateurList = () => {
           </Modal>
         </div>
       </div>
-
       <CurratorList />
       <ToastContainer/>
     </div>
@@ -177,9 +172,6 @@ const CurrateurList = () => {
 };
 
 CurrateurList.propTypes = {};
-
 CurrateurList.defaultProps = {};
-
 CurrateurList.layout = "Contentlayout";
-
 export default CurrateurList;

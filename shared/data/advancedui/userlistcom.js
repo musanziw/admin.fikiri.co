@@ -6,7 +6,6 @@ import axios from "@/pages/api/axios";
 import moment from "moment";
 
 const Userlistcom = () => {
-
   const [users, setUsers] = useState([]);
   const [isLoadingUsers, setIsLoadingUsers] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -75,14 +74,15 @@ const Userlistcom = () => {
               typeof item[key] === "object" && item[key] !== null
                   ? item[key]?.props?.alt
                   : item[key];
-
           result += value;
         }catch (e) {
 
         }
   
         ctr++;
+
       });
+
       result += lineDelimiter;
     });
   
@@ -171,7 +171,7 @@ const Userlistcom = () => {
       </Row>
       <Modal size="lg" show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Détails de l'Innovateur</Modal.Title>
+          <Modal.Title>{"Détails de l'Innovateur"}</Modal.Title>
           {/*<Button className="btn btn-close ms-auto" onClick={handleCloseModal}>X</Button>*/}
         </Modal.Header>
         <Modal.Body>
@@ -194,7 +194,7 @@ const Userlistcom = () => {
                 </h4>
                 <p className="tx-13 text-muted ms-md-4 ms-0 mb-2 pb-2 ">
                   <span className="me-3">
-                    <i className="far fa-address-card me-2"></i>Curateur
+                    <i className="far fa-address-card me-2"></i>Innovateur
                   </span>
                   <span className="me-3">
                     <i class="bi bi-geo-alt-fill me-2"></i>

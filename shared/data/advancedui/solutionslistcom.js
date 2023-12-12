@@ -10,7 +10,7 @@ import {
   Modal,
 } from "react-bootstrap";
 import DataTable from "react-data-table-component";
-import { data, columns } from "./solutionslist";
+import {columns } from "./solutionslist";
 import axios from "@/pages/api/axios";
 
 const Solutionslistcom = () => {
@@ -45,36 +45,36 @@ const Solutionslistcom = () => {
     fetchSolution();
   }, []);
 
-  function convertArrayOfObjectsToCSV(array) {
-    let result;
-
-    const columnDelimiter = ",";
-    const lineDelimiter = "\n";
-    const keys = Object.keys(array[0]);
-
-    result = "";
-    result += keys.join(columnDelimiter);
-    result += lineDelimiter;
-
-    array.forEach((item) => {
-      let ctr = 0;
-      keys.forEach((key) => {
-        if (ctr > 0) result += columnDelimiter;
-
-        const value =
-          typeof item[key] === "object" && item[key] !== null
-            ? item[key].props.alt
-            : item[key];
-
-        result += value;
-
-        ctr++;
-      });
-      result += lineDelimiter;
-    });
-
-    return result;
-  }
+  // function convertArrayOfObjectsToCSV(array) {
+  //   let result;
+  //
+  //   const columnDelimiter = ",";
+  //   const lineDelimiter = "\n";
+  //   const keys = Object.keys(array[0]);
+  //
+  //   result = "";
+  //   result += keys.join(columnDelimiter);
+  //   result += lineDelimiter;
+  //
+  //   array.forEach((item) => {
+  //     let ctr = 0;
+  //     keys.forEach((key) => {
+  //       if (ctr > 0) result += columnDelimiter;
+  //
+  //       const value =
+  //         typeof item[key] === "object" && item[key] !== null
+  //           ? item[key].props.alt
+  //           : item[key];
+  //
+  //       result += value;
+  //
+  //       ctr++;
+  //     });
+  //     result += lineDelimiter;
+  //   });
+  //
+  //   return result;
+  // }
 
   function convertArrayOfObjectsToCSV(array) {
     if (!array || array.length === 0) {
@@ -96,7 +96,6 @@ const Solutionslistcom = () => {
       keys.forEach((key) => {
         if (ctr > 0) result += columnDelimiter;
 
-        // Handle case where the value might be a React element
         try {
           const value =
             typeof item[key] === "object" && item[key] !== null
@@ -195,5 +194,4 @@ const Solutionslistcom = () => {
     </div>
   );
 };
-
 export default Solutionslistcom;

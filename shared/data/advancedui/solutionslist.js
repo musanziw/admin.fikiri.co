@@ -72,7 +72,7 @@ export const columns = [
     cell: (row) => (
       <div>
         <Link
-          className="btn btn-primary me-1"
+          className="btn btn-primary me-1 btn-sm"
           href={`/components/apps/solution?id=${row.id}&innovateurId=${row.userId}&thematiqueId=${row.thematicId}`}
           as="/components/apps/solution"
         >
