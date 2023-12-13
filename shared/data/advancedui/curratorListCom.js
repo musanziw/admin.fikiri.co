@@ -112,7 +112,6 @@ const CurratorList = () => {
     link.setAttribute("download", filename);
     link.click();
   }
-
   const Export = ({ onExport }) => (
     <Button onClick={() => onExport()}>
       Exporter les Innovateurs

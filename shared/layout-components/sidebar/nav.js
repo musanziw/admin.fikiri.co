@@ -137,3 +137,7 @@ export const MENUITEMS = [
     ],
   },
 ];
+
+console.log(localStorage.getItem("STATUS_ACCOUNT"));
+
+

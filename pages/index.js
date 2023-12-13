@@ -10,7 +10,6 @@ import { useRouter } from "next/router";
 import Seo from "@/shared/layout-components/seo/seo";
 
 const LOGIN_URI = "/auth/login";
-
 export default function Home() {
 
   useEffect(() => {
@@ -79,7 +78,6 @@ export default function Home() {
       setIsLoading(false);
     }
   };
-
 
   return (
     <>

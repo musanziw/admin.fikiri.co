@@ -1,8 +1,11 @@
 import dynamic from "next/dynamic";
+
 import React, { useEffect, useState } from "react";
+
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
+
 // import ReactApexChart from "react-apexcharts";
 
 export class Statistics1 extends React.Component {
@@ -19,7 +22,9 @@ export class Statistics1 extends React.Component {
           name: "Solutions en attente",
           data: [34, 22, 37, 56, 21, 35, 60, 34, 56, 78, 89, 53],
         },
-      ],
+      ]
+      ,
+
       options: {
         chart: {
           type: "bar",
