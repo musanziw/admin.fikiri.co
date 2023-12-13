@@ -150,7 +150,6 @@ const Dashboard = () => {
                           <h6 className="mb-2 tx-12">{"Solutions soumises"}</h6>
                         </div>
                         <div className="pb-0 mt-0">
-                          {" "}
                           <i class="bi bi-ban-fill text-secondary"></i>
                           <div className="d-flex">
                             <h4 className="tx-20 font-weight-semibold mb-2">
@@ -234,7 +233,7 @@ const Dashboard = () => {
                   <span className="d-block tx-12 mb-0 text-muted"></span>
                 </div>
               </Card.Header>
-              <Card.Body>  
+              <Card.Body>
                 <Dashboarddata.Statistics1 />
               </Card.Body>
             </Card>
