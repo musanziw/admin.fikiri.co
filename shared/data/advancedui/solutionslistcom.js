@@ -1,40 +1,33 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Row,
-  Col,
-  Card,
-  Spinner,
-  Form,
-  FormGroup,
-  Modal,
-} from "react-bootstrap";
+import { Button, Row, Col, Card, Spinner, Modal } from "react-bootstrap";
 import DataTable from "react-data-table-component";
-import {columns } from "./solutionslist";
+import { columns as configureColumns } from "./solutionslist";
 import axios from "@/pages/api/axios";
 
 const Solutionslistcom = () => {
   const [solutions, setSolutions] = useState([]);
   const [isLoadingSolution, setIsLoadingSolution] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [solutionToDelete, setSolutionToDelete] = useState(null);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [toggleCleared, setToggleCleared] = useState(false);
 
   useEffect(() => {
     const fetchSolution = async () => {
       try {
         setIsLoadingSolution(true);
         const responseSolution = await axios.get("/solutions");
-        const solutionWithImages = responseSolution.data.data.map(
-          (solution) => ({
-            ...solution,
-            img: (
+        const solutionWithImages = responseSolution.data.data.map((solution) => ({
+          ...solution,
+          img: (
               <img
-                src={"../../../assets/img/faces/4.jpg"}
-                className="rounded-circle"
-                alt=""
+                  src={"../../../assets/img/faces/4.jpg"}
+                  className="rounded-circle"
+                  alt=""
               />
-            ),
-            class: "avatar-md rounded-circle",
-          })
-        );
+          ),
+          class: "avatar-md rounded-circle",
+        }));
         setSolutions(solutionWithImages);
         setIsLoadingSolution(false);
       } catch (error) {
@@ -44,38 +37,48 @@ const Solutionslistcom = () => {
     };
     fetchSolution();
   }, []);
+  const handleDelete = (solution) => {
+    setSolutionToDelete(solution);
+    setShowDeleteModal(true);
+  };
 
-  // function convertArrayOfObjectsToCSV(array) {
-  //   let result;
-  //
-  //   const columnDelimiter = ",";
-  //   const lineDelimiter = "\n";
-  //   const keys = Object.keys(array[0]);
-  //
-  //   result = "";
-  //   result += keys.join(columnDelimiter);
-  //   result += lineDelimiter;
-  //
-  //   array.forEach((item) => {
-  //     let ctr = 0;
-  //     keys.forEach((key) => {
-  //       if (ctr > 0) result += columnDelimiter;
-  //
-  //       const value =
-  //         typeof item[key] === "object" && item[key] !== null
-  //           ? item[key].props.alt
-  //           : item[key];
-  //
-  //       result += value;
-  //
-  //       ctr++;
-  //     });
-  //     result += lineDelimiter;
-  //   });
-  //
-  //   return result;
-  // }
+  const handleDeleteSolution = async () => {
+    try {
+      await axios.delete(`/solutions/${solutionToDelete.id}`);
+      setShowDeleteModal(false);
+      setSolutions((prevSolutions) =>
+          prevSolutions.filter((solution) => solution.id !== solutionToDelete.id)
+      );
+    } catch (error) {
+      console.error("Erreur lors de la suppression de la solution :", error);
+    }
+  };
 
+  const columns = configureColumns(handleDelete);
+
+  const handleRowSelected = (state) => {
+    setSelectedRows(state.selectedRows);
+  };
+
+  const handleDownload = () => {
+    if (
+        window.confirm(
+            `download:\r ${selectedRows.map((r) => r.id)}?`
+        )
+    ) {
+      setToggleCleared(!toggleCleared);
+      const selectdata = solutions.filter((e) =>
+          selectedRows.some((sr) => e.id === sr.id)
+      );
+      downloadCSV(selectdata);
+    }
+  };
+
+  const contextActions = (
+      <Button size="sm" onClick={handleDownload}>
+        Exporter les Innovateurs
+      </Button>
+  );
   function convertArrayOfObjectsToCSV(array) {
     if (!array || array.length === 0) {
       return "";
@@ -98,9 +101,9 @@ const Solutionslistcom = () => {
 
         try {
           const value =
-            typeof item[key] === "object" && item[key] !== null
-              ? item[key]?.props?.alt
-              : item[key];
+              typeof item[key] === "object" && item[key] !== null
+                  ? item[key]?.props?.alt
+                  : item[key];
           result += value;
         } catch (e) {}
         ctr++;
@@ -127,71 +130,64 @@ const Solutionslistcom = () => {
     link.click();
   }
 
-  const Export = ({ onExport }) => (
-    <Button onClick={() => onExport()}>Exporter les Innovateurs</Button>
-  );
-
-  const actionsMemo = React.useMemo(
-    () => <Export onExport={() => downloadCSV(solutions)} />,
-    [solutions]
-  );
-
-  const [selectedRows, setSelectedRows] = React.useState([]);
-  const [toggleCleared, setToggleCleared] = React.useState(false);
-
-  const handleRowSelected = React.useCallback((state) => {
-    setSelectedRows(state.selectedRows);
-  }, []);
-
-  const contextActions = React.useMemo(() => {
-    const Selectdata = () => {
-      if (window.confirm(`download:\r ${selectedRows.map((r) => r.id)}?`)) {
-        setToggleCleared(!toggleCleared);
-        const selectdata = solutions.filter((e) =>
-          selectedRows.some((sr) => e.id === sr.id)
-        );
-        downloadCSV(selectdata);
-      }
-    };
-
-    return <Export onExport={Selectdata} icon="true" />;
-  }, [solutions, selectedRows, toggleCleared]);
-
   return (
-    <div>
-      <Row className=" row-sm">
-        <Col lg={12}>
-          <Card className="custom-card">
-            <Card.Body>
-              {isLoadingSolution ? (
-                <div className="text-center">
-                  <Spinner animation="border" variant="primary" />
-                </div>
-              ) : (
-                <div className="table-responsive ">
+      <div>
+        <Row className="row-sm">
+          <Col lg={12}>
+            <Card className="custom-card">
+              <Card.Body>
+                {isLoadingSolution ? (
+                    <div className="text-center">
+                      <Spinner animation="border" variant="primary" />
+                    </div>
+                ) : (
+                    <div className="table-responsive ">
                   <span className="datatable">
                     <span className="uselistdata">
                       <DataTable
-                        columns={columns}
-                        data={solutions}
-                        actions={actionsMemo}
-                        contextActions={contextActions}
-                        onSelectedRowsChange={handleRowSelected}
-                        clearSelectedRows={toggleCleared}
-                        defaultSortField="id"
-                        defaultSortAsc={false}
-                        selectableRows
-                        pagination
+                          columns={columns}
+                          data={solutions}
+                          actions={contextActions}
+                          onSelectedRowsChange={handleRowSelected}
+                          clearSelectedRows={toggleCleared}
+                          defaultSortField="id"
+                          defaultSortAsc={false}
+                          selectableRows
+                          pagination
                       />
                     </span>
                   </span>
-                </div>
-              )}
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </div>
+                    </div>
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+        <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirmation de suppression</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Êtes-vous sûr de vouloir supprimer {solutionToDelete?.name}?
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+                size={"sm"}
+                variant="primary"
+                onClick={() => setShowDeleteModal(false)}
+            >
+              Annuler
+            </Button>
+            <Button
+                size={"sm"}
+                variant="danger"
+                onClick={handleDeleteSolution}
+            >
+              Supprimer
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
   );
 };
 export default Solutionslistcom;

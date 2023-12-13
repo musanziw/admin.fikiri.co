@@ -37,9 +37,6 @@ const Solutionlist = () => {
           </Breadcrumb>
         </div>
       </div>
-      {/* <!-- /breadcrumb -->
-			<!--Row-->
-			<!-- Row --> */}
       <Solutionslistcom />
     </div>
   );

@@ -1,5 +1,6 @@
 import React from "react";
 import moment from "moment";
+import { Row, Col, Button } from "react-bootstrap";
 
 import Link from "next/link";
 
@@ -10,7 +11,7 @@ const truncateText = (text, maxLength) => {
   return text;
 };
 
-export const columns = [
+export const columns = (handleDelete)=>[
   {
     name: "Image",
     selector: (row) => [row.img],
@@ -70,29 +71,28 @@ export const columns = [
     selector: (row) => [row.Action],
     sortable: false,
     cell: (row) => (
-      <div>
-        <Link
-          className="btn btn-primary me-1 btn-sm"
-          href={`/components/apps/solution?id=${row.id}&innovateurId=${row.userId}&thematiqueId=${row.thematicId}`}
-          as="/components/apps/solution"
-        >
-          Details
-        </Link>
-        {/* <Link
-          className="btn btn-primary me-1 ms-3"
-          href={`/components/apps/solution`}
-          as="/components/apps/solution"
-        >
-          Detail
-        </Link>
-
-        <Link
-          className="btn btn-danger me-1 ms-2"
-          href={`/components/apps/solution`}
-          as="/components/apps/solution"
-        >
-          Desactiver
-        </Link> */}
+      <div className="w-100">
+        <Row>
+            <Col>
+                <Link
+                className="btn btn-primary me-1 btn-sm w-100"
+                href={`/components/apps/solution?id=${row.id}&innovateurId=${row.userId}&thematiqueId=${row.thematicId}`}
+                as="/components/apps/solution"
+                >
+                Details
+                </Link>
+            </Col>
+            <Col>
+              <Button
+                  variant="danger"
+                  size="sm"
+                  onClick={() => handleDelete(row)}
+                  className="w-100"
+              >
+                Supprimer
+              </Button>
+            </Col>
+        </Row>
       </div>
     ),
   },
