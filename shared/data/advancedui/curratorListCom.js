@@ -12,6 +12,9 @@ const CurratorList = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -38,6 +41,22 @@ const CurratorList = () => {
     fetchUser();
   }, []);
 
+  const handleShowModal = (user) =>{
+    setSelectedUser(user);
+    setShowModal(true);
+  }
+
+  const handleCloseModal = () =>{
+    setShowModal(false);
+    setSelectedUser(null);
+  }
+
+  const handleDelete = (user) =>{
+    setUserToDelete(user);
+    setShowDeleteModal(true);
+  }
+
+  const columns = configureColumns(handleShowModal, handleDelete);
   function convertArrayOfObjectsToCSV(array) {
     if (!array || array.length === 0) {
       return "";
@@ -78,18 +97,6 @@ const CurratorList = () => {
     return result;
   }
 
-  const handleShowModal = (user) =>{
-    setSelectedUser(user);
-    setShowModal(true);
-  }
-
-  const handleCloseModal = () =>{
-    setShowModal(false);
-    setSelectedUser(null);
-  }
-
-  const columns = configureColumns(handleShowModal);
-
   function downloadCSV(array) {
     const link = document.createElement("a");
     let csv = convertArrayOfObjectsToCSV(array);
@@ -123,6 +130,16 @@ const CurratorList = () => {
   const handleRowSelected = React.useCallback((state) => {
     setSelectedRows(state.selectedRows);
   }, []);
+
+  const handleConfirmDelete = async (user) => {
+    try {
+      await axios.delete(`/users/${user.id}`);
+      setUsers((previousUsers) => previousUsers.filter((u) => u.id !== user.id));
+      setShowDeleteModal(false);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const contextActions = React.useMemo(() => {
     const Selectdata = () => {
@@ -243,8 +260,24 @@ const CurratorList = () => {
           </Col>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Fermer
+          <Button size="sm" variant="danger" onClick={handleCloseModal}>
+            Fermer la fenêtre
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirmation de suppression</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Êtes-vous sûr de vouloir supprimer {userToDelete?.name}?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button size={"sm"} variant="primary" onClick={() => setShowDeleteModal(false)}>
+            Annuler
+          </Button>
+          <Button size={"sm"} variant="danger" onClick={() => handleConfirmDelete(userToDelete)}>
+            Supprimer
           </Button>
         </Modal.Footer>
       </Modal>

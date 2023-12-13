@@ -1,20 +1,12 @@
 import React from "react";
-import { Button } from "react-bootstrap";
-
-import Link from "next/link";
-
+import {Button, Col, Row} from "react-bootstrap";
 const truncateText = (text, maxLength) => {
-  try{
     if (text?.length > maxLength) {
-      return text.substring(0, maxLength) + "...";
+        return text.substring(0, maxLength) + "...";
     }
-  }catch (e) {
-
-  }
-
-  return text;
+    return text;
 };
-export const columns = (handleShowModal) => [
+export const columns = (handleShowModal, handleDelete) => [
     {
         name: "Photo",
         selector: (row) => [row.Photo],
@@ -57,10 +49,30 @@ export const columns = (handleShowModal) => [
         selector: (row) => [row.Action],
         sortable: false,
         cell: (row) => (
-            <div>
-              <Button variant="primary" size="sm" onClick={() => handleShowModal(row)}>
-                {"Voir Détails"}
-              </Button>
+            <div className="w-100">
+                <Row className="my-3">
+                    <Col xs={6} md={6} lg={6} className="mb-2 mb-md-0">
+                        <Button
+                            variant="primary"
+                            size="sm"
+                            onClick={() => handleShowModal(row)}
+                            className="w-100"
+                        >
+                            Détails
+                        </Button>
+                    </Col>
+
+                    <Col className="mb-2 mb-md-0">
+                        <Button
+                            variant="danger"
+                            size="sm"
+                            onClick={() => handleDelete(row)}
+                            className="w-100"
+                        >
+                            Supprimer
+                        </Button>
+                    </Col>
+                </Row>
             </div>
         ),
     },

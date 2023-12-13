@@ -44,6 +44,7 @@ const Userlistcom = () => {
     };
     fetchUser();
   }, []);
+  
   const handleShowModal = (user) => {
     setSelectedUser(user);
     setShowModal(true);
@@ -59,6 +60,7 @@ const Userlistcom = () => {
   }
 
   const columns = configureColumns(handleShowModal, handleDelete);
+  
   function convertArrayOfObjectsToCSV(array) {
     if (!array || array.length === 0) {
       return "";
