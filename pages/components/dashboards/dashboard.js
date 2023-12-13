@@ -12,7 +12,6 @@ import { Breadcrumb, Col, Row, Card } from "react-bootstrap";
 
 import * as Dashboarddata from "../../../shared/data/dashboards/dashboards1";
 
-
 moment.locale("fr");
 
 const Dashboard = () => {
@@ -243,7 +242,6 @@ const Dashboard = () => {
     </>
   );
 };
-
 Dashboard.layout = "Contentlayout";
 
 export default Dashboard;
