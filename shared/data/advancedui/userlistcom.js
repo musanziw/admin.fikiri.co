@@ -5,11 +5,16 @@ import { columns as configureColumns} from "./userlist";
 import axios from "@/pages/api/axios";
 import moment from "moment";
 
+
+
 const Userlistcom = () => {
   const [users, setUsers] = useState([]);
   const [isLoadingUsers, setIsLoadingUsers] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+
+  const [showDeleteModal, setShowDeleteModal] =useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -48,7 +53,12 @@ const Userlistcom = () => {
     setSelectedUser(null);
   };
 
-  const columns = configureColumns(handleShowModal);
+  const handleDelete = (user) => {
+    setUserToDelete(user);
+    setShowDeleteModal(true);
+  }
+
+  const columns = configureColumns(handleShowModal, handleDelete);
   function convertArrayOfObjectsToCSV(array) {
     if (!array || array.length === 0) {
       return "";
@@ -106,7 +116,7 @@ const Userlistcom = () => {
   }
 
   const Export = ({ onExport }) => (
-    <Button onClick={() => onExport()}>
+    <Button size="sm" onClick={() => onExport()}>
       Exporter les Innovateurs
     </Button>
   );
@@ -123,6 +133,16 @@ const Userlistcom = () => {
     setSelectedRows(state.selectedRows);
   }, []);
 
+  const handleConfirmDelete = async (user) => {
+    try {
+      await axios.delete(`/users/${user.id}`);
+      setUsers((previousUsers) => previousUsers.filter((u) => u.id !== user.id));
+      setShowDeleteModal(false);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const contextActions = React.useMemo(() => {
     const Selectdata = () => {
       if (window.confirm(`download:\r ${selectedRows.map((r) => r.id)}?`)) {
@@ -131,7 +151,6 @@ const Userlistcom = () => {
         downloadCSV(selectdata);
       }
     };
-
     return <Export onExport={Selectdata} icon="true" />;
   }, [users, selectedRows, toggleCleared]);
 
@@ -172,7 +191,6 @@ const Userlistcom = () => {
       <Modal size="lg" show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>{"Détails de l'Innovateur"}</Modal.Title>
-          {/*<Button className="btn btn-close ms-auto" onClick={handleCloseModal}>X</Button>*/}
         </Modal.Header>
         <Modal.Body>
             <Col lg={12} md={12}>
@@ -243,8 +261,24 @@ const Userlistcom = () => {
         </Col>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Fermer
+          <Button size="sm" variant="danger" onClick={handleCloseModal}>
+            Fermer la fenêtre
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirmation de suppression</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Êtes-vous sûr de vouloir supprimer {userToDelete?.name}?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button size={"sm"} variant="primary" onClick={() => setShowDeleteModal(false)}>
+            Annuler
+          </Button>
+          <Button size={"sm"} variant="danger" onClick={() => handleConfirmDelete(userToDelete)}>
+            Supprimer
           </Button>
         </Modal.Footer>
       </Modal>

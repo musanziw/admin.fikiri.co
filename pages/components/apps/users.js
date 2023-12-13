@@ -9,8 +9,7 @@ const Userlist = () => {
 
 	return (
 		<div>
-            <Seo title={"Liste d'innovateur"} />
-
+            <Seo title={"Liste d'innovateurs"} />
             <div className="breadcrumb-header justify-content-between">
               <div className="left-content">
                 <span className="main-content-title mg-b-0 mg-b-lg-1">
