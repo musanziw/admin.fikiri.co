@@ -19,7 +19,7 @@ const Sidebar = () => {
   // initial loading
   useEffect(() => {
 
-    history.push(location.pathname);  // add  history to history  stack for current location.pathname to prevent multiple history calls innerWidth  and innerWidth  calls from  multiple users. This is important because the history stack is not always empty when the user clicks  the history       
+    history.push(location.pathname);
     if (history.length > 2) {
       history.shift();
     }
@@ -35,7 +35,6 @@ const Sidebar = () => {
     }
   },[location])
 
-  // location
   useEffect(() => {
 
     if (document.body.classList.contains('horizontal') && window.innerWidth >= 992) {
@@ -43,14 +42,12 @@ const Sidebar = () => {
     }
   }, []);
 
-
-  //  In Horizontal When we click the body it should we Closed using in useEfffect Refer line No:16
   function mainContentClickFn() {
     if (document.body.classList.contains('horizontal') && window.innerWidth >= 992) {
       clearMenuActive();
     }
   }
-  //<-------End---->
+
   function setSidemenu() {
     if (menuitems) {
       menuitems.filter(mainlevel => {
@@ -59,7 +56,7 @@ const Sidebar = () => {
             items.active = false;
             items.selected = false;
             if (location.pathname === '/nowa/preview/' || location.pathname === '/nowa/preview/') {
-              location.pathname = '/nowa/preview/dashboard/dashboard-1/';
+              location.pathname = '/nowa/preview/dashboard/dashboard/';
             }
             if (location.pathname === items.path) {
               items.active = true;
