@@ -5,7 +5,7 @@ import { columns as configureColumns } from "./curratorList";
 import axios from "@/pages/api/axios";
 import moment from "moment";
 
-const CurratorList = ({isAdmin}) => {
+const CurratorList = () => {
 
   const [users, setUsers] = useState([]);
   const [isLoadingUsers, setIsLoadingUsers] = useState(false);
@@ -14,9 +14,12 @@ const CurratorList = ({isAdmin}) => {
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [showAlertModal, setShowAlertModal] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
+
       try {
         setIsLoadingUsers(true);
         const responseUser = await axios.get("/users");
@@ -62,8 +65,12 @@ const CurratorList = ({isAdmin}) => {
       setUserToDelete(user);
       setShowDeleteModal(true);
     } else {
-      alert("Vous n'avez pas les autorisations nécessaires pour supprimer cet utilisateur.");
+      setShowAlertModal(true);
     }
+  };
+
+  const handleCloseAlertModal = () => {
+    setShowAlertModal(false);
   };
 
   const columns = configureColumns(handleShowModal, handleDelete);
@@ -86,8 +93,7 @@ const CurratorList = ({isAdmin}) => {
       let ctr = 0;
       keys.forEach((key) => {
         if (ctr > 0) result += columnDelimiter;
-  
-        // Handle case where the value might be a React element
+
         try {
           const value =
               typeof item[key] === "object" && item[key] !== null
@@ -98,12 +104,10 @@ const CurratorList = ({isAdmin}) => {
         }catch (e) {
 
         }
-  
         ctr++;
       });
       result += lineDelimiter;
     });
-  
     return result;
   }
 
@@ -287,6 +291,19 @@ const CurratorList = ({isAdmin}) => {
           </Button>
           <Button size={"sm"} variant="danger" onClick={() => handleConfirmDelete(userToDelete)}>
             Supprimer
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={showAlertModal} onHide={handleCloseAlertModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Alerte</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {"Vous n'avez pas les droits nécessaires pour effectuer cette action."}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button size={"sm"} variant="primary" onClick={handleCloseAlertModal}>
+            {"OK"}
           </Button>
         </Modal.Footer>
       </Modal>

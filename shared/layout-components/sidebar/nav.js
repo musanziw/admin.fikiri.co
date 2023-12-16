@@ -64,7 +64,7 @@ export const MENUITEMS = [
         selected: false,
         active: false,
         title: "Curateurs",
-        adminOnly: true,
+        adminOnly: false,
       },
       {
         path: `/components/apps/solutions`,

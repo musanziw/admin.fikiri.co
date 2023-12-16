@@ -41,7 +41,6 @@ export const columns = (handleDelete)=>[
       </span>
     ),
   },
-
   {
     name: "Target",
     selector: (row) => [row.targetedProblem],
@@ -54,18 +53,18 @@ export const columns = (handleDelete)=>[
       </span>
     ),
   },
-  {
-    name: "Date de soumission",
-    selector: (row) => [row.createdAt],
-    sortable: false,
-    cell: (row) => (
-      <span>
-        <span className="tx-13">
-          {moment(row.createdAt).format("DD MMMM YYYY [à] HH:mm")}
-        </span>
-      </span>
-    ),
-  },
+  // {
+  //   name: "Date de soumission",
+  //   selector: (row) => [row.createdAt],
+  //   sortable: false,
+  //   cell: (row) => (
+  //     <span>
+  //       <span className="tx-13">
+  //         {moment(row.createdAt).format("DD MMMM YYYY [à] HH:mm")}
+  //       </span>
+  //     </span>
+  //   ),
+  // },
   {
     name: "Actions",
     selector: (row) => [row.Action],

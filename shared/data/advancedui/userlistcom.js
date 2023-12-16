@@ -5,8 +5,6 @@ import { columns as configureColumns} from "./userlist";
 import axios from "@/pages/api/axios";
 import moment from "moment";
 
-
-
 const Userlistcom = () => {
   const [users, setUsers] = useState([]);
   const [isLoadingUsers, setIsLoadingUsers] = useState(false);
@@ -83,9 +81,7 @@ const Userlistcom = () => {
     if (!array || array.length === 0) {
       return "";
     }
-  
     let result;
-  
     const columnDelimiter = ",";
     const lineDelimiter = "\n";
     const keys = Object.keys(array[0]);
@@ -112,10 +108,8 @@ const Userlistcom = () => {
         ctr++;
 
       });
-
       result += lineDelimiter;
     });
-  
     return result;
   }
 

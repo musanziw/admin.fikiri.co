@@ -5,6 +5,7 @@ import { columns as configureColumns } from "./solutionslist";
 import axios from "@/pages/api/axios";
 
 const Solutionslistcom = () => {
+
   const [solutions, setSolutions] = useState([]);
   const [isLoadingSolution, setIsLoadingSolution] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -12,7 +13,14 @@ const Solutionslistcom = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [toggleCleared, setToggleCleared] = useState(false);
 
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [showAlertModal, setShowAlertModal] = useState(false);
+
   useEffect(() => {
+
+    if(JSON.parse(localStorage.getItem("ACCESS_ACCOUNT")).roles[0].name === "ADMIN"){
+      setIsAdmin(true);
+    }
     const fetchSolution = async () => {
       try {
         setIsLoadingSolution(true);
@@ -37,12 +45,18 @@ const Solutionslistcom = () => {
     };
     fetchSolution();
   }, []);
+
   const handleDelete = (solution) => {
-    setSolutionToDelete(solution);
-    setShowDeleteModal(true);
-  };
+    if (isAdmin) {
+      setSolutionToDelete(solution);
+      setShowDeleteModal(true);
+    } else {
+      setShowAlertModal(true);
+    }
+  }
 
   const handleDeleteSolution = async () => {
+
     try {
       await axios.delete(`/solutions/${solutionToDelete.id}`);
       setShowDeleteModal(false);
@@ -52,6 +66,12 @@ const Solutionslistcom = () => {
     } catch (error) {
       console.error("Erreur lors de la suppression de la solution :", error);
     }
+
+  };
+
+
+  const handleCloseAlertModal = () => {
+    setShowAlertModal(false);
   };
 
   const columns = configureColumns(handleDelete);
@@ -79,6 +99,7 @@ const Solutionslistcom = () => {
         Exporter les Innovateurs
       </Button>
   );
+
   function convertArrayOfObjectsToCSV(array) {
     if (!array || array.length === 0) {
       return "";
@@ -184,6 +205,19 @@ const Solutionslistcom = () => {
                 onClick={handleDeleteSolution}
             >
               Supprimer
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        <Modal show={showAlertModal} onHide={handleCloseAlertModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Alerte</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {"Vous n'avez pas les droits nécessaires pour effectuer cette action."}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button size={"sm"} variant="primary" onClick={handleCloseAlertModal}>
+              {"OK"}
             </Button>
           </Modal.Footer>
         </Modal>
