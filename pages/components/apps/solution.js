@@ -17,7 +17,6 @@ const Solution = () => {
   const [solution, setSolution] = useState();
 
   const [thematique, setThematique] = useState();
-
   const [domLoaded, setDomLoaded] = useState(false);
   const [parametreId, setParametreId] = useState(null);
   const [parametreUserId, setParametreUserId] = useState(null);
@@ -36,6 +35,7 @@ const Solution = () => {
 
   useEffect(() => {
     const status = JSON.parse(localStorage.getItem("STATUS_ACCOUNT"));
+
 
     if (status.authenticate) {
 
@@ -135,7 +135,6 @@ const Solution = () => {
   return (
     <div>
       <Seo title={"Profile"} />
-
       <div className="breadcrumb-header justify-content-between">
         <div className="left-content">
           <span className="main-content-title mg-b-0 mg-b-lg-1">
@@ -157,7 +156,6 @@ const Solution = () => {
           </Breadcrumb>
         </div>
       </div>
-
       <Row>
         <Col lg={12} md={12}>
           <Card className="custom-card customs-cards">
@@ -420,13 +418,11 @@ const Solution = () => {
           {/* </SSRProvider> */}
         </Col>
       </Row>
-
       <Row className=" row-sm">
         <Col lg={12} md={12}>
           <div className="tab-content"></div>
         </Col>
       </Row>
-
       <ToastContainer />
     </div>
   );

@@ -1,11 +1,14 @@
 import React from "react";
+
 import {Button, Col, Row} from "react-bootstrap";
+
 const truncateText = (text, maxLength) => {
     if (text?.length > maxLength) {
         return text.substring(0, maxLength) + "...";
     }
     return text;
 };
+
 export const columns = (handleShowModal, handleDelete) => [
     {
         name: "Photo",

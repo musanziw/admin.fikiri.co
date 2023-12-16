@@ -19,6 +19,7 @@ export const MENUITEMS = [
         selected: false,
         active: false,
         title: "Dashboard",
+        adminOnly: false,
       },
     ],
   },
@@ -43,6 +44,7 @@ export const MENUITEMS = [
         selected: false,
         active: false,
         title: "Innovateurs",
+        adminOnly: false,
       },
       {
         path: `/components/apps/curateurListe`,
@@ -62,6 +64,7 @@ export const MENUITEMS = [
         selected: false,
         active: false,
         title: "Curateurs",
+        adminOnly: true,
       },
       {
         path: `/components/apps/solutions`,
@@ -81,6 +84,7 @@ export const MENUITEMS = [
         selected: false,
         active: false,
         title: "Solutions",
+        adminOnly: false,
       },
       {
         path: `/components/apps/thematique`,
@@ -100,11 +104,11 @@ export const MENUITEMS = [
         selected: false,
         active: false,
         title: "Thematiques",
+        adminOnly: false,
       }
     ],
   },
   {
-    menutitle: "STATISTIQUES",
     Items: [
       {
         path: `/components/apps/rapport`,
@@ -127,6 +131,7 @@ export const MENUITEMS = [
         selected: false,
         active: false,
         title: "Rapports",
+        adminOnly: false,
       },
     ],
   },

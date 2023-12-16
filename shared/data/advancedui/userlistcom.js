@@ -15,8 +15,16 @@ const Userlistcom = () => {
 
   const [showDeleteModal, setShowDeleteModal] =useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [showAlertModal, setShowAlertModal] = useState(false);
+
 
   useEffect(() => {
+
+    if(JSON.parse(localStorage.getItem("ACCESS_ACCOUNT")).roles[0].name === "ADMIN"){
+      setIsAdmin(true);
+    }
+
     const fetchUser = async () => {
       try {
         setIsLoadingUsers(true);
@@ -55,9 +63,19 @@ const Userlistcom = () => {
   };
 
   const handleDelete = (user) => {
-    setUserToDelete(user);
-    setShowDeleteModal(true);
-  }
+    if (isAdmin) {
+      setUserToDelete(user);
+      setShowDeleteModal(true);
+    } else {
+      setShowAlertModal(true);
+    }
+  };
+
+  const handleCloseAlertModal = () => {
+    setShowAlertModal(false);
+  };
+
+
 
   const columns = configureColumns(handleShowModal, handleDelete);
   
@@ -281,6 +299,19 @@ const Userlistcom = () => {
           </Button>
           <Button size={"sm"} variant="danger" onClick={() => handleConfirmDelete(userToDelete)}>
             Supprimer
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={showAlertModal} onHide={handleCloseAlertModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Alerte</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {"Vous n'avez pas les droits nécessaires pour effectuer cette action."}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button size={"sm"} variant="primary" onClick={handleCloseAlertModal}>
+            {"OK"}
           </Button>
         </Modal.Footer>
       </Modal>

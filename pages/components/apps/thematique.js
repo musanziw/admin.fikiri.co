@@ -13,8 +13,6 @@ const Thematique = () => {
 	return (
 		<div>
 			<Seo title={"Curator List"} />
-
-			{/* <!-- breadcrumb --> */}
 			<div className="breadcrumb-header justify-content-between">
 				<div className="left-content mt-2">
 					<Link className="btn ripple btn-primary" href="#!" onClick={handleShow}><i className="fe fe-plus me-2"></i>Nouvelle thématique</Link>
@@ -62,9 +60,7 @@ const Thematique = () => {
 					</Modal>
 				</div>
 			</div>
-			{/* <!-- /breadcrumb -->
-			<!--Row-->
-			<!-- Row --> */}
+			{/* <!-- /breadcrumb --> */}
 			<Thematiquecom />
 
 		</div>

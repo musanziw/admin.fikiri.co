@@ -4,19 +4,24 @@ import { MENUITEMS } from "./nav";
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import Link from "next/link"
 import { useRouter } from "next/router";
+
 let history = [];
-
-
-
 const Sidebar = () => {
 
   let location = useRouter();
   let { basePath } = useRouter()
   const [menuitems, setMenuitems] = useState(MENUITEMS);
 
+  const userRole = JSON.parse(localStorage.getItem("ACCESS_ACCOUNT")).roles[0].name
 
+  const filteredMenuItems = MENUITEMS.map((menu) => {
+    const filteredItems = menu.Items.filter((item) => {
+      return userRole === 'ADMIN' || !item.adminOnly;
+    });
 
-  // initial loading
+    return { ...menu, Items: filteredItems };
+  });
+
   useEffect(() => {
 
     history.push(location.pathname);
@@ -36,7 +41,6 @@ const Sidebar = () => {
   },[location])
 
   useEffect(() => {
-
     if (document.body.classList.contains('horizontal') && window.innerWidth >= 992) {
       clearMenuActive();
     }
@@ -217,7 +221,7 @@ const Sidebar = () => {
           style={{ position: "absolute" }}
         >
           <div className="main-sidebar-header active">
-            <Link className="header-logo active" href={`/components/dashboards/dashboard1/`}>
+            <Link className="header-logo active" href={`/components/dashboards/dashboard/`}>
               <img
                 src={`${process.env.NODE_ENV === 'production'? basePath : ''}/assets/img/brand/logo.png`}
                 className="main-logo  desktop-logo"
@@ -254,7 +258,7 @@ const Sidebar = () => {
             </div>
 
             <ul className="side-menu">
-              {menuitems.map((Item, itemi) => (
+              {filteredMenuItems.map((Item, itemi) => (
                 <Fragment key={itemi + Math.random() * 100}>
                   <li className="side-item side-item-category">{Item.menutitle}</li>
                   {Item.Items.map((menuItem, i) => (

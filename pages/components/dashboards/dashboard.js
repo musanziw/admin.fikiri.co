@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from "react";
-
 import Seo from "@/shared/layout-components/seo/seo";
-
 import moment from "moment";
-
 import { useRouter } from "next/router";
-
 import axios from "@/pages/api/axios"
-
 import { Breadcrumb, Col, Row, Card } from "react-bootstrap";
 
 import * as Dashboarddata from "../../../shared/data/dashboards/dashboards1";
 
 moment.locale("fr");
-
 const Dashboard = () => {
-
   let navigate = useRouter();
   const [users, setUsers] = useState([]);
   const [isLoadingUsers, setIsLoadingUsers] = useState(false);
@@ -23,9 +16,20 @@ const Dashboard = () => {
   const [solutions, setSolution] = useState([]);
   const [isLoadingSolution, setIsLoadingSolution] = useState(false);
 
+  const [statut, setStatut] = useState([]);
+    const [isLoadingStatut, setIsLoadingStatut] = useState(false);
+
+
+  const [solutionsExplored, setSolutionExplored] = useState([]);
+  const [solutionExperimentee, setSolutionExperimentee] = useState([]);
+  const [solutionsCartographied, setSolutionCartographied] = useState([]);
+  const [solutionsSoumises, setSolutionSoumises] = useState([]);
+
 
   useEffect(() => {
+
     const status = JSON.parse(localStorage.getItem("STATUS_ACCOUNT"));
+
     if (status.authenticate) {
       const fetchUsers = async () => {
         try {
@@ -38,23 +42,53 @@ const Dashboard = () => {
           setIsLoadingUsers(false);
         }
       };
-
       const fetchSolutions = async () => {
         try {
           setIsLoadingSolution(true);
           const solutionResponse = await axios.get("/solutions");
           setSolution(solutionResponse.data.data);
+
+          const solutionEnAttente = solutionResponse.data.data.filter(
+            (solution) => solution.statusId === 1
+          );
+          const solutionCartographie = solutionResponse.data.data.filter(
+            (solution) => solution.statusId === 2
+          )
+
+          const solutionExplored = solutionResponse.data.data.filter(
+          (solution) => solution.statusId === 3
+          )
+
+          const SolutionExperimentee = solutionResponse.data.data.filter(
+              (solution) => solution.statusId === 4
+          )
+
+          setSolutionExplored(solutionExplored);
+          setSolutionCartographied(solutionCartographie);
+          setSolutionExperimentee(SolutionExperimentee);
+          setSolutionSoumises(solutionEnAttente);
+
           setIsLoadingSolution(false);
         } catch (error) {
           console.log(error);
           setIsLoadingSolution(false);
         }
       };
-
+      const fetchStatut = async () => {
+        try {
+        setIsLoadingStatut(true);
+        const statutResponse = await axios.get("/status");
+        setStatut(statutResponse.data.data);
+        setIsLoadingStatut(false);
+        } catch (error) {
+        console.log(error);
+        setIsLoadingStatut(false);
+        }
+      }
 
       fetchUsers();
       fetchSolutions();
-
+      fetchStatut();
     } else {
       navigate.push("/");
     }
@@ -67,7 +101,7 @@ const Dashboard = () => {
         <div className="breadcrumb-header justify-content-between">
           <div className="left-content">
             <span className="main-content-title mg-b-0 mg-b-lg-1">
-              TABLEAU DE BORD
+              {"TABLEAU DE BORD"}
             </span>
           </div>
           <div className="justify-content-center mt-2">
@@ -76,13 +110,11 @@ const Dashboard = () => {
                 Tableau de bord
               </Breadcrumb.Item>
               <Breadcrumb.Item active aria-current="page">
-                Accueil
+                {"Accueil"}
               </Breadcrumb.Item>
             </Breadcrumb>
           </div>
         </div>
-        {/* <!-- /breadcrumb --> */}
-        {/* <!-- row --> */}
         <Row>
           <Col xxl={5} xl={12} lg={12} md={12} sm={12}>
             <Row>
@@ -93,11 +125,11 @@ const Dashboard = () => {
                       <Col xl={9} lg={7} md={6} sm={12}>
                         <div className="text-justified align-items-center">
                           <h3 className="text-dark font-weight-semibold mb-2 mt-0">
-                            Bienvenu sur le tableau de bord
-                            <span className="text-primary">{" Fikiri"}</span>
+                            {"Bienvenu sur le tableau de bord"}
+                            <span className="text-primary">{"Fikiri"}</span>
                           </h3>
                           <p className="text-dark tx-14 mb-3 lh-3">
-                            Gérez la plateforme en toute simplicité
+                            {"Gérez la plateforme en toute simplicité"}
                           </p>
                         </div>
                       </Col>
@@ -126,7 +158,7 @@ const Dashboard = () => {
                             <h4 className="tx-20 font-weight-semibold mb-2">
                               {isLoadingUsers === false
                                 ? `${users.length}`
-                                : "0"}
+                                : "..."}
                             </h4>
                           </div>
                         </div>
@@ -154,7 +186,7 @@ const Dashboard = () => {
                             <h4 className="tx-20 font-weight-semibold mb-2">
                               {isLoadingSolution === false
                                 ? `${solutions.length}`
-                                : "0"}
+                                : "..."}
                             </h4>
                           </div>
                         </div>
@@ -181,7 +213,9 @@ const Dashboard = () => {
                         <div className="pb-0 mt-0">
                           <div className="d-flex">
                             <h4 className="tx-20 font-weight-semibold mb-2">
-                              0
+                                {isLoadingSolution === false
+                                    ? `${solutionsExplored.length}`
+                                    : "..."}
                             </h4>
                           </div>
                         </div>
@@ -208,7 +242,9 @@ const Dashboard = () => {
                         <div className="pb-0 mt-0">
                           <div className="d-flex">
                             <h4 className="tx-22 font-weight-semibold mb-2">
-                              0
+                                {isLoadingSolution === false
+                                    ? `${solutionsCartographied.length}`
+                                    : "..."}
                             </h4>
                           </div>
                         </div>
@@ -243,5 +279,4 @@ const Dashboard = () => {
   );
 };
 Dashboard.layout = "Contentlayout";
-
 export default Dashboard;

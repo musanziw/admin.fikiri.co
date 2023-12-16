@@ -5,7 +5,7 @@ import { columns as configureColumns } from "./curratorList";
 import axios from "@/pages/api/axios";
 import moment from "moment";
 
-const CurratorList = () => {
+const CurratorList = ({isAdmin}) => {
 
   const [users, setUsers] = useState([]);
   const [isLoadingUsers, setIsLoadingUsers] = useState(false);
@@ -31,14 +31,17 @@ const CurratorList = () => {
           ),
           class: "avatar-md rounded-circle",
         }));
-        setUsers(usersWithImages.filter(user=>{return user.roles.some(role=>role.name === "CURATOR")}));
+        const allowedRoles = ["CURATOR", "ADMIN", "EXPLORATOR"];
+        setUsers(usersWithImages.filter(user => user.roles.some(role => allowedRoles.includes(role.name))));
         setIsLoadingUsers(false);
       } catch (error) {
         setIsLoadingUsers(false);
         console.error("Erreur lors de la récupération des données :", error);
       }
     };
+
     fetchUser();
+
   }, []);
 
   const handleShowModal = (user) =>{
@@ -51,10 +54,17 @@ const CurratorList = () => {
     setSelectedUser(null);
   }
 
-  const handleDelete = (user) =>{
-    setUserToDelete(user);
-    setShowDeleteModal(true);
-  }
+  const handleDelete = (user) => {
+
+    const isAdminUser = isAdmin || JSON.parse(localStorage.getItem("ACCESS_ACCOUNT")).roles[0].name === "ADMIN";
+
+    if (isAdminUser) {
+      setUserToDelete(user);
+      setShowDeleteModal(true);
+    } else {
+      alert("Vous n'avez pas les autorisations nécessaires pour supprimer cet utilisateur.");
+    }
+  };
 
   const columns = configureColumns(handleShowModal, handleDelete);
   function convertArrayOfObjectsToCSV(array) {
@@ -188,7 +198,7 @@ const CurratorList = () => {
       </Row>
       <Modal size="lg" show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>{"Détails de l'Innovateur"}</Modal.Title>
+          <Modal.Title>{"Détails du curateur"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Col lg={12} md={12}>
@@ -210,7 +220,7 @@ const CurratorList = () => {
                   </h4>
                   <p className="tx-13 text-muted ms-md-4 ms-0 mb-2 pb-2 ">
                   <span className="me-3">
-                    <i className="far fa-address-card me-2"></i>Innovateur
+                    <i className="far fa-address-card me-2"></i>Curateur
                   </span>
                     <span className="me-3">
                     <i class="bi bi-geo-alt-fill me-2"></i>
@@ -260,7 +270,7 @@ const CurratorList = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button size="sm" variant="danger" onClick={handleCloseModal}>
-            Fermer la fenêtre
+            {"Fermer la fenêtre"}
           </Button>
         </Modal.Footer>
       </Modal>

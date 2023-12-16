@@ -28,8 +28,13 @@ const CurrateurList = () => {
   const [selectedOptions, setSelectedOptions] = useState();
   const [optionId, setOptionId] = useState([]);
   const [isLoadingCreating, setIsLoadingCreating] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
+
+    if(JSON.parse(localStorage.getItem("ACCESS_ACCOUNT")).roles[0].name === "ADMIN"){
+        setIsAdmin(true);
+    }
     const fetchRole = async () => {
       let data;
       try {
@@ -52,7 +57,6 @@ const CurrateurList = () => {
     setSelectedOptions(selectedOptions);
     setOptionId([...optionId, selectedOptions.value]);
   };
-
   const hanleCreateCurrateur = async (e) => {
     e.preventDefault();
     try {
@@ -78,94 +82,90 @@ const CurrateurList = () => {
     <div>
       <Seo title={"Curator List"} />
       <div className="breadcrumb-header justify-content-between">
-        <div className="left-content mt-2">
-          <Link
-            className="btn ripple btn-primary"
-            href="#!"
-            onClick={handleShow}
-          >
-            <i className="fe fe-plus me-2"></i>Nouveau Curateur
-          </Link>
-          <Modal show={show} onHide={handleClose}>
-            <Modal.Header className="modal-header">
-              <h6 className="modal-title">Ajouter Curateur</h6>
-              <Button
-                variant=""
-                className="btn-close"
-                type="button"
-                onClick={handleClose}
-              >
-                <span aria-hidden="true">×</span>
-              </Button>
-            </Modal.Header>
-
-            <Modal.Body className="modal-body">
-              <div className="p-4">
-                <Form className="form-horizontal">
-                  <FormGroup className="form-group">
-                    <Form.Control
-                      type="text"
-                      className="form-control"
-                      id="inputName"
-                      placeholder="Nom"
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </FormGroup>
-                  <FormGroup className="form-group">
-                    <Form.Control
-                      type="email"
-                      className="form-control"
-                      id="inputEmail3"
-                      placeholder="Email"
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
-                  </FormGroup>
-                  <FormGroup className="form-group">
-                    <Select options={options} onChange={handleSelectChange} />
-                  </FormGroup>
-                  <FormGroup className="form-group mb-0 justify-content-end">
-                    <div className="checkbox">
-                      <div className="custom-checkbox custom-control">
-                        <input
-                          type="checkbox"
-                          data-checkboxes="mygroup"
-                          className="custom-control-input"
-                          id="checkbox-2"
-                        />
-                        <label
-                          htmlFor="checkbox-2"
-                          className="custom-control-label mt-1 text-dark"
-                        >
-                          Nouveau curateur ?
-                        </label>
-                      </div>
-                    </div>
-                  </FormGroup>
-                </Form>
-              </div>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button
-                variant=""
+        {
+          isAdmin ? (<div className="left-content mt-2">
+            <Link
                 className="btn ripple btn-primary"
-                type="button"
-                onClick={hanleCreateCurrateur}
-              >
-               {isLoadingCreating ? "Ajouter en cour..." :"Ajouter"}
-              </Button>
-              <Button
-                variant=""
-                className="btn ripple btn-secondary"
-                onClick={handleClose}
-              >
-                Fermer
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </div>
+                href="#!"
+                onClick={handleShow}
+            >
+              <i className="fe fe-plus me-2"></i>{"Nouveau Curateur"}
+            </Link>
+            <Modal show={show} onHide={handleClose}>
+              <Modal.Header className="modal-header">
+                <h6 className="modal-title">{"Ajouter Curateur"}</h6>
+                <Button
+                    variant=""
+                    className="btn-close"
+                    type="button"
+                    onClick={handleClose}
+                >
+                  <span aria-hidden="true">×</span>
+                </Button>
+              </Modal.Header>
+
+              <Modal.Body className="modal-body">
+                <div className="p-4">
+                  <Form className="form-horizontal">
+                    <FormGroup className="form-group">
+                      <Form.Control
+                          type="text"
+                          className="form-control"
+                          id="inputName"
+                          placeholder="Nom"
+                          onChange={(e) => setName(e.target.value)}
+                      />
+                    </FormGroup>
+                    <FormGroup className="form-group">
+                      <Form.Control
+                          type="email"
+                          className="form-control"
+                          id="inputEmail3"
+                          placeholder="Email"
+                          onChange={(e) => setEmail(e.target.value)}
+                          required
+                      />
+                    </FormGroup>
+                    <FormGroup className="form-group">
+                      <Select options={options} onChange={handleSelectChange} />
+                    </FormGroup>
+                    <FormGroup className="form-group mb-0 justify-content-end">
+                      <div className="checkbox">
+                        <div className="custom-checkbox custom-control">
+                          <input
+                              type="checkbox"
+                              data-checkboxes="mygroup"
+                              className="custom-control-input"
+                              id="checkbox-2"
+                          />
+                        </div>
+                      </div>
+                    </FormGroup>
+                  </Form>
+                </div>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button
+                    variant=""
+                    className="btn ripple btn-primary"
+                    type="button"
+                    onClick={hanleCreateCurrateur}
+                >
+                  {isLoadingCreating ? "Ajouter en cour..." :"Ajouter"}
+                </Button>
+                <Button
+                    variant=""
+                    className="btn ripple btn-secondary"
+                    onClick={handleClose}
+                >
+                  Fermer
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          </div>) : ""
+        }
       </div>
-      <CurratorList />
+      <CurratorList isAdmin={isAdmin}/>
       <ToastContainer/>
     </div>
   );
