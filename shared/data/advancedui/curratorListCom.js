@@ -19,7 +19,6 @@ const CurratorList = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-
       try {
         setIsLoadingUsers(true);
         const responseUser = await axios.get("/users");
@@ -42,9 +41,7 @@ const CurratorList = () => {
         console.error("Erreur lors de la récupération des données :", error);
       }
     };
-
     fetchUser();
-
   }, []);
 
   const handleShowModal = (user) =>{
@@ -278,12 +275,29 @@ const CurratorList = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Confirmation de suppression</Modal.Title>
-        </Modal.Header>
+      <Modal show={showAlertModal} onHide={handleCloseAlertModal}>
         <Modal.Body>
-          Êtes-vous sûr de vouloir supprimer {userToDelete?.name}?
+          <div className="tx-center">
+            <i className="icon icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>{" "}
+            <h4 className="tx-danger mg-b-20">
+              {"Vous n'avez pas les droits nécessaires pour effectuer cette action."}
+            </h4>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button size={"sm"} variant="primary" onClick={handleCloseAlertModal}>
+            {"OK"}
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+        <Modal.Body>
+          <div className="tx-center">
+            <i className="icon icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>{" "}
+            <h4 className="tx-danger mg-b-20">
+              Êtes-vous sûr de vouloir supprimer <span className="badge bg-danger">{userToDelete?.name} ?</span>
+            </h4>{" "}
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <Button size={"sm"} variant="primary" onClick={() => setShowDeleteModal(false)}>
@@ -291,19 +305,6 @@ const CurratorList = () => {
           </Button>
           <Button size={"sm"} variant="danger" onClick={() => handleConfirmDelete(userToDelete)}>
             Supprimer
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      <Modal show={showAlertModal} onHide={handleCloseAlertModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Alerte</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {"Vous n'avez pas les droits nécessaires pour effectuer cette action."}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button size={"sm"} variant="primary" onClick={handleCloseAlertModal}>
-            {"OK"}
           </Button>
         </Modal.Footer>
       </Modal>

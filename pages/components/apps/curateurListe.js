@@ -12,8 +12,6 @@ import axios from "@/pages/api/axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { set } from "immutable";
-import { setOptions } from "filepond";
 import Select from "react-select";
 
 const CurrateurList = () => {
