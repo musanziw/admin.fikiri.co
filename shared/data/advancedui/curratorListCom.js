@@ -43,21 +43,16 @@ const CurratorList = () => {
     };
     fetchUser();
   }, []);
-
   const handleShowModal = (user) =>{
     setSelectedUser(user);
     setShowModal(true);
   }
-
   const handleCloseModal = () =>{
     setShowModal(false);
     setSelectedUser(null);
   }
-
   const handleDelete = (user) => {
-
     const isAdminUser = isAdmin || JSON.parse(localStorage.getItem("ACCESS_ACCOUNT")).roles[0].name === "ADMIN";
-
     if (isAdminUser) {
       setUserToDelete(user);
       setShowDeleteModal(true);
@@ -124,7 +119,7 @@ const CurratorList = () => {
     link.click();
   }
   const Export = ({ onExport }) => (
-    <Button onClick={() => onExport()}>
+    <Button onClick={() => onExport()} size={"sm"}>
       Exporter les Innovateurs
     </Button>
   );
@@ -295,8 +290,8 @@ const CurratorList = () => {
           <div className="tx-center">
             <i className="icon icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>{" "}
             <h4 className="tx-danger mg-b-20">
-              Êtes-vous sûr de vouloir supprimer <span className="badge bg-danger">{userToDelete?.name} ?</span>
-            </h4>{" "}
+              {"Êtes - vous sûr de vouloir supprimer"} <span className="badge bg-danger">{userToDelete?.name} ?</span>
+            </h4>
           </div>
         </Modal.Body>
         <Modal.Footer>

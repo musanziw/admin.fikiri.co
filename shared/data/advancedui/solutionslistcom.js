@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Row, Col, Card, Spinner, Modal } from "react-bootstrap";
 import DataTable from "react-data-table-component";
-import { columns as configureColumns } from "./solutionslist";
+import { columns as configureColumns, truncateText } from "./solutionslist";
 import axios from "@/pages/api/axios";
 
 const Solutionslistcom = () => {
@@ -96,7 +96,7 @@ const Solutionslistcom = () => {
 
   const contextActions = (
       <Button size="sm" onClick={handleDownload}>
-        Exporter les Innovateurs
+        Exporter les solutions
       </Button>
   );
 
@@ -134,7 +134,6 @@ const Solutionslistcom = () => {
 
     return result;
   }
-
   function downloadCSV(array) {
     const link = document.createElement("a");
     let csv = convertArrayOfObjectsToCSV(array);
@@ -185,11 +184,13 @@ const Solutionslistcom = () => {
           </Col>
         </Row>
         <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Confirmation de suppression</Modal.Title>
-          </Modal.Header>
           <Modal.Body>
-            Êtes-vous sûr de vouloir supprimer {solutionToDelete?.name}?
+            <div className="tx-center">
+              <i className="icon icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>{" "}
+              <h4 className="tx-danger mg-b-20">
+                {"Êtes - vous sûr de vouloir supprimer la solution "} <span className="badge bg-danger">{ truncateText(solutionToDelete?.name, 20) } ?</span>
+              </h4>
+            </div>
           </Modal.Body>
           <Modal.Footer>
             <Button
@@ -209,11 +210,13 @@ const Solutionslistcom = () => {
           </Modal.Footer>
         </Modal>
         <Modal show={showAlertModal} onHide={handleCloseAlertModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Alerte</Modal.Title>
-          </Modal.Header>
           <Modal.Body>
-            {"Vous n'avez pas les droits nécessaires pour effectuer cette action."}
+            <div className="tx-center">
+              <i className="icon icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>{" "}
+              <h4 className="tx-danger mg-b-20">
+                {"Vous n'avez pas les droits nécessaires pour effectuer cette action."}
+              </h4>
+            </div>
           </Modal.Body>
           <Modal.Footer>
             <Button size={"sm"} variant="primary" onClick={handleCloseAlertModal}>

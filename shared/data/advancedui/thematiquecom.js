@@ -4,7 +4,7 @@ import DataTable from "react-data-table-component";
 import { columns as configureColumns } from "./thematiquelist ";
 
 import axios from "@/pages/api/axios";
-import moment from "moment/moment";
+import {truncateText} from "@/shared/data/advancedui/solutionslist";
 
 const Thematiquecom = () => {
   const [thematiques, setThematiques] = useState();
@@ -46,7 +46,6 @@ const Thematiquecom = () => {
 
     fetchData();
   }, []);
-
   const handleShowModal = (thematique) => {
     setSelectedThematique(thematique);
     setShowModal(true);
@@ -124,7 +123,7 @@ const Thematiquecom = () => {
   }
 
   const Export = ({ onExport }) => (
-      <Button onClick={() => onExport()}>Exporter les Thematiques</Button>
+      <Button onClick={() => onExport()} size={"sm"}>Exporter les Thematiques</Button>
   );
 
   const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(thematiques)} />, [
@@ -137,32 +136,32 @@ const Thematiquecom = () => {
   const handleRowSelected = React.useCallback((state) => {
     setSelectedRows(state.selectedRows);
   }, []);
+const handleConfirmDelete = async (thematique) => {
+  try {
+    await axios.delete(`/thematiques/${thematique.id}`);
+    setThematiques((previousThematiques) =>
+        previousThematiques.filter((t) => t.id !== thematique.id)
+    );
+    setShowDeleteModal(false);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-  const handleConfirmDelete = async (thematique) => {
-    try {
-      await axios.delete(`/thematiques/${thematique.id}`);
-      setThematiques((previousThematiques) =>
-          previousThematiques.filter((t) => t.id !== thematique.id)
-      );
-      setShowDeleteModal(false);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+const contextActions = React.useMemo(() => {
+  const Selectdata = () => {
+  if (window.confirm(`download:\r ${selectedRows.map((r) => r.id)}?`)) {
+    setToggleCleared(!toggleCleared);
+    const selectdata = thematiques.filter((e) =>
+        selectedRows.some((sr) => e.id === sr.id)
+    );
+    downloadCSV(selectdata);
+  }
+};
 
-  const contextActions = React.useMemo(() => {
-    const Selectdata = () => {
-      if (window.confirm(`download:\r ${selectedRows.map((r) => r.id)}?`)) {
-        setToggleCleared(!toggleCleared);
-        const selectdata = thematiques.filter((e) =>
-            selectedRows.some((sr) => e.id === sr.id)
-        );
-        downloadCSV(selectdata);
-      }
-    };
+  return <Export onExport={Selectdata} icon="true" />;
 
-    return <Export onExport={Selectdata} icon="true" />;
-  }, [thematiques, selectedRows, toggleCleared]);
+}, [thematiques, selectedRows, toggleCleared]);
 
   return (
       <div>
@@ -217,11 +216,13 @@ const Thematiquecom = () => {
             </Modal.Footer>
           </Modal>
           <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
-            <Modal.Header closeButton>
-              <Modal.Title>Confirmation de suppression</Modal.Title>
-            </Modal.Header>
             <Modal.Body>
-              Êtes-vous sûr de vouloir supprimer {thematiqueToDelete?.name}?
+              <div className="tx-center">
+                <i className="icon icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>{" "}
+                <h4 className="tx-danger mg-b-20">
+                  {"Êtes - vous sûr de vouloir supprimer la thématique : "} <span className="badge bg-danger">{ truncateText(thematiqueToDelete?.name, 20) } ?</span>
+                </h4>
+              </div>
             </Modal.Body>
             <Modal.Footer>
               <Button size={"sm"} variant="primary" onClick={() => setShowDeleteModal(false)}>
@@ -237,10 +238,14 @@ const Thematiquecom = () => {
             </Modal.Footer>
           </Modal>
           <Modal show={showAlertModal} onHide={handleCloseAlertModal}>
-            <Modal.Header closeButton>
-              <Modal.Title>Alerte</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>{"Vous n'avez pas les droits nécessaires pour effectuer cette action."}</Modal.Body>
+            <Modal.Body>
+              <div className="tx-center">
+                <i className="icon icon ion-ios-close-circle-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+                <h4 className="tx-danger mg-b-20">
+                  {"Vous n'avez pas les droits nécessaires pour effectuer cette action."}
+                </h4>
+              </div>
+            </Modal.Body>
             <Modal.Footer>
               <Button size={"sm"} variant="primary" onClick={handleCloseAlertModal}>
                 {"OK"}
@@ -251,5 +256,4 @@ const Thematiquecom = () => {
       </div>
   );
 };
-
 export default Thematiquecom;

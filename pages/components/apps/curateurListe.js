@@ -3,6 +3,7 @@ import { Button, Form, FormGroup, Modal } from "react-bootstrap";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import Seo from "@/shared/layout-components/seo/seo";
+
 const CurratorList = dynamic(
   () => import("@/shared/data/advancedui/curratorListCom"),
   { ssr: false }
@@ -11,7 +12,6 @@ const CurratorList = dynamic(
 import axios from "@/pages/api/axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import Select from "react-select";
 
 const CurrateurList = () => {
@@ -28,8 +28,8 @@ const CurrateurList = () => {
   const [isLoadingCreating, setIsLoadingCreating] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
-  useEffect(() => {
 
+  useEffect(() => {
     if(JSON.parse(localStorage.getItem("ACCESS_ACCOUNT")).roles[0].name === "ADMIN"){
         setIsAdmin(true);
     }
@@ -82,13 +82,13 @@ const CurrateurList = () => {
       <div className="breadcrumb-header justify-content-between">
         {
           isAdmin ? (<div className="left-content mt-2">
-            <Link
+            <Button
                 className="btn ripple btn-primary"
-                href="#!"
                 onClick={handleShow}
+                size="sm"
             >
               <i className="fe fe-plus me-2"></i>{"Nouveau Curateur"}
-            </Link>
+            </Button>
             <Modal show={show} onHide={handleClose}>
               <Modal.Header className="modal-header">
                 <h6 className="modal-title">{"Ajouter Curateur"}</h6>
