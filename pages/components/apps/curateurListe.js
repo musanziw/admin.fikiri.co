@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form, FormGroup, Modal } from "react-bootstrap";
-import Link from "next/link";
 import dynamic from "next/dynamic";
 import Seo from "@/shared/layout-components/seo/seo";
 
@@ -28,7 +27,6 @@ const CurrateurList = () => {
   const [isLoadingCreating, setIsLoadingCreating] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
-
   useEffect(() => {
     if(JSON.parse(localStorage.getItem("ACCESS_ACCOUNT")).roles[0].name === "ADMIN"){
         setIsAdmin(true);
@@ -49,16 +47,16 @@ const CurrateurList = () => {
       }
     };
     fetchRole();
-  }, []);
 
-  const handleSelectChange = async (selectedOptions) => {
-    setSelectedOptions(selectedOptions);
-    setOptionId([...optionId, selectedOptions.value]);
-  };
+  }, []);
   const hanleCreateCurrateur = async (e) => {
+
     e.preventDefault();
+
     try {
+
       setIsLoadingCreating(true);
+
       const payload = {
         name,
         email,
@@ -66,7 +64,9 @@ const CurrateurList = () => {
       };
 
       await axios.post("/users", JSON.stringify(payload));
+
       toast.success("Curateur créé avec succès !");
+      handleClose();
       setIsLoadingCreating(false)
     } catch (e) {
       toast.error(e.response.data.message)
@@ -74,6 +74,32 @@ const CurrateurList = () => {
     }finally{
       setIsLoadingCreating(false);
     }
+  };
+
+  const updateUsers = async () => {
+    try {
+      const responseUser = await axios.get("/users");
+      const usersWithImages = responseUser.data.data.map((user) => ({
+        ...user,
+        img: (
+            <img
+                src={"../../../assets/img/faces/4.jpg"}
+                className="rounded-circle"
+                alt=""
+            />
+        ),
+        class: "avatar-md rounded-circle",
+      }));
+      const allowedRoles = ["CURATOR", "ADMIN", "EXPLORATOR"];
+      setUsers(usersWithImages.filter(user => user.roles.some(role => allowedRoles.includes(role.name))));
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour des données :", error);
+    }
+  };
+
+  const handleSelectChange = async (selectedOptions) => {
+    setSelectedOptions(selectedOptions);
+    setOptionId([...optionId, selectedOptions.value]);
   };
 
   return (
@@ -163,7 +189,7 @@ const CurrateurList = () => {
           </div>) : ""
         }
       </div>
-      <CurratorList isAdmin={isAdmin}/>
+      <CurratorList isAdmin={isAdmin} updateUsers={updateUsers} />
       <ToastContainer/>
     </div>
   );

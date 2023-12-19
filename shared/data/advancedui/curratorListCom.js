@@ -4,6 +4,7 @@ import DataTable from "react-data-table-component";
 import { columns as configureColumns } from "./curratorList";
 import axios from "@/pages/api/axios";
 import moment from "moment";
+import {toast} from "react-toastify";
 
 const CurratorList = () => {
 
@@ -60,6 +61,8 @@ const CurratorList = () => {
       setShowAlertModal(true);
     }
   };
+
+
 
   const handleCloseAlertModal = () => {
     setShowAlertModal(false);

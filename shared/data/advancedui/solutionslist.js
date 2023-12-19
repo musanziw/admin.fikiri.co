@@ -53,18 +53,6 @@ export const columns = (handleDelete)=>[
       </span>
     ),
   },
-  // {
-  //   name: "Date de soumission",
-  //   selector: (row) => [row.createdAt],
-  //   sortable: false,
-  //   cell: (row) => (
-  //     <span>
-  //       <span className="tx-13">
-  //         {moment(row.createdAt).format("DD MMMM YYYY [à] HH:mm")}
-  //       </span>
-  //     </span>
-  //   ),
-  // },
   {
     name: "Actions",
     selector: (row) => [row.Action],
@@ -72,7 +60,7 @@ export const columns = (handleDelete)=>[
     cell: (row) => (
       <div className="w-100">
         <Row>
-            <Col>
+            <Col xs={12} md={6} lg={6}>
                 <Link
                 className="btn btn-primary me-1 btn-sm w-100"
                 href={`/components/apps/solution?id=${row.id}&innovateurId=${row.userId}&thematiqueId=${row.thematicId}`}
@@ -81,7 +69,7 @@ export const columns = (handleDelete)=>[
                 Details
                 </Link>
             </Col>
-            <Col>
+            <Col xs={12} md={6} lg={6}>
               <Button
                   variant="danger"
                   size="sm"
