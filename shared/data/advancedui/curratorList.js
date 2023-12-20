@@ -38,12 +38,12 @@ export const columns = (handleShowModal, handleDelete) => [
         ),
     },
     {
-        name: "Adresse",
-        selector: (row) => [row.address],
+        name: "Role",
+        selector: (row) => [row.roles[0].name],
         sortable: false,
         cell: (row) => (
             <span>
-              <span className="tx-13">{truncateText(row.address, 45)}</span>
+              <span className="tx-13">{truncateText(row.roles[0].name, 45)}</span>
             </span>
         ),
     },
