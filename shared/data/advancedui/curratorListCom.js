@@ -69,7 +69,9 @@ const CurratorList = ({updateUsers}) => {
         console.error("Erreur lors de la récupération des données :", error);
       }
     };
+
     fetchUser();
+
   }, [updateUsers]);
 
 
@@ -146,6 +148,7 @@ const CurratorList = ({updateUsers}) => {
     link.setAttribute("download", filename);
     link.click();
   }
+
   const Export = ({ onExport }) => (
     <Button onClick={() => onExport()} size={"sm"}>
       Exporter les Innovateurs
@@ -222,7 +225,7 @@ const CurratorList = ({updateUsers}) => {
       </Row>
       <Modal size="lg" show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>{"Détails du curateur"}</Modal.Title>
+          <Modal.Title>{"Détails du Curateur"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Col lg={12} md={12}>
@@ -244,7 +247,7 @@ const CurratorList = ({updateUsers}) => {
                   </h4>
                   <p className="tx-13 text-muted ms-md-4 ms-0 mb-2 pb-2 ">
                   <span className="me-3">
-                    <i className="far fa-address-card me-2"></i>Curateur
+                    <i className="far fa-address-card me-2"></i>{selectedUser ? selectedUser.roles[0].name : ""}
                   </span>
                     <span className="me-3">
                     <i class="bi bi-geo-alt-fill me-2"></i>

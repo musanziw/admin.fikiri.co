@@ -74,8 +74,8 @@ const CurrateurList = () => {
   const hanleCreateCurrateur = async (e) => {
     e.preventDefault();
     try {
-
       setIsLoadingCreating(true);
+
       const payload = {
         name : name.current.value,
         email : email.current.value,
@@ -137,7 +137,6 @@ const CurrateurList = () => {
                           id="inputName"
                           placeholder="Nom"
                           ref={name}
-                          // onChange={(e) => setName(e.target.value)}
                       />
                     </FormGroup>
                     <FormGroup className="form-group">
@@ -147,7 +146,6 @@ const CurrateurList = () => {
                           id="inputEmail3"
                           placeholder="Email"
                           ref={email}
-                          // onChange={(e) => setEmail(e.target.value)}
                           required
                       />
                     </FormGroup>
