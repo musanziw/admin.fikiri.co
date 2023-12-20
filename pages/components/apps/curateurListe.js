@@ -15,12 +15,8 @@ import Select from "react-select";
 
 const CurrateurList = () => {
   const [show, setShow] = React.useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const [name, setName] = useState();
   const [email, setEmail] = useState();
-
   const [options, setOptions] = useState();
   const [selectedOptions, setSelectedOptions] = useState();
   const [optionId, setOptionId] = useState([]);
@@ -46,35 +42,13 @@ const CurrateurList = () => {
         console.log(e);
       }
     };
+
     fetchRole();
 
   }, []);
-  const hanleCreateCurrateur = async (e) => {
 
-    e.preventDefault();
-
-    try {
-
-      setIsLoadingCreating(true);
-
-      const payload = {
-        name,
-        email,
-        roles: optionId,
-      };
-
-      await axios.post("/users", JSON.stringify(payload));
-
-      toast.success("Curateur créé avec succès !");
-      handleClose();
-      setIsLoadingCreating(false)
-    } catch (e) {
-      toast.error(e.response.data.message)
-      setIsLoadingCreating(false);
-    }finally{
-      setIsLoadingCreating(false);
-    }
-  };
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const updateUsers = async () => {
     try {
@@ -94,6 +68,32 @@ const CurrateurList = () => {
       setUsers(usersWithImages.filter(user => user.roles.some(role => allowedRoles.includes(role.name))));
     } catch (error) {
       console.error("Erreur lors de la mise à jour des données :", error);
+    }
+  };
+
+  const hanleCreateCurrateur = async (e) => {
+    e.preventDefault();
+    try {
+
+      setIsLoadingCreating(true);
+
+      const payload = {
+        name,
+        email,
+        roles: optionId,
+      };
+
+      await axios.post("/users", JSON.stringify(payload));
+
+      toast.success("Curateur créé avec succès !");
+      handleClose();
+      setIsLoadingCreating(false)
+      updateUsers();
+    } catch (e) {
+      toast.error(e.response.data.message)
+      setIsLoadingCreating(false);
+    }finally{
+      setIsLoadingCreating(false);
     }
   };
 
@@ -189,7 +189,7 @@ const CurrateurList = () => {
           </div>) : ""
         }
       </div>
-      <CurratorList isAdmin={isAdmin} updateUsers={updateUsers} />
+      <CurratorList updateTable={updateTable}/>
       <ToastContainer/>
     </div>
   );

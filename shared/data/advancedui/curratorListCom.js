@@ -6,7 +6,7 @@ import axios from "@/pages/api/axios";
 import moment from "moment";
 import {toast} from "react-toastify";
 
-const CurratorList = () => {
+const CurratorList = ({updateTable}) => {
 
   const [users, setUsers] = useState([]);
   const [isLoadingUsers, setIsLoadingUsers] = useState(false);
@@ -44,6 +44,24 @@ const CurratorList = () => {
     };
     fetchUser();
   }, []);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        setIsLoadingUsers(true);
+        const responseUser = await axios.get("/users");
+        // Update the state with the new data
+        setUsers(responseUser.data.data);
+        setIsLoadingUsers(false);
+      } catch (error) {
+        setIsLoadingUsers(false);
+        console.error("Erreur lors de la récupération des données :", error);
+      }
+    };
+    fetchUser();
+  }, [updateTable]);
+
+
   const handleShowModal = (user) =>{
     setSelectedUser(user);
     setShowModal(true);
@@ -61,9 +79,6 @@ const CurratorList = () => {
       setShowAlertModal(true);
     }
   };
-
-
-
   const handleCloseAlertModal = () => {
     setShowAlertModal(false);
   };
@@ -105,7 +120,6 @@ const CurratorList = () => {
     });
     return result;
   }
-
   function downloadCSV(array) {
     const link = document.createElement("a");
     let csv = convertArrayOfObjectsToCSV(array);
@@ -309,4 +323,5 @@ const CurratorList = () => {
     </div>
   );
 };
+
 export default CurratorList;
