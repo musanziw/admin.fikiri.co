@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useRef, createRef} from "react";
 import { Button, Form, FormGroup, Modal } from "react-bootstrap";
 import dynamic from "next/dynamic";
 import Seo from "@/shared/layout-components/seo/seo";
@@ -15,8 +15,8 @@ import Select from "react-select";
 
 const CurrateurList = () => {
   const [show, setShow] = React.useState(false);
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
+  const email = createRef();
+  const name = createRef();
   const [options, setOptions] = useState();
   const [selectedOptions, setSelectedOptions] = useState();
   const [optionId, setOptionId] = useState([]);
@@ -76,10 +76,9 @@ const CurrateurList = () => {
     try {
 
       setIsLoadingCreating(true);
-
       const payload = {
-        name,
-        email,
+        name : name.current.value,
+        email : email.current.value,
         roles: optionId,
       };
 
@@ -137,7 +136,8 @@ const CurrateurList = () => {
                           className="form-control"
                           id="inputName"
                           placeholder="Nom"
-                          onChange={(e) => setName(e.target.value)}
+                          ref={name}
+                          // onChange={(e) => setName(e.target.value)}
                       />
                     </FormGroup>
                     <FormGroup className="form-group">
@@ -146,7 +146,8 @@ const CurrateurList = () => {
                           className="form-control"
                           id="inputEmail3"
                           placeholder="Email"
-                          onChange={(e) => setEmail(e.target.value)}
+                          ref={email}
+                          // onChange={(e) => setEmail(e.target.value)}
                           required
                       />
                     </FormGroup>
@@ -189,7 +190,7 @@ const CurrateurList = () => {
           </div>) : ""
         }
       </div>
-      <CurratorList updateTable={updateTable}/>
+      <CurratorList updateUsers={updateUsers}/>
       <ToastContainer/>
     </div>
   );

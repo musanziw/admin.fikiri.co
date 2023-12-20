@@ -6,7 +6,7 @@ import axios from "@/pages/api/axios";
 import moment from "moment";
 import {toast} from "react-toastify";
 
-const CurratorList = ({updateTable}) => {
+const CurratorList = ({updateUsers}) => {
 
   const [users, setUsers] = useState([]);
   const [isLoadingUsers, setIsLoadingUsers] = useState(false);
@@ -50,8 +50,19 @@ const CurratorList = ({updateTable}) => {
       try {
         setIsLoadingUsers(true);
         const responseUser = await axios.get("/users");
-        // Update the state with the new data
-        setUsers(responseUser.data.data);
+        const usersWithImages = responseUser.data.data.map((user) => ({
+          ...user,
+          img: (
+              <img
+                  src={"../../../assets/img/faces/4.jpg"}
+                  className="rounded-circle"
+                  alt=""
+              />
+          ),
+          class: "avatar-md rounded-circle",
+        }));
+        const allowedRoles = ["CURATOR", "ADMIN", "EXPLORATOR"];
+        setUsers(usersWithImages.filter(user => user.roles.some(role => allowedRoles.includes(role.name))));
         setIsLoadingUsers(false);
       } catch (error) {
         setIsLoadingUsers(false);
@@ -59,7 +70,7 @@ const CurratorList = ({updateTable}) => {
       }
     };
     fetchUser();
-  }, [updateTable]);
+  }, [updateUsers]);
 
 
   const handleShowModal = (user) =>{
