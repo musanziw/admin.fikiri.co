@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
+import {Spinner } from 'react-bootstrap';
 import axios from "@/pages/api/axios"
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
@@ -108,21 +109,17 @@ const Statistics = () => {
   });
 
   useEffect(() => {
-  const fetchDataSolution = async () => {
-        try {
-            const response = await axios.get('/solutions');
-            processSolutions(response.data.data);
-        } catch (err) {
-            console.error('Error fetching solution data:', err);
-        }
-  }
-    setChartData((prevData) => ({
-      ...prevData,
-      options: {
-        ...prevData.options,
-        colors: prevData.series.map((item) => item.color),
-      },
-    }));
+    const fetchDataSolution = async () => {
+          try {
+              const response = await axios.get('/solutions');
+              processSolutions(response.data.data);
+          } catch (err) {
+              console.error('Error fetching solution data:', err);
+          }
+    }
+
+    fetchDataSolution();
+
   }, []);
 
     const processSolutions = (solutions) => {
@@ -176,11 +173,13 @@ const Statistics = () => {
     const getStatusColor = (status) => {
       switch (status) {
         case 'En attente':
-          return '#f1c40f';
-        case 'En cours':
-          return '#3498db';
-        case 'Terminé':
-          return '#2ecc71';
+          return '#A67360';
+        case 'Cartographiée':
+          return '#38cab3';
+        case 'Explorée':
+          return '#89A3D9';
+        case 'Experimentée':
+          return '#BAD9D9';
         default:
           return '#e74c3c';
       }
@@ -188,12 +187,23 @@ const Statistics = () => {
 
   return (
       <div id="chart">
-        <ReactApexChart
-            options={chartData.options}
-            series={chartData.series}
-            type="bar"
-            height={280}
-        />
+        {
+            chartData.series.length === 0 ? (
+                    <div className="text-center">
+                      <Spinner animation="border" variant="primary" />
+                    </div>
+                ) :
+
+                (
+                <ReactApexChart
+                options={chartData.options}
+                series={chartData.series}
+                type="bar"
+                height={280}
+            />
+            )
+        }
+
       </div>
   );
 };
