@@ -4,8 +4,8 @@ import moment from "moment";
 import { useRouter } from "next/router";
 import axios from "@/pages/api/axios"
 import { Breadcrumb, Col, Row, Card } from "react-bootstrap";
+import Statistics from "@/shared/data/dashboards/dashboards1";
 
-import * as Dashboarddata from "../../../shared/data/dashboards/dashboards1";
 
 moment.locale("fr");
 const Dashboard = () => {
@@ -54,11 +54,9 @@ const Dashboard = () => {
           const solutionCartographie = solutionResponse.data.data.filter(
             (solution) => solution.statusId === 2
           )
-
           const solutionExplored = solutionResponse.data.data.filter(
           (solution) => solution.statusId === 3
           )
-
           const SolutionExperimentee = solutionResponse.data.data.filter(
               (solution) => solution.statusId === 4
           )
@@ -269,7 +267,7 @@ const Dashboard = () => {
                 </div>
               </Card.Header>
               <Card.Body>
-                <Dashboarddata.Statistics1 />
+                <Statistics/>
               </Card.Body>
             </Card>
           </Col>
@@ -278,5 +276,6 @@ const Dashboard = () => {
     </>
   );
 };
+
 Dashboard.layout = "Contentlayout";
 export default Dashboard;
