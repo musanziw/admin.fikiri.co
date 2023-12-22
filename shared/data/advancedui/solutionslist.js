@@ -60,7 +60,7 @@ export const columns = (handleDelete)=>[
     cell: (row) => (
       <div className="w-100">
         <Row>
-            <Col xs={12} md={6} lg={6}>
+            <Col xs={12} md={12} lg={12} xl={6}>
                 <Link
                 className="btn btn-primary me-1 btn-sm w-100"
                 href={`/components/apps/solution?id=${row.id}&innovateurId=${row.userId}&thematiqueId=${row.thematicId}`}
@@ -69,7 +69,7 @@ export const columns = (handleDelete)=>[
                 Details
                 </Link>
             </Col>
-            <Col xs={12} md={6} lg={6}>
+            <Col sm={12} md={12} lg={12} xl={6}>
               <Button
                   variant="danger"
                   size="sm"

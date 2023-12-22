@@ -5,9 +5,6 @@ import React, { useEffect, useState } from "react";
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
-
-// import ReactApexChart from "react-apexcharts";
-
 export class Statistics1 extends React.Component {
   constructor(props) {
     super(props);
@@ -24,7 +21,6 @@ export class Statistics1 extends React.Component {
         },
       ]
       ,
-
       options: {
         chart: {
           type: "bar",

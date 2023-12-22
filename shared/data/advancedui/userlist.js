@@ -53,7 +53,7 @@ export const columns = (handleShowModal, handleDelete) => [
     cell: (row) => (
         <div className="w-100">
           <Row className="my-3">
-            <Col xs={6} md={6} lg={6} className="mb-2 mb-md-0">
+            <Col sm={12} md={12} lg={12} xl={6} className="mb-2 mb-md-0">
               <Button
                   variant="primary"
                   size="sm"
@@ -64,7 +64,7 @@ export const columns = (handleShowModal, handleDelete) => [
               </Button>
             </Col>
 
-            <Col  className="mb-2 mb-md-0">
+            <Col sm={12} md={12} lg={12} xl={6} className="mb-2 mb-md-0">
               <Button
                   variant="danger"
                   size="sm"
