@@ -1,9 +1,11 @@
 import { Chart as ChartJS, registerables } from "chart.js";
 ChartJS.register(...registerables);
 
+
+
+
 export const Linechart = {
   responsive: true,
- 
 };
 // linechartdata
 export const linechartdata = {
@@ -33,12 +35,81 @@ export const linechartdata = {
       data: [10, 20, 25, 55, 50, 45, 35, 30, 45, 35, 55, 40, 80],
       borderColor: "#f74f75",
       borderWidth: 1,
-      
       tension: 0.4,
     },
   ],
   
 };
+
+export const Areachart = {
+  responsive: true,
+
+};
+//areachart
+export const areachart = {
+  labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+  datasets: [
+    {
+      label: "Data 1 ",
+      borderColor: "#f74f75",
+      borderWidth: "1",
+      //   backgroundColor: "rgba(	235, 111, 51, 0.7)",
+      pointHighlightStroke: "rgba(235, 111, 51 ,1)",
+      data: [16, 32, 18, 26, 42, 33, 44],
+      fill: true,
+      tension: 0.4,
+    },
+    {
+      label: "Data 2",
+      //   backgroundColor: "rgba(113, 76, 190, 0.5)",
+      borderColor: "#38cab3",
+      borderWidth: "1",
+      data: [22, 44, 67, 43, 76, 45, 12],
+      fill: true,
+      tension: 0.4,
+    },
+  ],
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    tooltips: {
+      mode: "index",
+      intersect: false,
+    },
+    hover: {
+      mode: "nearest",
+      intersect: true,
+    },
+    scales: {
+      x:
+          {
+            ticks: {
+              fontColor: "#77778e",
+            },
+            gridLines: {
+              color: "rgba(119, 119, 142, 0.2)",
+            },
+          },
+
+      y:
+          {
+            ticks: {
+              beginAtZero: true,
+              fontColor: "#77778e",
+            },
+            gridLines: {
+              color: "rgba(119, 119, 142, 0.2)",
+            },
+          },
+
+    },
+
+  },
+};
+
+
+
+
 // Bar-chart 1
 export const Barchart1 = {
   
@@ -272,68 +343,3 @@ export const Doughnutdata = {
 };
 
 
-export const Areachart = {
-  responsive: true,
-  
-};
-//areachart
-export const areachart = {
-  labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
-  datasets: [
-    {
-      label: "Data 1 ",
-      borderColor: "#f74f75",
-      borderWidth: "1",
-      //   backgroundColor: "rgba(	235, 111, 51, 0.7)",
-      pointHighlightStroke: "rgba(235, 111, 51 ,1)",
-      data: [16, 32, 18, 26, 42, 33, 44],
-      fill: true,
-      tension: 0.4,
-    },
-    {
-      label: "Data 2",
-      //   backgroundColor: "rgba(113, 76, 190, 0.5)",
-      borderColor: "#38cab3",
-      borderWidth: "1",
-      data: [22, 44, 67, 43, 76, 45, 12],
-      fill: true,
-      tension: 0.4,
-    },
-  ],
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    tooltips: {
-      mode: "index",
-      intersect: false,
-    },
-    hover: {
-      mode: "nearest",
-      intersect: true,
-    },
-    scales: {
-      x:
-      {
-        ticks: {
-          fontColor: "#77778e",
-        },
-        gridLines: {
-          color: "rgba(119, 119, 142, 0.2)",
-        },
-      },
-
-      y:
-      {
-        ticks: {
-          beginAtZero: true,
-          fontColor: "#77778e",
-        },
-        gridLines: {
-          color: "rgba(119, 119, 142, 0.2)",
-        },
-      },
-
-    },
-
-  },
-};

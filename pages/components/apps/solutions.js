@@ -15,7 +15,6 @@ const Solutionlist = () => {
     <div>
       <Seo title={"User List"} />
 
-      {/* <!-- breadcrumb --> */}
       <div className="breadcrumb-header justify-content-between">
         <div className="left-content">
           <span className="main-content-title mg-b-0 mg-b-lg-1">
