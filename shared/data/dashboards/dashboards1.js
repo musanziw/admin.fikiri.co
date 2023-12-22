@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
+import axios from "@/pages/api/axios"
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
@@ -7,30 +8,7 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 
 const Statistics = () => {
   const [chartData, setChartData] = useState({
-    series: [
-      {
-        name: "S. En attentes",
-        data: [34, 22, 37, 56, 21, 35, 60, 34, 56, 78, 89, 53],
-        color: "#e4e7ed"
-      },
-      {
-        name: "S. Cartographiées",
-        data: [44, 42, 57, 86, 58, 55, 70, 43, 23, 54, 77, 34],
-        color: "#38cab3"
-      },
-
-      {
-        name: "S. Explorées",
-        data: [12, 28, 15, 40, 32, 26, 18, 42, 35, 20, 28, 15],
-
-        color: "#89A3D9"
-      },
-      {
-        name: "S. Expérimentées",
-        data: [5, 18, 25, 10, 15, 30, 22, 17, 29, 10, 15, 20],
-        color: "#BAD9D9"
-      },
-    ],
+    series: [],
     options: {
       chart: {
         type: "bar",
@@ -126,12 +104,18 @@ const Statistics = () => {
       fill: {
         opacity: 1,
       },
-
     },
   });
 
   useEffect(() => {
-    // Move colors assignment inside useEffect
+  const fetchDataSolution = async () => {
+        try {
+            const response = await axios.get('/solutions');
+            processSolutions(response.data.data);
+        } catch (err) {
+            console.error('Error fetching solution data:', err);
+        }
+  }
     setChartData((prevData) => ({
       ...prevData,
       options: {
@@ -140,6 +124,67 @@ const Statistics = () => {
       },
     }));
   }, []);
+
+    const processSolutions = (solutions) => {
+      const groupedData = groupDataByMonthAndStatus(solutions);
+
+      setChartData((prevData) => ({
+        ...prevData,
+        series: groupedData.series,
+        options: {
+          ...prevData.options,
+          xaxis: {
+            ...prevData.options.xaxis,
+            categories: groupedData.categories,
+          },
+          colors: groupedData.colors,
+        },
+      }));
+    }
+
+    const groupDataByMonthAndStatus = (data) => {
+      const groupedData = {}
+
+      data.forEach((solution) => {
+        const month = new Date(solution.createdAt).toLocaleString('en-US', {month: 'short'});
+        const status = solution.status.name;
+
+        if (!groupedData[month]) {
+          groupedData[month] = {}
+        }
+
+        if (!groupedData[month][status]) {
+          groupedData[month][status] = 0;
+        }
+
+        groupedData[month][status] += 1;
+
+      });
+
+      const categories = Object.keys(groupedData).map((month) => month);
+      const series = Object.keys(groupedData[Object.keys(groupedData)[0]]).map((status) => {
+        return {
+          name: status,
+          data: Object.keys(groupedData).map((month) => groupedData[month][status] || 0),
+        }
+      });
+
+      const colors = series.map((item) => getStatusColor(item.name));
+      return {categories, series, colors};
+    };
+
+    const getStatusColor = (status) => {
+      switch (status) {
+        case 'En attente':
+          return '#f1c40f';
+        case 'En cours':
+          return '#3498db';
+        case 'Terminé':
+          return '#2ecc71';
+        default:
+          return '#e74c3c';
+      }
+    };
 
   return (
       <div id="chart">
