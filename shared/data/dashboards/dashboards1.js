@@ -143,7 +143,7 @@ const Statistics = () => {
       const groupedData = {}
 
       data.forEach((solution) => {
-        const month = new Date(solution.createdAt).toLocaleString('en-US', {month: 'short'});
+        const month = new Date(solution.updatedAt).toLocaleString('en-US', {month: 'short'});
         const status = solution.status.name;
 
         if (!groupedData[month]) {
