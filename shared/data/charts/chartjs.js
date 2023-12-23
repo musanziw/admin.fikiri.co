@@ -107,9 +107,6 @@ export const areachart = {
   },
 };
 
-
-
-
 // Bar-chart 1
 export const Barchart1 = {
   
@@ -188,7 +185,6 @@ export const Horizontalbarchartdata = {
     },
   ],
 };
-
 // Solid Color 
 export const SolidColor = {
   
@@ -212,8 +208,6 @@ export const SolidColordata = {
     },
   ],
 };
-
-
 // With Transparency 
 export const Transparency = {
   

@@ -262,8 +262,8 @@ const Dashboard = () => {
             <Card className=" custom-card overflow-hidden">
               <Card.Header className=" border-bottom-0">
                 <div>
-                  <h3 className="card-title mb-2 ">Solutions</h3>
-                  <span className="d-block tx-12 mb-0 text-muted"></span>
+                  <h3 className="card-title mb-2 ">Solutions </h3>
+                  <span className="d-block tx-12 mb-0 text-muted">Solutions par statut</span>
                 </div>
               </Card.Header>
               <Card.Body>
