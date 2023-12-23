@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import tinycolor from 'tinycolor2';
 import { Breadcrumb, Card, Col, Row, Spinner } from 'react-bootstrap';
 import { Line,Doughnut,Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, registerables } from 'chart.js';
 import Seo from '@/shared/layout-components/seo/seo';
 import axios from '@/pages/api/axios';
+
 
 ChartJS.register(...registerables);
 
@@ -151,12 +153,29 @@ const Rapport = () => {
         return Object.values(solutionsCountByThematic);
     };
 
+    const getDefaultColors = () => {
+        return ["#6d26be", "#ffbd5a", "#027333", "#4ec2f0", "#1a9c86"];
+    };
+
+    const getThematicColor = (index) => {
+        const defaultColors = getDefaultColors();
+        const defaultColor = "#a0a0a0";
+
+        if (thematiqueData[index]?.color) {
+            return thematiqueData[index].color;
+        }
+
+        const color = defaultColors[index % defaultColors.length] || defaultColor;
+
+        return tinycolor(color).toString();
+    };
+
     const DoughnutData = {
         labels: thematiqueData.map((thematic) => thematic.name),
         datasets: [
             {
                 data: countSolutionsByThematic(),
-                backgroundColor: ["#6d26be", "#ffbd5a", "#027333","#4ec2f0", "#1a9c86"],
+                backgroundColor: thematiqueData.map((thematic, index) => getThematicColor(index))
             },
         ],
     };
@@ -239,10 +258,10 @@ const Rapport = () => {
                                                     legend: {
                                                         display: true,
                                                         position: 'top',
-                                                        align : "start"// 'top', 'bottom', 'left', 'right'
+                                                        align : "start"
                                                     },
                                                 },
-                                                responsive: true, // Ajoutez ceci pour rendre le graphique réactif
+                                                responsive: true,
                                             }}
                                         />
                                     )
