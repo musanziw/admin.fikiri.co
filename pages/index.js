@@ -148,15 +148,16 @@ export default function Home() {
                                       required
                                     />
                                   </Form.Group>
-                                  <Button
-                                    onClick={Login}
-                                    variant=""
-                                    className="btn btn-primary btn-block"
-                                  >
-                                    {isLoading
-                                      ? "Connexion en cours..."
-                                      : "Se connecter"}
-                                  </Button>
+                                  <div className="btn-animation">
+                                    <Button
+                                        onClick={Login}
+                                        variant=""
+                                        type="button"
+                                        className={isLoading ? "btn btn-primary btn-block btn-loaders" : "btn btn-primary btn-block"}
+                                    >
+                                      <span className="loading">{isLoading ? "Connexion en cours..." : "Se connecter"}</span>
+                                    </Button>
+                                  </div>
                                 </Form>
                               </div>
                             </div>

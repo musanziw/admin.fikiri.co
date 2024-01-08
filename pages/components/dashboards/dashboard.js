@@ -17,7 +17,7 @@ const Dashboard = () => {
   const [isLoadingSolution, setIsLoadingSolution] = useState(false);
 
   const [statut, setStatut] = useState([]);
-    const [isLoadingStatut, setIsLoadingStatut] = useState(false);
+  const [isLoadingStatut, setIsLoadingStatut] = useState(false);
 
 
   const [solutionsExplored, setSolutionExplored] = useState([]);
@@ -72,6 +72,7 @@ const Dashboard = () => {
           setIsLoadingSolution(false);
         }
       };
+
       const fetchStatut = async () => {
         try {
         setIsLoadingStatut(true);
@@ -221,7 +222,7 @@ const Dashboard = () => {
                     </div>
                     <div className="col-4">
                       <div className="circle-icon bg-secondary-transparent text-center align-self-center overflow-hidden">
-                        <i class="bi bi-calendar-x text-secondary"></i>
+                        <i class="bi bi-folder2-open text-secondary"></i>
                       </div>
                     </div>
                   </Row>
@@ -250,7 +251,7 @@ const Dashboard = () => {
                     </div>
                     <div className="col-4">
                       <div className="circle-icon bg-warning-transparent text-center align-self-center overflow-hidden">
-                        <i className="fe fe-credit-card tx-16 text-warning"></i>
+                        <i class="bi bi-pin-map-fill tx-16 text-warning "></i>
                       </div>
                     </div>
                   </Row>

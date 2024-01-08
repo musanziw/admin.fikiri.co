@@ -8,6 +8,7 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 });
 
 const Statistics = () => {
+
   const [chartData, setChartData] = useState({
     series: [],
     options: {
@@ -122,7 +123,7 @@ const Statistics = () => {
 
   }, []);
 
-    const processSolutions = (solutions) => {
+  const processSolutions = (solutions) => {
       const groupedData = groupDataByMonthAndStatus(solutions);
 
       setChartData((prevData) => ({
@@ -139,7 +140,7 @@ const Statistics = () => {
       }));
     }
 
-    const groupDataByMonthAndStatus = (data) => {
+  const groupDataByMonthAndStatus = (data) => {
       const groupedData = {}
 
       data.forEach((solution) => {
@@ -170,7 +171,7 @@ const Statistics = () => {
       return {categories, series, colors};
     };
 
-    const getStatusColor = (status) => {
+  const getStatusColor = (status) => {
       switch (status) {
         case 'En attente':
           return '#A67360';
@@ -193,7 +194,6 @@ const Statistics = () => {
                       <Spinner animation="border" variant="primary" />
                     </div>
                 ) :
-
                 (
                 <ReactApexChart
                 options={chartData.options}
@@ -203,7 +203,6 @@ const Statistics = () => {
             />
             )
         }
-
       </div>
   );
 };

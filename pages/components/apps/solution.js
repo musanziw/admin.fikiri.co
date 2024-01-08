@@ -132,6 +132,7 @@ const Solution = () => {
     }
   };
 
+
   return (
     <div>
       <Seo title={"Profile"} />
